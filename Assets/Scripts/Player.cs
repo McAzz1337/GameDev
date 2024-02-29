@@ -12,26 +12,11 @@ public class Player : MonoBehaviour
     [Header("Debug Info")]
     [SerializeField] private Vector2 moveInput;
     private PlayerControls controls;
-    private Transform eyes;
 
     void Awake()
     {
 
-        Transform[] transforms = GetComponentsInChildren<Transform>();
-
-        foreach (Transform t in transforms)
-        {
-
-            if (t.gameObject.name == "Glasses")
-            {
-
-                eyes = t;
-                break;
-            }
-        }
-
         controls = new PlayerControls();
-
     }
 
     void OnEnable()
@@ -96,7 +81,7 @@ public class Player : MonoBehaviour
             Physics.Raycast(ray, out hit, 100.0f, LayerMask.GetMask("Wall")))
         {
 
-            float t = toEyeLevel(ray);
+            float t = (transform.position.y - ray.origin.y) / ray.direction.y;
 
             Vector3 position = ray.origin + t * ray.direction;
 
@@ -108,8 +93,4 @@ public class Player : MonoBehaviour
         }
     }
 
-    private float toEyeLevel(Ray ray)
-    {
-        return (eyes.position.y - ray.origin.y) / ray.direction.y;
-    }
 }
