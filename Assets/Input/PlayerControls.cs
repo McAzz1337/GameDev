@@ -24,7 +24,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     ""name"": ""PlayerControls"",
     ""maps"": [
         {
-            ""name"": ""Walk"",
+            ""name"": ""BattleControls"",
             ""id"": ""1db84e50-5168-4a2c-aff7-afdf03e160fe"",
             ""actions"": [
                 {
@@ -32,6 +32,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""type"": ""Value"",
                     ""id"": ""df5f6ce5-065f-4a11-b7b7-e783cdb1ff06"",
                     ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Shoot"",
+                    ""type"": ""Button"",
+                    ""id"": ""88051469-6fd0-429a-83c9-6f3362a91023"",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
@@ -92,15 +101,27 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8e5f93c8-f907-4c17-8563-ddd5463a2db4"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Shoot"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
     ],
     ""controlSchemes"": []
 }");
-        // Walk
-        m_Walk = asset.FindActionMap("Walk", throwIfNotFound: true);
-        m_Walk_Move = m_Walk.FindAction("Move", throwIfNotFound: true);
+        // BattleControls
+        m_BattleControls = asset.FindActionMap("BattleControls", throwIfNotFound: true);
+        m_BattleControls_Move = m_BattleControls.FindAction("Move", throwIfNotFound: true);
+        m_BattleControls_Shoot = m_BattleControls.FindAction("Shoot", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -159,53 +180,62 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         return asset.FindBinding(bindingMask, out action);
     }
 
-    // Walk
-    private readonly InputActionMap m_Walk;
-    private List<IWalkActions> m_WalkActionsCallbackInterfaces = new List<IWalkActions>();
-    private readonly InputAction m_Walk_Move;
-    public struct WalkActions
+    // BattleControls
+    private readonly InputActionMap m_BattleControls;
+    private List<IBattleControlsActions> m_BattleControlsActionsCallbackInterfaces = new List<IBattleControlsActions>();
+    private readonly InputAction m_BattleControls_Move;
+    private readonly InputAction m_BattleControls_Shoot;
+    public struct BattleControlsActions
     {
         private @PlayerControls m_Wrapper;
-        public WalkActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Move => m_Wrapper.m_Walk_Move;
-        public InputActionMap Get() { return m_Wrapper.m_Walk; }
+        public BattleControlsActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Move => m_Wrapper.m_BattleControls_Move;
+        public InputAction @Shoot => m_Wrapper.m_BattleControls_Shoot;
+        public InputActionMap Get() { return m_Wrapper.m_BattleControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(WalkActions set) { return set.Get(); }
-        public void AddCallbacks(IWalkActions instance)
+        public static implicit operator InputActionMap(BattleControlsActions set) { return set.Get(); }
+        public void AddCallbacks(IBattleControlsActions instance)
         {
-            if (instance == null || m_Wrapper.m_WalkActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_WalkActionsCallbackInterfaces.Add(instance);
+            if (instance == null || m_Wrapper.m_BattleControlsActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_BattleControlsActionsCallbackInterfaces.Add(instance);
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
+            @Shoot.started += instance.OnShoot;
+            @Shoot.performed += instance.OnShoot;
+            @Shoot.canceled += instance.OnShoot;
         }
 
-        private void UnregisterCallbacks(IWalkActions instance)
+        private void UnregisterCallbacks(IBattleControlsActions instance)
         {
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
             @Move.canceled -= instance.OnMove;
+            @Shoot.started -= instance.OnShoot;
+            @Shoot.performed -= instance.OnShoot;
+            @Shoot.canceled -= instance.OnShoot;
         }
 
-        public void RemoveCallbacks(IWalkActions instance)
+        public void RemoveCallbacks(IBattleControlsActions instance)
         {
-            if (m_Wrapper.m_WalkActionsCallbackInterfaces.Remove(instance))
+            if (m_Wrapper.m_BattleControlsActionsCallbackInterfaces.Remove(instance))
                 UnregisterCallbacks(instance);
         }
 
-        public void SetCallbacks(IWalkActions instance)
+        public void SetCallbacks(IBattleControlsActions instance)
         {
-            foreach (var item in m_Wrapper.m_WalkActionsCallbackInterfaces)
+            foreach (var item in m_Wrapper.m_BattleControlsActionsCallbackInterfaces)
                 UnregisterCallbacks(item);
-            m_Wrapper.m_WalkActionsCallbackInterfaces.Clear();
+            m_Wrapper.m_BattleControlsActionsCallbackInterfaces.Clear();
             AddCallbacks(instance);
         }
     }
-    public WalkActions @Walk => new WalkActions(this);
-    public interface IWalkActions
+    public BattleControlsActions @BattleControls => new BattleControlsActions(this);
+    public interface IBattleControlsActions
     {
         void OnMove(InputAction.CallbackContext context);
+        void OnShoot(InputAction.CallbackContext context);
     }
 }

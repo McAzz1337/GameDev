@@ -6,8 +6,9 @@ using UnityEngine.InputSystem;
 public class Player : MonoBehaviour
 {
 
-    [SerializeField]
-    private float moveSpeed = 7.0f;
+    [SerializeField] private float moveSpeed = 7.0f;
+
+    [SerializeField] private GunMock gun;
 
     [Header("Debug Info")]
     [SerializeField] private Vector2 moveInput;
@@ -22,30 +23,37 @@ public class Player : MonoBehaviour
     void OnEnable()
     {
 
-        controls.Walk.Move.performed += onWalkPerformed;
-        controls.Walk.Move.canceled += onWalkPerformed;
-
+        controls.BattleControls.Move.performed += onBattleControlsPerformed;
+        controls.BattleControls.Move.canceled += onBattleControlsPerformed;
+        controls.BattleControls.Shoot.performed += onShootPerformed;
         controls.Enable();
     }
 
     void OnDisable()
     {
 
-        controls.Walk.Move.performed -= onWalkPerformed;
-        controls.Walk.Move.canceled -= onWalkCanceled;
+        controls.BattleControls.Move.performed -= onBattleControlsPerformed;
+        controls.BattleControls.Move.canceled -= onBattleControlsCanceled;
+        controls.BattleControls.Shoot.performed -= onShootPerformed;
         controls.Disable();
     }
 
-    public void onWalkPerformed(InputAction.CallbackContext c)
+    public void onBattleControlsPerformed(InputAction.CallbackContext c)
     {
 
         moveInput = c.ReadValue<Vector2>();
     }
 
-    public void onWalkCanceled(InputAction.CallbackContext c)
+    public void onBattleControlsCanceled(InputAction.CallbackContext c)
     {
 
         moveInput = c.ReadValue<Vector2>();
+    }
+
+    public void onShootPerformed(InputAction.CallbackContext c)
+    {
+
+        gun.shoot();
     }
 
 
