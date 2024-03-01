@@ -6,18 +6,24 @@ using UnityEngine.InputSystem;
 public class Player : MonoBehaviour
 {
 
-    [SerializeField] private float moveSpeed = 7.0f;
+    [SerializeField] private float moveForce = 30.0f;
+    [SerializeField] private float maxMoveVelocity = 10.0f;
 
     [SerializeField] private GunMock gun;
 
     [Header("Debug Info")]
     [SerializeField] private Vector2 moveInput;
     private PlayerControls controls;
+    private Rigidbody rb;
 
     void Awake()
     {
 
+        rb = GetComponent<Rigidbody>();
+
         controls = new PlayerControls();
+
+        moveInput = Vector2.zero;
     }
 
     void OnEnable()
@@ -66,15 +72,39 @@ public class Player : MonoBehaviour
     void Update()
     {
 
-        move();
         setLookRotation();
     }
 
+    void FixedUpdate()
+    {
+
+        move();
+    }
 
     private void move()
     {
 
-        transform.position += new Vector3(moveInput.x, 0.0f, moveInput.y) * moveSpeed * Time.deltaTime;
+        if (moveInput.x == 0.0f)
+        {
+
+            rb.velocity = new Vector3(0.0f, rb.velocity.y, rb.velocity.z);
+        }
+        if (moveInput.y == 0.0f)
+        {
+
+            rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, 0.0f);
+
+        }
+
+        if (rb.velocity.magnitude > maxMoveVelocity)
+        {
+
+            rb.velocity = rb.velocity.normalized * maxMoveVelocity;
+        }
+
+        Vector3 moveVec = new Vector3(moveInput.x, 0.0f, moveInput.y).normalized * moveForce;
+        rb.AddForce(moveVec);
+        Debug.Log(moveVec);
     }
 
     private void setLookRotation()
@@ -99,6 +129,20 @@ public class Player : MonoBehaviour
 
             transform.rotation = rot;
         }
+    }
+
+
+    void OnCollisionEnter(Collision collider)
+    {
+
+        int layer = 1 << collider.gameObject.layer;
+        if (layer == LayerMask.GetMask("Wall"))
+        {
+
+
+
+        }
+
     }
 
 }

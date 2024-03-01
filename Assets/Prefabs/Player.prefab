@@ -150,7 +150,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0694eddc66e04e46931a059c44d22b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 7
+  moveForce: 7
+  maxMoveVelocity: 10
+  gun: {fileID: 0}
   moveInput: {x: 0, y: 0}
 --- !u!1 &4654733898092045301
 GameObject:
@@ -214,7 +216,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 121b854f61edb5149bbd8d6c09774ea1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
