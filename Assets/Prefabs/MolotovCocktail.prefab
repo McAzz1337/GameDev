@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1207307680796877181}
-  - component: {fileID: 6050668182085871640}
   - component: {fileID: 13333533124974051}
   - component: {fileID: 4285824024538862517}
   m_Layer: 0
@@ -35,33 +34,6 @@ Transform:
   - {fileID: 1779207463287033893}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!54 &6050668182085871640
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1984652972206848967}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!136 &13333533124974051
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -97,6 +69,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4aea4e75b73c91a43b49078a1917a8d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ammo: 0
   molotovPrefab: {fileID: 0}
   fireEffect: {fileID: 1956197547661106, guid: f293a2dcc753a4a489fefe7f8f312d69, type: 3}
 --- !u!1 &7351894105811354398
