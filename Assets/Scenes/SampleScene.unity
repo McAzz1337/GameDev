@@ -758,7 +758,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4aea4e75b73c91a43b49078a1917a8d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  molotovPrefab: {fileID: 5367843955651597849, guid: a549949fdefe9f84aa2c01af6b5a13d2, type: 3}
+  molotovPrefab: {fileID: 1984652972206848967, guid: c5602cba0bcfae4479d263b5d8e5666c, type: 3}
+  fireEffect: {fileID: 1956197547661106, guid: f293a2dcc753a4a489fefe7f8f312d69, type: 3}
 --- !u!1 &1321695043
 GameObject:
   m_ObjectHideFlags: 0

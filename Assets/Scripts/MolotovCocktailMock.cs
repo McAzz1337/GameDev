@@ -5,6 +5,7 @@ using UnityEngine;
 public class MolotovCocktailMock : MonoBehaviour
 {
     [SerializeField] private GameObject molotovPrefab;
+    [SerializeField] private GameObject fireEffect;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,5 +25,19 @@ public class MolotovCocktailMock : MonoBehaviour
         Vector3 throwDirection = transform.forward + transform.up;
         float throwForce = 10f;
         rb.AddForce(throwDirection.normalized * throwForce, ForceMode.VelocityChange);
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        {
+            Explode();
+        }
+    }
+
+    void Explode()
+    {
+        Instantiate(fireEffect, transform.position, transform.rotation);
+        Destroy(gameObject);
     }
 }
