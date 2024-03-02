@@ -20,6 +20,8 @@ public class Player : MonoBehaviour
     private PlayerControls controls;
     private Rigidbody rb;
 
+    private Transform defaultWeaponTransform
+    ;
     private Transform molotovTransform;
 
     void Awake()
@@ -40,6 +42,7 @@ public class Player : MonoBehaviour
             {
 
                 case "MolotovTransform": molotovTransform = t; break;
+                case "GunTransform": defaultWeaponTransform = t; break;
             }
         }
 
@@ -82,7 +85,22 @@ public class Player : MonoBehaviour
 
         if (weapon is MolotovCocktailMock) return;
 
-        weapon?.shoot();
+        weapon.shoot();
+
+        if (weapon.isEmpty())
+        {
+
+            GameObject g = weapon.gameObject;
+
+            Rigidbody rb = g.GetComponent<Rigidbody>();
+            if (rb == null)
+            {
+
+                rb = g.AddComponent<Rigidbody>();
+            }
+
+            g.transform.SetParent(null);
+        }
     }
 
     public void onThrowPerformed(InputAction.CallbackContext c)
@@ -168,15 +186,22 @@ public class Player : MonoBehaviour
     {
 
         this.weapon = weapon;
+        GameObject g = weapon.gameObject;
 
         if (weapon is MolotovCocktailMock)
         {
 
-            GameObject g = weapon.gameObject;
 
             g.transform.position = molotovTransform.position;
             g.transform.rotation = molotovTransform.rotation;
             g.transform.SetParent(molotovTransform);
+        }
+        else
+        {
+
+            g.transform.position = defaultWeaponTransform.position;
+            g.transform.rotation = defaultWeaponTransform.rotation;
+            g.transform.SetParent(defaultWeaponTransform);
         }
     }
 
