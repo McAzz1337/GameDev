@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -609,6 +609,75 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 40.368, y: 0, z: 0}
+--- !u!1 &997986475
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 997986477}
+  - component: {fileID: 997986476}
+  - component: {fileID: 997986478}
+  m_Layer: 9
+  m_Name: WeaponSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &997986476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 997986475}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 318615e648c67f24281ebe80fd179b1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponPrefabs:
+  - {fileID: 1984652972206848967, guid: c5602cba0bcfae4479d263b5d8e5666c, type: 3}
+  spawnDelay: 15
+--- !u!4 &997986477
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 997986475}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 13.23, y: 1.23, z: -2.0357232}
+  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &997986478
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 997986475}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1131333181
 GameObject:
   m_ObjectHideFlags: 0
@@ -758,6 +827,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4aea4e75b73c91a43b49078a1917a8d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ammo: 0
   molotovPrefab: {fileID: 1984652972206848967, guid: c5602cba0bcfae4479d263b5d8e5666c, type: 3}
   fireEffect: {fileID: 1956197547661106, guid: f293a2dcc753a4a489fefe7f8f312d69, type: 3}
 --- !u!1 &1321695043
@@ -1328,6 +1398,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5122a6b0c27abdb4e9f3bd685d42ca62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ammo: 0
   bulletPrefab: {fileID: 8087184977827104144, guid: 984677aec00cf3d47befe23432d48acc, type: 3}
   muzzle: {fileID: 533078386}
 --- !u!4 &1930455459 stripped
@@ -1335,6 +1406,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4112606206346431277, guid: a747c981e88429244a7046bc09562ac3, type: 3}
   m_PrefabInstance: {fileID: 1777383769}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1930455460 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7784343763250761582, guid: a747c981e88429244a7046bc09562ac3, type: 3}
+  m_PrefabInstance: {fileID: 1777383769}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1930455457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5122a6b0c27abdb4e9f3bd685d42ca62, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &5884655339435132916
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1400,6 +1482,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1930455458}
     - target: {fileID: 8723768459377504568, guid: 0f6c28816ea11934b96367fcaec5eaf6, type: 3}
+      propertyPath: weapon
+      value: 
+      objectReference: {fileID: 7784343763250761582, guid: a747c981e88429244a7046bc09562ac3, type: 3}
+    - target: {fileID: 8723768459377504568, guid: 0f6c28816ea11934b96367fcaec5eaf6, type: 3}
       propertyPath: molotov
       value: 
       objectReference: {fileID: 1177069535}
@@ -1407,6 +1493,10 @@ PrefabInstance:
       propertyPath: moveForce
       value: 30
       objectReference: {fileID: 0}
+    - target: {fileID: 8723768459377504568, guid: 0f6c28816ea11934b96367fcaec5eaf6, type: 3}
+      propertyPath: defaultWeapon
+      value: 
+      objectReference: {fileID: 1930455460}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -1426,3 +1516,4 @@ SceneRoots:
   - {fileID: 705507995}
   - {fileID: 151393550}
   - {fileID: 5884655339435132916}
+  - {fileID: 997986477}

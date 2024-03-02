@@ -7,7 +7,7 @@ public abstract class Weapon : MonoBehaviour
 
 
     [Header("Stats")]
-    [SerializeField] private int ammo;
+    [SerializeField] protected int ammo;
 
     void Start()
     {
@@ -19,6 +19,6 @@ public abstract class Weapon : MonoBehaviour
 
     }
 
-    public abstract void action();
+    public abstract void shoot();
 
 }
