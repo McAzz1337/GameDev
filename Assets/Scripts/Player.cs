@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,13 +10,17 @@ public class Player : MonoBehaviour
     [SerializeField] private float moveForce = 30.0f;
     [SerializeField] private float maxMoveVelocity = 10.0f;
 
-    [SerializeField] private GunMock gun;
+    [SerializeField] private Weapon defaultWeapon;
     [SerializeField] private MolotovCocktailMock molotov;
 
+
     [Header("Debug Info")]
+    [SerializeField] private Weapon weapon;
     [SerializeField] private Vector2 moveInput;
     private PlayerControls controls;
     private Rigidbody rb;
+
+    private Transform molotovTransform;
 
     void Awake()
     {
@@ -25,13 +30,26 @@ public class Player : MonoBehaviour
         controls = new PlayerControls();
 
         moveInput = Vector2.zero;
+
+        Transform[] transforms = GetComponentsInChildren<Transform>();
+
+        foreach (Transform t in transform)
+        {
+
+            switch (t.gameObject.name)
+            {
+
+                case "MolotovTransform": molotovTransform = t; break;
+            }
+        }
+
     }
 
     void OnEnable()
     {
 
         controls.BattleControls.Move.performed += onBattleControlsPerformed;
-        controls.BattleControls.Move.canceled += onBattleControlsPerformed;
+        controls.BattleControls.Move.canceled += onBattleControlsCanceled;
         controls.BattleControls.Shoot.performed += onShootPerformed;
         controls.BattleControls.Throw.performed += onThrowPerformed;
         controls.Enable();
@@ -43,7 +61,7 @@ public class Player : MonoBehaviour
         controls.BattleControls.Move.performed -= onBattleControlsPerformed;
         controls.BattleControls.Move.canceled -= onBattleControlsCanceled;
         controls.BattleControls.Shoot.performed -= onShootPerformed;
-        controls.BattleControls.Throw.performed += onThrowPerformed;
+        controls.BattleControls.Throw.performed -= onThrowPerformed;
         controls.Disable();
     }
 
@@ -62,20 +80,27 @@ public class Player : MonoBehaviour
     public void onShootPerformed(InputAction.CallbackContext c)
     {
 
-        gun.shoot();
+        if (weapon is MolotovCocktailMock) return;
+
+        weapon?.shoot();
     }
 
     public void onThrowPerformed(InputAction.CallbackContext c)
     {
 
-        molotov.shoot();
+        if (!(weapon is MolotovCocktailMock)) return;
+
+        weapon.transform.SetParent(null);
+        weapon?.shoot();
+
+        weapon = defaultWeapon;
     }
 
 
     void Start()
     {
 
-
+        weapon = defaultWeapon;
     }
 
     void Update()
@@ -113,7 +138,6 @@ public class Player : MonoBehaviour
 
         Vector3 moveVec = new Vector3(moveInput.x, 0.0f, moveInput.y).normalized * moveForce;
         rb.AddForce(moveVec);
-        Debug.Log(moveVec);
     }
 
     private void setLookRotation()
@@ -140,6 +164,21 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void pickupWeapon(Weapon weapon)
+    {
+
+        this.weapon = weapon;
+
+        if (weapon is MolotovCocktailMock)
+        {
+
+            GameObject g = weapon.gameObject;
+
+            g.transform.position = molotovTransform.position;
+            g.transform.rotation = molotovTransform.rotation;
+            g.transform.SetParent(molotovTransform);
+        }
+    }
 
     void OnCollisionEnter(Collision collider)
     {
