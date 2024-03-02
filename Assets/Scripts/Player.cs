@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float maxMoveVelocity = 10.0f;
 
     [SerializeField] private GunMock gun;
+    [SerializeField] private MolotovCocktailMock molotov;
 
     [Header("Debug Info")]
     [SerializeField] private Vector2 moveInput;
@@ -32,6 +33,7 @@ public class Player : MonoBehaviour
         controls.BattleControls.Move.performed += onBattleControlsPerformed;
         controls.BattleControls.Move.canceled += onBattleControlsPerformed;
         controls.BattleControls.Shoot.performed += onShootPerformed;
+        controls.BattleControls.Throw.performed += onThrowPerformed;
         controls.Enable();
     }
 
@@ -41,6 +43,7 @@ public class Player : MonoBehaviour
         controls.BattleControls.Move.performed -= onBattleControlsPerformed;
         controls.BattleControls.Move.canceled -= onBattleControlsCanceled;
         controls.BattleControls.Shoot.performed -= onShootPerformed;
+        controls.BattleControls.Throw.performed += onThrowPerformed;
         controls.Disable();
     }
 
@@ -60,6 +63,12 @@ public class Player : MonoBehaviour
     {
 
         gun.shoot();
+    }
+
+    public void onThrowPerformed(InputAction.CallbackContext c)
+    {
+
+        molotov.shoot();
     }
 
 
