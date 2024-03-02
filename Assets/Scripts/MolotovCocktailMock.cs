@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MolotovCocktailMock : MonoBehaviour
+public class MolotovCocktailMock : Weapon
 {
     [SerializeField] private GameObject molotovPrefab;
     [SerializeField] private GameObject fireEffect;
@@ -18,14 +18,15 @@ public class MolotovCocktailMock : MonoBehaviour
 
     }
 
-    public void shoot()
+    public override void shoot()
     {
-        GameObject g = Instantiate(molotovPrefab, transform.position, transform.rotation);
-        Rigidbody rb = g.GetComponent<Rigidbody>();
+
+        Rigidbody rb = gameObject.AddComponent<Rigidbody>();
         Vector3 throwDirection = transform.forward + transform.up;
         float throwForce = 10f;
         rb.AddForce(throwDirection.normalized * throwForce, ForceMode.VelocityChange);
     }
+
 
     void OnCollisionEnter(Collision collision)
     {
