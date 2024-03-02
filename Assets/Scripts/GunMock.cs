@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GunMock : MonoBehaviour
+public class GunMock : Weapon
 {
 
     [SerializeField] private GameObject bulletPrefab;
@@ -12,6 +12,7 @@ public class GunMock : MonoBehaviour
     void Start()
     {
 
+        ammo = 1000;
     }
 
     // Update is called once per frame
@@ -20,12 +21,10 @@ public class GunMock : MonoBehaviour
 
     }
 
-    public void shoot()
+    public override void shoot()
     {
 
-        GameObject g = Instantiate(bulletPrefab);
-
-        g.transform.position = muzzle.position;
-        g.transform.rotation = muzzle.rotation;
+        Instantiate(bulletPrefab, muzzle.position, muzzle.rotation);
     }
+
 }
