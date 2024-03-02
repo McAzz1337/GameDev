@@ -40,6 +40,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4112606206346431277}
+  - component: {fileID: 7784343763250761582}
   m_Layer: 0
   m_Name: GunMock
   m_TagString: Untagged
@@ -64,6 +65,21 @@ Transform:
   - {fileID: 4871222971156029983}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7784343763250761582
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1698621076342377329}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5122a6b0c27abdb4e9f3bd685d42ca62, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ammo: 0
+  bulletPrefab: {fileID: 8087184977827104144, guid: 984677aec00cf3d47befe23432d48acc, type: 3}
+  muzzle: {fileID: 3211881355484497680}
 --- !u!1 &2089365104356966419
 GameObject:
   m_ObjectHideFlags: 0
