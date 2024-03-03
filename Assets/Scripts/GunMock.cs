@@ -7,15 +7,12 @@ public class GunMock : Weapon
 
     [SerializeField] private GameObject bulletPrefab;
 
-    [SerializeField] private Transform muzzle;
-
     void Start()
     {
 
-        ammo = 1000;
+        ammo = 1;
     }
 
-    // Update is called once per frame
     void Update()
     {
 

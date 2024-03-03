@@ -34,23 +34,48 @@ public class WeaponSpawner : MonoBehaviour
     void OnTriggerEnter(Collider collider)
     {
 
+        checkPlayerPickup(collider);
+    }
+
+    void OnTriggerStay(Collider collider)
+    {
+
+        checkPlayerPickup(collider);
+    }
+
+    private void checkPlayerPickup(Collider collider)
+    {
+
+        if (spawnedWeapon == null) return;
+
         int layer = 1 << collider.gameObject.layer;
 
         if (layer == LayerMask.GetMask("Player"))
         {
 
             Player player = collider.gameObject.GetComponent<Player>();
-            player.pickupWeapon(spawnedWeapon);
 
-            spawnedWeapon = null;
-            StartCoroutine("spawnWeaponTimed", spawnDelay);
+            if (spawnedWeapon as MolotovCocktailMock != null && player.canPickupMolotov())
+            {
+
+                player.pickupWeapon(spawnedWeapon);
+                spawnedWeapon = null;
+            }
+            else if (player.canPickupWeapon())
+            {
+
+                player.pickupWeapon(spawnedWeapon);
+                spawnedWeapon = null;
+            }
+
+            StartCoroutine("spawnWeaponTimed");
         }
     }
 
-    public IEnumerator spawnWeaponTimed(float delay)
+    public IEnumerator spawnWeaponTimed()
     {
 
-        yield return new WaitForSeconds(delay);
+        yield return new WaitForSeconds(spawnDelay);
 
         spawnWeapon();
 

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
 public class BlastRadius : MonoBehaviour
@@ -9,6 +10,7 @@ public class BlastRadius : MonoBehaviour
     {
 
         GetComponent<SphereCollider>().radius = radius;
+        gameObject.AddComponent<Destructor>().setDuration(0.25f);
     }
 
     void Update()

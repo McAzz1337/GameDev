@@ -7,11 +7,14 @@ using UnityEngine.InputSystem;
 public class Player : MonoBehaviour
 {
 
+    [Header("Movement")]
     [SerializeField] private float moveForce = 30.0f;
     [SerializeField] private float maxMoveVelocity = 10.0f;
 
+
+    [Header("References")]
     [SerializeField] private Weapon defaultWeapon;
-    [SerializeField] private MolotovCocktailMock molotov;
+    [SerializeField] private MolotovCocktailMock molotov = null;
 
 
     [Header("Debug Info")]
@@ -20,8 +23,7 @@ public class Player : MonoBehaviour
     private PlayerControls controls;
     private Rigidbody rb;
 
-    private Transform defaultWeaponTransform
-    ;
+    private Transform defaultWeaponTransform;
     private Transform molotovTransform;
 
     void Awake()
@@ -35,7 +37,7 @@ public class Player : MonoBehaviour
 
         Transform[] transforms = GetComponentsInChildren<Transform>();
 
-        foreach (Transform t in transform)
+        foreach (Transform t in transforms)
         {
 
             switch (t.gameObject.name)
@@ -51,8 +53,8 @@ public class Player : MonoBehaviour
     void OnEnable()
     {
 
-        controls.BattleControls.Move.performed += onBattleControlsPerformed;
-        controls.BattleControls.Move.canceled += onBattleControlsCanceled;
+        controls.BattleControls.Move.performed += onMovePerformed;
+        controls.BattleControls.Move.canceled += onMoveCanceled;
         controls.BattleControls.Shoot.performed += onShootPerformed;
         controls.BattleControls.Throw.performed += onThrowPerformed;
         controls.Enable();
@@ -61,20 +63,20 @@ public class Player : MonoBehaviour
     void OnDisable()
     {
 
-        controls.BattleControls.Move.performed -= onBattleControlsPerformed;
-        controls.BattleControls.Move.canceled -= onBattleControlsCanceled;
+        controls.BattleControls.Move.performed -= onMovePerformed;
+        controls.BattleControls.Move.canceled -= onMoveCanceled;
         controls.BattleControls.Shoot.performed -= onShootPerformed;
         controls.BattleControls.Throw.performed -= onThrowPerformed;
         controls.Disable();
     }
 
-    public void onBattleControlsPerformed(InputAction.CallbackContext c)
+    public void onMovePerformed(InputAction.CallbackContext c)
     {
 
         moveInput = c.ReadValue<Vector2>();
     }
 
-    public void onBattleControlsCanceled(InputAction.CallbackContext c)
+    public void onMoveCanceled(InputAction.CallbackContext c)
     {
 
         moveInput = c.ReadValue<Vector2>();
@@ -83,35 +85,25 @@ public class Player : MonoBehaviour
     public void onShootPerformed(InputAction.CallbackContext c)
     {
 
-        if (weapon is MolotovCocktailMock) return;
 
         weapon.shoot();
 
         if (weapon.isEmpty())
         {
 
-            GameObject g = weapon.gameObject;
-
-            Rigidbody rb = g.GetComponent<Rigidbody>();
-            if (rb == null)
-            {
-
-                rb = g.AddComponent<Rigidbody>();
-            }
-
-            g.transform.SetParent(null);
+            dropWeapon();
         }
     }
 
     public void onThrowPerformed(InputAction.CallbackContext c)
     {
 
-        if (!(weapon is MolotovCocktailMock)) return;
+        if (molotov == null) return;
 
-        weapon.transform.SetParent(null);
-        weapon?.shoot();
+        molotov.transform.SetParent(null);
+        molotov.shoot();
 
-        weapon = defaultWeapon;
+        molotov = null;
     }
 
 
@@ -185,30 +177,51 @@ public class Player : MonoBehaviour
     public void pickupWeapon(Weapon weapon)
     {
 
-        this.weapon = weapon;
         GameObject g = weapon.gameObject;
 
-        if (weapon is MolotovCocktailMock)
+        if (molotov == null && (weapon as MolotovCocktailMock) != null)
         {
 
 
             g.transform.position = molotovTransform.position;
             g.transform.rotation = molotovTransform.rotation;
             g.transform.SetParent(molotovTransform);
+            molotov = g.GetComponent<MolotovCocktailMock>();
         }
-        else
+        else if ((weapon as MolotovCocktailMock) == null)
         {
 
             g.transform.position = defaultWeaponTransform.position;
             g.transform.rotation = defaultWeaponTransform.rotation;
             g.transform.SetParent(defaultWeaponTransform);
+
+            if (defaultWeapon.TryGetComponent<MeshRenderer>(out MeshRenderer mr))
+            {
+
+                mr.enabled = false;
+            }
+            this.weapon = weapon;
         }
     }
 
-    void OnCollisionEnter(Collision collider)
+    private void dropWeapon()
     {
 
-        int layer = 1 << collider.gameObject.layer;
+        weapon.drop();
+
+        weapon = defaultWeapon;
+
+        if (defaultWeapon.TryGetComponent<MeshRenderer>(out MeshRenderer mr))
+        {
+
+            mr.enabled = false;
+        }
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+
+        int layer = 1 << collision.gameObject.layer;
         if (layer == LayerMask.GetMask("Wall"))
         {
 
@@ -216,6 +229,19 @@ public class Player : MonoBehaviour
 
         }
 
+    }
+
+
+    public bool canPickupWeapon()
+    {
+
+        return weapon == defaultWeapon;
+    }
+
+    public bool canPickupMolotov()
+    {
+
+        return molotov == null;
     }
 
 }
