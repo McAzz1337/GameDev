@@ -5,12 +5,10 @@ using UnityEngine;
 public class GunMock : Weapon
 {
 
-    [SerializeField] private GameObject bulletPrefab;
 
     void Start()
     {
 
-        ammo = 1;
     }
 
     void Update()
@@ -21,7 +19,10 @@ public class GunMock : Weapon
     public override void shoot()
     {
 
-        Instantiate(bulletPrefab, muzzle.position, muzzle.rotation);
+        Instantiate(stats.projectilePrefab, muzzle.position, muzzle.rotation);
+        GameObject muzzleFlash = Instantiate(stats.muzzleFlashPrefab, muzzle.position, muzzle.rotation);
+        muzzleFlash.transform.SetParent(muzzle);
+        muzzleFlash.AddComponent<Destructor>().setDuration(0.25f);
     }
 
 }

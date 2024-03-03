@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 using UnityEditor.Callbacks;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -7,15 +8,28 @@ using UnityEngine;
 public abstract class Weapon : MonoBehaviour
 {
 
-
+    [SerializeField] protected WeaponStats stats;
     [SerializeField] protected Transform muzzle;
 
     [Header("Stats")]
     [SerializeField] protected int ammo;
 
+
+    void Awake()
+    {
+
+        ammo = 1;
+    }
     void Start()
     {
 
+    }
+
+    protected void init()
+    {
+
+        ammo = stats.ammo;
+        GetComponentInChildren<MeshCollider>().enabled = false;
     }
 
     void Update()
@@ -23,9 +37,21 @@ public abstract class Weapon : MonoBehaviour
 
     }
 
-    public abstract void shoot();
+    public virtual void shoot()
+    {
 
-    public void drop()
+        if (isEmpty()) return;
+
+        Instantiate(stats.projectilePrefab, muzzle.position, muzzle.rotation);
+
+        GameObject muzzleFlash = Instantiate(stats.muzzleFlashPrefab, muzzle.position, muzzle.rotation);
+        muzzleFlash.transform.SetParent(muzzle);
+        muzzleFlash.AddComponent<Destructor>().setDuration(0.25f);
+
+        ammo--;
+    }
+
+    public virtual void drop()
     {
 
         Rigidbody rb;
@@ -33,13 +59,13 @@ public abstract class Weapon : MonoBehaviour
         {
 
             rb = gameObject.AddComponent<Rigidbody>();
-            gameObject.AddComponent<CapsuleCollider>();
+
             transform.SetParent(null);
             gameObject.AddComponent<Destructor>().setDuration(5.0f);
         }
 
 
-
+        GetComponentInChildren<MeshCollider>().enabled = true;
     }
 
     public bool isEmpty()
