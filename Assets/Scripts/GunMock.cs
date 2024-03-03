@@ -19,7 +19,8 @@ public class GunMock : Weapon
     public override void shoot()
     {
 
-        Instantiate(stats.projectilePrefab, muzzle.position, muzzle.rotation);
+        GameObject g = Instantiate(stats.projectilePrefab, muzzle.position, muzzle.rotation);
+        g.layer = LayerMask.NameToLayer("Damaging_Ignore");
         GameObject muzzleFlash = Instantiate(stats.muzzleFlashPrefab, muzzle.position, muzzle.rotation);
         muzzleFlash.transform.SetParent(muzzle);
         muzzleFlash.AddComponent<Destructor>().setDuration(0.25f);

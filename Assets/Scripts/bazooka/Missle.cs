@@ -35,7 +35,8 @@ public class Missle : MonoBehaviour
     public void explode()
     {
 
-        Instantiate(blastRadiusPrefab, transform.position, transform.rotation);
+        GameObject g = Instantiate(blastRadiusPrefab, transform.position, transform.rotation);
+        g.layer = LayerMask.NameToLayer("Damaging");
         Destroy(gameObject);
     }
 

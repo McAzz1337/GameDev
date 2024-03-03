@@ -38,7 +38,11 @@ public class MolotovCocktailMock : Weapon
 
     void Explode()
     {
-        Instantiate(fireEffect, transform.position, transform.rotation);
+        GameObject g = Instantiate(fireEffect, transform.position, transform.rotation);
+        g.layer = LayerMask.NameToLayer("Damaging");
+        SphereCollider sc = g.AddComponent<SphereCollider>();
+        sc.isTrigger = true;
+        sc.radius = 2.0f;
         Destroy(gameObject);
     }
 }

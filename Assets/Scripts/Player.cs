@@ -15,11 +15,13 @@ public class Player : MonoBehaviour
     [Header("References")]
     [SerializeField] private Weapon defaultWeapon;
     [SerializeField] private MolotovCocktailMock molotov = null;
+    [SerializeField] private Material deadMaterial;
 
 
     [Header("Debug Info")]
     [SerializeField] private Weapon weapon;
     [SerializeField] private Vector2 moveInput;
+    private TargetEventChecker deathChecker;
     private PlayerControls controls;
     private Rigidbody rb;
 
@@ -47,6 +49,8 @@ public class Player : MonoBehaviour
                 case "GunTransform": defaultWeaponTransform = t; break;
             }
         }
+
+        deathChecker = GetComponent<TargetEventChecker>();
 
     }
 
@@ -117,6 +121,12 @@ public class Player : MonoBehaviour
     {
 
         setLookRotation();
+
+        if (deathChecker.getIsDeath())
+        {
+
+            die();
+        }
     }
 
     void FixedUpdate()
@@ -216,6 +226,15 @@ public class Player : MonoBehaviour
 
             mr.enabled = false;
         }
+    }
+
+
+    public void die()
+    {
+
+
+        GetComponent<MeshRenderer>().material = deadMaterial;
+        gameObject.AddComponent<Destructor>().setDuration(3.0f);
     }
 
     void OnCollisionEnter(Collision collision)
