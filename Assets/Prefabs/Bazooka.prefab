@@ -46,10 +46,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 507b7a97a12ead04584baf0d7218861a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stats: {fileID: 11400000, guid: 09cbcd8180fb1dc4a8f709d5bbd428d9, type: 2}
+  muzzle: {fileID: 9031400165156301342}
   ammo: 0
   misslePrefab: {fileID: 7616238421904859548, guid: 11ffe592b8c4950449500e86028b4815, type: 3}
   muzzleflashPrefab: {fileID: 1743301284569550, guid: ad2ab49d0a2a17148bd51c93d977bdbc, type: 3}
-  muzzle: {fileID: 9031400165156301342}
 --- !u!1 &5604169691940772782
 GameObject:
   m_ObjectHideFlags: 0
@@ -92,6 +93,7 @@ GameObject:
   - component: {fileID: 6049641505714637879}
   - component: {fileID: 7231513749454816146}
   - component: {fileID: 4881770299664332632}
+  - component: {fileID: 8196048973140818982}
   m_Layer: 0
   m_Name: bazooka
   m_TagString: Untagged
@@ -164,3 +166,25 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &8196048973140818982
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6394957853779875469}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 2534964839176971238, guid: 504a18f064522d443835d823c414cf1f, type: 3}

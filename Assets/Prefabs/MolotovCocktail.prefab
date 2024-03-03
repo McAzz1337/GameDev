@@ -69,6 +69,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4aea4e75b73c91a43b49078a1917a8d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stats: {fileID: 11400000, guid: 674d483b913e1a549a3fdfef19908c6f, type: 2}
+  muzzle: {fileID: 0}
   ammo: 0
   molotovPrefab: {fileID: 0}
   fireEffect: {fileID: 1956197547661106, guid: f293a2dcc753a4a489fefe7f8f312d69, type: 3}

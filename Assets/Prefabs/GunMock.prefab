@@ -78,9 +78,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5122a6b0c27abdb4e9f3bd685d42ca62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ammo: 0
-  bulletPrefab: {fileID: 8087184977827104144, guid: 984677aec00cf3d47befe23432d48acc, type: 3}
+  stats: {fileID: 11400000, guid: 4965be0bd96ab0d41ab7b6d482e72f9f, type: 2}
   muzzle: {fileID: 3211881355484497680}
+  ammo: 0
 --- !u!23 &7454488972906177340
 MeshRenderer:
   m_ObjectHideFlags: 0
