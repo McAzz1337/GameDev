@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8757290437587560461}
   - component: {fileID: 1200053708877482902}
-  - component: {fileID: 3660043610757010526}
   m_Layer: 10
   m_Name: Bazooka
   m_TagString: Untagged
@@ -49,30 +48,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ammo: 0
   misslePrefab: {fileID: 7616238421904859548, guid: 11ffe592b8c4950449500e86028b4815, type: 3}
+  muzzleflashPrefab: {fileID: 1743301284569550, guid: ad2ab49d0a2a17148bd51c93d977bdbc, type: 3}
   muzzle: {fileID: 9031400165156301342}
---- !u!136 &3660043610757010526
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4581869436542759413}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.2
-  m_Height: 1.8
-  m_Direction: 2
-  m_Center: {x: 0, y: 0, z: 0.1}
 --- !u!1 &5604169691940772782
 GameObject:
   m_ObjectHideFlags: 0
@@ -98,7 +75,7 @@ Transform:
   m_GameObject: {fileID: 5604169691940772782}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.11, z: 1.397}
+  m_LocalPosition: {x: 0, y: 0.11, z: 0.957}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1207307680796877181}
   - component: {fileID: 13333533124974051}
   - component: {fileID: 4285824024538862517}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: MolotovCocktail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
