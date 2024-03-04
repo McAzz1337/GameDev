@@ -43,6 +43,9 @@ public class MolotovCocktailMock : Weapon
         SphereCollider sc = g.AddComponent<SphereCollider>();
         sc.isTrigger = true;
         sc.radius = 2.0f;
+        Destructor destructor = g.AddComponent<Destructor>();
+        destructor.setDuration(5.0f);
         Destroy(gameObject);
+        
     }
 }
