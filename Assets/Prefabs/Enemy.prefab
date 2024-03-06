@@ -417,8 +417,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5122a6b0c27abdb4e9f3bd685d42ca62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 8087184977827104144, guid: 984677aec00cf3d47befe23432d48acc, type: 3}
+  stats: {fileID: 0}
   muzzle: {fileID: 7993521269052897942}
+  ammo: 0
 --- !u!4 &7993521269052897942 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3211881355484497680, guid: a747c981e88429244a7046bc09562ac3, type: 3}

@@ -233,8 +233,18 @@ public class Player : MonoBehaviour
     {
 
 
-        GetComponent<MeshRenderer>().material = deadMaterial;
-        gameObject.AddComponent<Destructor>().setDuration(3.0f);
+        MeshRenderer renderer = GetComponent<MeshRenderer>();
+        renderer.material = deadMaterial;
+
+        StartCoroutine("hide", 2.0f);
+    }
+
+    public IEnumerator hide(float duration)
+    {
+
+        yield return new WaitForSeconds(duration);
+
+        GetComponent<MeshRenderer>().enabled = false;
     }
 
     void OnCollisionEnter(Collision collision)

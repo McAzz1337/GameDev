@@ -25,7 +25,8 @@ public class Missle : MonoBehaviour
         int layer = 1 << collider.gameObject.layer;
         if (layer == LayerMask.GetMask("Wall") ||
             layer == LayerMask.GetMask("Ground") ||
-            layer == LayerMask.GetMask("Player"))
+            layer == LayerMask.GetMask("Player") ||
+            layer == LayerMask.GetMask("Enemy"))
         {
 
             explode();

@@ -6,10 +6,10 @@ using UnityEngine.SceneManagement;
 using UnityEngine.SocialPlatforms.Impl;
 
 public class ScoreManager : MonoBehaviour
-{    
+{
     [SerializeField] public int winningConditionScore = 10;
     private static ScoreManager instance;
-    private List<PlayerScore> scorelist;
+    private List<PlayerScore> scorelist = new List<PlayerScore>();
     private bool isPlaying = true;
     public static int sceneIndex;
 
@@ -31,12 +31,14 @@ public class ScoreManager : MonoBehaviour
 
     public void Start()
     {
+
         isPlaying = true;
         sceneIndex = SceneManager.GetActiveScene().buildIndex;
         loadScoreList();
         Debug.Log("Amount Players: " + scorelist.Count);
 
     }
+
 
     public void Update()
     {
@@ -49,21 +51,24 @@ public class ScoreManager : MonoBehaviour
                 getCurrentScores();
                 saveScorelist();
                 int winningPlayer = getWinningPlayer();
-                
                 if (winningPlayer != -1)
                 {
                     Debug.Log("Winner: Player" + winningPlayer);
-
-                    //SceneManager.LoadSceneAsync("WinningScreen");
-                }  else
-                {
-                    SceneManager.LoadSceneAsync("ScoreTable");
                     loadWinningScene(winningPlayer);
-
+                }
+                else
+                {
+                    Debug.Log("Called");
+                    SceneManager.LoadSceneAsync(3);
                 }
             }
         }
-        
+    }
+
+    void loadWinningScene(int winningPlayerIndex)
+    {
+        PlayerPrefs.SetInt("WinningPlayer", winningPlayerIndex);
+        SceneManager.LoadScene("WinningScene");
     }
 
     public bool isRoundConcluded()
@@ -73,7 +78,7 @@ public class ScoreManager : MonoBehaviour
         {
             TargetEventChecker checker = p.getPlayer().GetComponent<TargetEventChecker>();
             if (checker.getIsDeath())
-            { 
+            {
                 remainingPlayers--;
             }
         }
@@ -87,7 +92,7 @@ public class ScoreManager : MonoBehaviour
     {
         foreach (PlayerScore score in scorelist)
         {
-            TargetEventChecker checker = score.getPlayer().GetComponent<TargetEventChecker>();
+            TargetEventChecker checker = score.getTargetEventChecker();
             if (checker.getIsDeath() == false)
             {
                 score.addScore(1);
@@ -101,7 +106,7 @@ public class ScoreManager : MonoBehaviour
         int playerindex = 0;
         foreach (PlayerScore score in scorelist)
         {
-          if(score.getScore() == winningConditionScore)
+            if (score.getScore() == winningConditionScore)
             {
                 return playerindex;
             }
@@ -122,26 +127,27 @@ public class ScoreManager : MonoBehaviour
         }
     }
 
-
     private void saveScorelist()
     {
         string json = JsonUtility.ToJson(scorelist);
         PlayerPrefs.SetString("scorelist", json);
         PlayerPrefs.Save();
+        Debug.Log("PlayerPrefs " + PlayerPrefs.GetString("scorelist"));
     }
 
     private void loadScoreList()
     {
         string json = PlayerPrefs.GetString("scorelist");
-        //Debug.Log("JSON: "+ json);
+        Debug.Log("JSON: " + json);
         if (json != "{}") //!string.IsNullOrEmpty(json)
         {
-            //Debug.Log("i Fall here");
+            Debug.Log("i Fall here");
             this.scorelist = JsonUtility.FromJson<List<PlayerScore>>(json);
-        } 
+            saveScorelist();
+        }
         else
         {
-            //Debug.Log("Correct Fall");
+            Debug.Log("Correct Fall");
             this.scorelist = new List<PlayerScore>();
             // Gehe durch jedes Kind des GameObjects
             if (transform.childCount > 0)
@@ -151,21 +157,17 @@ public class ScoreManager : MonoBehaviour
                     // Hole das Transform des aktuellen Kindes
                     GameObject child = transform.GetChild(i).gameObject;
 
-                    this.scorelist.Add(new PlayerScore(child));
+                    PlayerScore p = new PlayerScore(child);
+                    this.scorelist.Add(p);
+                    Debug.Log("score: " + p.getScore());
                 }
-            } else
+            }
+            else
             {
                 Debug.LogWarning("No TargetObject Available");
             }
         }
     }
 
-
-
-    void loadWinningScene(int winningPlayerIndex)
-    {
-        PlayerPrefs.SetInt("WinningPlayer", winningPlayerIndex);
-        SceneManager.LoadScene("WinningScene");
-    }
 
 }

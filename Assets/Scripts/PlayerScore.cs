@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class PlayerScore : MonoBehaviour
+public class PlayerScore
 {
     public GameObject player;
     public int score = 0;
@@ -14,13 +14,13 @@ public class PlayerScore : MonoBehaviour
         this.player = player;
     }
 
-    // Methode zum Hinzufügen von Punkten für Spieler 1
+    // Methode zum Hinzufï¿½gen von Punkten fï¿½r Spieler 1
     public void addScore(int points)
     {
         score += points;
     }
 
-    // Methode zum Hinzufügen von Punkten für Spieler 2
+    // Methode zum Hinzufï¿½gen von Punkten fï¿½r Spieler 2
     public void reduceScore(int points)
     {
         score -= points;
@@ -34,5 +34,11 @@ public class PlayerScore : MonoBehaviour
     public int getScore()
     {
         return score;
+    }
+
+    public TargetEventChecker getTargetEventChecker()
+    {
+
+        return player.GetComponent<TargetEventChecker>();
     }
 }

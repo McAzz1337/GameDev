@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8654668710142348405}
   - component: {fileID: 5557562735730334378}
   - component: {fileID: 5540229944108691082}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: BlastRadius
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 615ec0438726c4b4aba76391959c02a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 0
+  radius: 5
 --- !u!135 &5540229944108691082
 SphereCollider:
   m_ObjectHideFlags: 0

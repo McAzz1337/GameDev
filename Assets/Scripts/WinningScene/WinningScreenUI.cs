@@ -10,7 +10,7 @@ public class WinningScreenUI : MonoBehaviour
     [SerializeField] private Canvas winningScreenCanvas;
     [SerializeField] private TextMeshProUGUI winningPlayerText;
     [SerializeField] private Button ReturnToMenuButton;
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,7 +21,7 @@ public class WinningScreenUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     void setWinningPlayerText()

@@ -19,15 +19,7 @@ public class BlastRadius : MonoBehaviour
     }
 
 
-    void OnCollisionEnter(Collision collider)
-    {
 
-        if (collider.gameObject.layer == LayerMask.NameToLayer("Player"))
-        {
-
-            // Take damage
-        }
-    }
 
     public void setRadius(float radius)
     {

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 public class StartMenuUI : MonoBehaviour
@@ -27,6 +28,7 @@ public class StartMenuUI : MonoBehaviour
     {
 
         startMenuCanvas.enabled = false;
+        SceneManager.LoadScene(2);
     }
 
     public void onControlsButtonPressed()

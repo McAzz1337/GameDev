@@ -16,8 +16,8 @@ public class Enemy : MonoBehaviour
     public LayerMask obstacleMask;  // Choose Obstacles
     public FollowWaypoints pathHandler;
     public Material deathMaterial;
-    
-    
+
+
     private Transform currenttarget_transform;
     private TargetEventChecker checker;
     private bool isTargeting = false;
@@ -32,7 +32,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] public float minimumDistanceToTarget = 2f;
     [SerializeField] private float moveForce = 30.0f;
     [SerializeField] private float maxMoveVelocity = 10.0f;
-    
+
 
 
     [SerializeField] private GunMock gun;
@@ -50,18 +50,26 @@ public class Enemy : MonoBehaviour
         agentSpeed = agent.speed;
         agent.SetDestination(pathHandler.NextWayPoint());
 
+        checker = GetComponent<TargetEventChecker>();
+
     }
 
     // Update is called once per fram
     void Update()
     {
+
+
         if (checker != null && checker.getIsDeath())
         {
-            Renderer renderer = GetComponent<Renderer>();
+            MeshRenderer renderer = GetComponent<MeshRenderer>();
             renderer.material = deathMaterial;
             agent.speed = 0;
 
-        } else
+            StartCoroutine("hide", 2.0f);
+
+            return;
+        }
+        else
         {
             Detection();
             //Debug.Log("isTargeting: " + isTargeting);
@@ -103,6 +111,14 @@ public class Enemy : MonoBehaviour
 
         }
 
+    }
+
+    public IEnumerator hide(float duration)
+    {
+
+        yield return new WaitForSeconds(duration);
+
+        GetComponent<MeshRenderer>().enabled = false;
     }
 
     void Detection()
