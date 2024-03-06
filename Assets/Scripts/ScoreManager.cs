@@ -105,6 +105,6 @@ public class ScoreManager : MonoBehaviour
     void loadWinningScene(int winningPlayerIndex)
     {
         PlayerPrefs.SetInt("WinningPlayer", winningPlayerIndex);
-        SceneManager.LoadScene("WinningScreen");
+        SceneManager.LoadScene("WinningScene");
     }
 }
