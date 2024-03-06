@@ -23,16 +23,16 @@ public class TargetEventChecker : MonoBehaviour
         }
     }
 
-    private void OnTriggerStay(Collider other)
-    {
-        //hello
-        /*print("Stay");
-        UnityEngine.Debug.Log("Stay");
-        UnityEngine.Debug.Log("playertag: " + other.gameObject.tag);*/
-        if (other.gameObject.tag == "Bullet")
-        {
-            setIsDeath(true);
-        }
-    }
+    //private void OnTriggerStay(Collider other)
+    //{
+    //    //hello
+    //    /*print("Stay");
+    //    UnityEngine.Debug.Log("Stay");
+    //    UnityEngine.Debug.Log("playertag: " + other.gameObject.tag);*/
+    //    if (other.gameObject.tag == "Bullet")
+    //    {
+    //        setIsDeath(true);
+    //    }
+    //}
 
 }
