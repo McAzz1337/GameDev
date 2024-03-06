@@ -29,6 +29,7 @@ public class TargetEventChecker : MonoBehaviour
         layerCheck(other.gameObject.layer);
     }
 
+
     private void OnTriggerStay(Collider other)
     {
 
@@ -44,5 +45,6 @@ public class TargetEventChecker : MonoBehaviour
             setIsDeath(true);
         }
     }
+
 
 }
