@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ScoreManager : MonoBehaviour
 {
@@ -39,6 +40,7 @@ public class ScoreManager : MonoBehaviour
                 if (winningPlayer != -1)
                 {
                     Debug.Log("Winner: Player" + winningPlayer);
+                    loadWinningScene(winningPlayer);
                 }
             }
         }
@@ -100,5 +102,9 @@ public class ScoreManager : MonoBehaviour
         }
     }
 
-
+    void loadWinningScene(int winningPlayerIndex)
+    {
+        PlayerPrefs.SetInt("WinningPlayer", winningPlayerIndex);
+        SceneManager.LoadScene("WinningScreen");
+    }
 }
