@@ -53,10 +53,13 @@ public class ScoreManager : MonoBehaviour
                 if (winningPlayer != -1)
                 {
                     Debug.Log("Winner: Player" + winningPlayer);
+
                     //SceneManager.LoadSceneAsync("WinningScreen");
                 }  else
                 {
                     SceneManager.LoadSceneAsync("ScoreTable");
+                    loadWinningScene(winningPlayer);
+
                 }
             }
         }
@@ -119,6 +122,7 @@ public class ScoreManager : MonoBehaviour
         }
     }
 
+
     private void saveScorelist()
     {
         string json = JsonUtility.ToJson(scorelist);
@@ -156,5 +160,12 @@ public class ScoreManager : MonoBehaviour
         }
     }
 
+
+
+    void loadWinningScene(int winningPlayerIndex)
+    {
+        PlayerPrefs.SetInt("WinningPlayer", winningPlayerIndex);
+        SceneManager.LoadScene("WinningScene");
+    }
 
 }

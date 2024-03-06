@@ -2,30 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GunMock : MonoBehaviour
+public class GunMock : Weapon
 {
 
-    [SerializeField] private GameObject bulletPrefab;
-
-    [SerializeField] private Transform muzzle;
 
     void Start()
     {
 
     }
 
-    // Update is called once per frame
     void Update()
     {
 
     }
 
-    public void shoot()
+    public override void shoot()
     {
 
-        GameObject g = Instantiate(bulletPrefab);
-
-        g.transform.position = muzzle.position;
-        g.transform.rotation = muzzle.rotation;
+        GameObject g = Instantiate(stats.projectilePrefab, muzzle.position, muzzle.rotation);
+        g.layer = LayerMask.NameToLayer("Damaging_Ignore");
+        GameObject muzzleFlash = Instantiate(stats.muzzleFlashPrefab, muzzle.position, muzzle.rotation);
+        muzzleFlash.transform.SetParent(muzzle);
+        muzzleFlash.AddComponent<Destructor>().setDuration(0.25f);
     }
+
 }

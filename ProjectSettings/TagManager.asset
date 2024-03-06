@@ -16,10 +16,10 @@ TagManager:
   - Ground
   - Wall
   - Player
-  - 
-  - 
-  - 
-  - 
+  - WeaponSpawner
+  - Weapon
+  - Damaging
+  - Damaging_Ignore
   - 
   - 
   - 

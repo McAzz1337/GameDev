@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class BulletMock : MonoBehaviour
 {
@@ -24,8 +25,6 @@ public class BulletMock : MonoBehaviour
 
     void OnCollisionEnter(Collision collider)
     {
-        Debug.Log("Wall: " + LayerMask.GetMask("Wall"));
-        Debug.Log("collider: " + collider.gameObject.layer);
         int layer = (1 << collider.gameObject.layer);
         if (layer == LayerMask.GetMask("Wall"))
         {

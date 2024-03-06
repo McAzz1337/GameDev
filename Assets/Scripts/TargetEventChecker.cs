@@ -11,28 +11,40 @@ public class TargetEventChecker : MonoBehaviour
     public bool getIsDeath() { return this.isDeath; }
 
 
+    private void OnCollisionEnter(Collision other)
+    {
+
+        layerCheck(other.gameObject.layer);
+    }
+
+    private void OnCollisionStay(Collision other)
+    {
+
+        layerCheck(other.gameObject.layer);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        //hello
-        /*print("Enter");
-        UnityEngine.Debug.Log("Enter");
-        UnityEngine.Debug.Log("playertag: " + other.gameObject.tag);*/
-        if (other.gameObject.tag == "Bullet")
+
+        layerCheck(other.gameObject.layer);
+    }
+
+
+    private void OnTriggerStay(Collider other)
+    {
+
+        layerCheck(other.gameObject.layer);
+    }
+
+    private void layerCheck(int layer)
+    {
+
+
+        if (layer == LayerMask.NameToLayer("Damaging"))
         {
             setIsDeath(true);
         }
     }
 
-    //private void OnTriggerStay(Collider other)
-    //{
-    //    //hello
-    //    /*print("Stay");
-    //    UnityEngine.Debug.Log("Stay");
-    //    UnityEngine.Debug.Log("playertag: " + other.gameObject.tag);*/
-    //    if (other.gameObject.tag == "Bullet")
-    //    {
-    //        setIsDeath(true);
-    //    }
-    //}
 
 }

@@ -1,20 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
 
+    [Header("Movement")]
     [SerializeField] private float moveForce = 30.0f;
     [SerializeField] private float maxMoveVelocity = 10.0f;
 
-    [SerializeField] private GunMock gun;
+
+    [Header("References")]
+    [SerializeField] private Weapon defaultWeapon;
+    [SerializeField] private MolotovCocktailMock molotov = null;
+    [SerializeField] private Material deadMaterial;
+
 
     [Header("Debug Info")]
+    [SerializeField] private Weapon weapon;
     [SerializeField] private Vector2 moveInput;
+    private TargetEventChecker deathChecker;
     private PlayerControls controls;
     private Rigidbody rb;
+
+    private Transform defaultWeaponTransform;
+    private Transform molotovTransform;
 
     void Awake()
     {
@@ -24,33 +36,51 @@ public class Player : MonoBehaviour
         controls = new PlayerControls();
 
         moveInput = Vector2.zero;
+
+        Transform[] transforms = GetComponentsInChildren<Transform>();
+
+        foreach (Transform t in transforms)
+        {
+
+            switch (t.gameObject.name)
+            {
+
+                case "MolotovTransform": molotovTransform = t; break;
+                case "GunTransform": defaultWeaponTransform = t; break;
+            }
+        }
+
+        deathChecker = GetComponent<TargetEventChecker>();
+
     }
 
     void OnEnable()
     {
 
-        controls.BattleControls.Move.performed += onBattleControlsPerformed;
-        controls.BattleControls.Move.canceled += onBattleControlsPerformed;
+        controls.BattleControls.Move.performed += onMovePerformed;
+        controls.BattleControls.Move.canceled += onMoveCanceled;
         controls.BattleControls.Shoot.performed += onShootPerformed;
+        controls.BattleControls.Throw.performed += onThrowPerformed;
         controls.Enable();
     }
 
     void OnDisable()
     {
 
-        controls.BattleControls.Move.performed -= onBattleControlsPerformed;
-        controls.BattleControls.Move.canceled -= onBattleControlsCanceled;
+        controls.BattleControls.Move.performed -= onMovePerformed;
+        controls.BattleControls.Move.canceled -= onMoveCanceled;
         controls.BattleControls.Shoot.performed -= onShootPerformed;
+        controls.BattleControls.Throw.performed -= onThrowPerformed;
         controls.Disable();
     }
 
-    public void onBattleControlsPerformed(InputAction.CallbackContext c)
+    public void onMovePerformed(InputAction.CallbackContext c)
     {
 
         moveInput = c.ReadValue<Vector2>();
     }
 
-    public void onBattleControlsCanceled(InputAction.CallbackContext c)
+    public void onMoveCanceled(InputAction.CallbackContext c)
     {
 
         moveInput = c.ReadValue<Vector2>();
@@ -59,20 +89,44 @@ public class Player : MonoBehaviour
     public void onShootPerformed(InputAction.CallbackContext c)
     {
 
-        gun.shoot();
+
+        weapon.shoot();
+
+        if (weapon.isEmpty())
+        {
+
+            dropWeapon();
+        }
+    }
+
+    public void onThrowPerformed(InputAction.CallbackContext c)
+    {
+
+        if (molotov == null) return;
+
+        molotov.transform.SetParent(null);
+        molotov.shoot();
+
+        molotov = null;
     }
 
 
     void Start()
     {
 
-
+        weapon = defaultWeapon;
     }
 
     void Update()
     {
 
         setLookRotation();
+
+        if (deathChecker.getIsDeath())
+        {
+
+            die();
+        }
     }
 
     void FixedUpdate()
@@ -104,7 +158,6 @@ public class Player : MonoBehaviour
 
         Vector3 moveVec = new Vector3(moveInput.x, 0.0f, moveInput.y).normalized * moveForce;
         rb.AddForce(moveVec);
-        Debug.Log(moveVec);
     }
 
     private void setLookRotation()
@@ -131,11 +184,63 @@ public class Player : MonoBehaviour
         }
     }
 
-
-    void OnCollisionEnter(Collision collider)
+    public void pickupWeapon(Weapon weapon)
     {
 
-        int layer = 1 << collider.gameObject.layer;
+        GameObject g = weapon.gameObject;
+
+        if (molotov == null && (weapon as MolotovCocktailMock) != null)
+        {
+
+
+            g.transform.position = molotovTransform.position;
+            g.transform.rotation = molotovTransform.rotation;
+            g.transform.SetParent(molotovTransform);
+            molotov = g.GetComponent<MolotovCocktailMock>();
+        }
+        else if ((weapon as MolotovCocktailMock) == null)
+        {
+
+            g.transform.position = defaultWeaponTransform.position;
+            g.transform.rotation = defaultWeaponTransform.rotation;
+            g.transform.SetParent(defaultWeaponTransform);
+
+            if (defaultWeapon.TryGetComponent<MeshRenderer>(out MeshRenderer mr))
+            {
+
+                mr.enabled = false;
+            }
+            this.weapon = weapon;
+        }
+    }
+
+    private void dropWeapon()
+    {
+
+        weapon.drop();
+
+        weapon = defaultWeapon;
+
+        if (defaultWeapon.TryGetComponent<MeshRenderer>(out MeshRenderer mr))
+        {
+
+            mr.enabled = false;
+        }
+    }
+
+
+    public void die()
+    {
+
+
+        GetComponent<MeshRenderer>().material = deadMaterial;
+        gameObject.AddComponent<Destructor>().setDuration(3.0f);
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+
+        int layer = 1 << collision.gameObject.layer;
         if (layer == LayerMask.GetMask("Wall"))
         {
 
@@ -143,6 +248,19 @@ public class Player : MonoBehaviour
 
         }
 
+    }
+
+
+    public bool canPickupWeapon()
+    {
+
+        return weapon == defaultWeapon;
+    }
+
+    public bool canPickupMolotov()
+    {
+
+        return molotov == null;
     }
 
 }
