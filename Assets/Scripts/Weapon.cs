@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Xml.Serialization;
-using UnityEditor.Callbacks;
-using UnityEditor.SceneManagement;
+
 using UnityEngine;
 
 public abstract class Weapon : MonoBehaviour

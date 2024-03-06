@@ -44,4 +44,10 @@ public class StartMenuUI : MonoBehaviour
         controlsMenuCanvas.enabled = false;
         startMenuCanvas.enabled = true;
     }
+
+    public void onQuitPressed()
+    {
+
+        Application.Quit();
+    }
 }

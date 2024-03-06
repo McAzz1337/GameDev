@@ -90,9 +90,9 @@ public class Player : MonoBehaviour
     {
 
 
-        weapon.shoot();
+        weapon?.shoot();
 
-        if (weapon.isEmpty())
+        if ((bool)weapon?.isEmpty())
         {
 
             dropWeapon();
@@ -205,11 +205,7 @@ public class Player : MonoBehaviour
             g.transform.rotation = defaultWeaponTransform.rotation;
             g.transform.SetParent(defaultWeaponTransform);
 
-            if (defaultWeapon.TryGetComponent<MeshRenderer>(out MeshRenderer mr))
-            {
 
-                mr.enabled = false;
-            }
             this.weapon = weapon;
         }
     }
@@ -219,13 +215,9 @@ public class Player : MonoBehaviour
 
         weapon.drop();
 
-        weapon = defaultWeapon;
+        weapon = null;
 
-        if (defaultWeapon.TryGetComponent<MeshRenderer>(out MeshRenderer mr))
-        {
 
-            mr.enabled = false;
-        }
     }
 
 

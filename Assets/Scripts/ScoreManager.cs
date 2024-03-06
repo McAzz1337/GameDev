@@ -36,7 +36,6 @@ public class ScoreManager : MonoBehaviour
         sceneIndex = SceneManager.GetActiveScene().buildIndex;
         loadScoreList();
         Debug.Log("Amount Players: " + scorelist.Count);
-
     }
 
 
@@ -139,7 +138,7 @@ public class ScoreManager : MonoBehaviour
     {
         string json = PlayerPrefs.GetString("scorelist");
         Debug.Log("JSON: " + json);
-        if (json != "{}") //!string.IsNullOrEmpty(json)
+        if (json != "{}" && json != "") //!string.IsNullOrEmpty(json)
         {
             Debug.Log("i Fall here");
             this.scorelist = JsonUtility.FromJson<List<PlayerScore>>(json);
