@@ -1,0 +1,312 @@
+using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEngine;
+using Unity.Netcode;
+using UnityEngine.InputSystem;
+
+
+public class Player : NetworkBehaviour
+{
+
+    [Header("Movement")]
+    [SerializeField] private float moveForce = 30.0f;
+    [SerializeField] private float maxMoveVelocity = 10.0f;
+
+
+    [Header("References")]
+    [SerializeField] private Weapon defaultWeapon;
+    [SerializeField] private MolotovCocktailMock molotov = null;
+    [SerializeField] private Material deadMaterial;
+
+
+    [Header("Debug Info")]
+    [SerializeField] private Weapon weapon;
+    [SerializeField] private Vector2 moveInput;
+    private TargetEventChecker deathChecker;
+    private PlayerControls controls;
+    private Rigidbody rb;
+
+    private Transform defaultWeaponTransform;
+    private Transform molotovTransform;
+
+    void Awake()
+    {
+
+        rb = GetComponent<Rigidbody>();
+
+        controls = new PlayerControls();
+
+        moveInput = Vector2.zero;
+
+        Transform[] transforms = GetComponentsInChildren<Transform>();
+
+        foreach (Transform t in transforms)
+        {
+
+            switch (t.gameObject.name)
+            {
+
+                case "MolotovTransform": molotovTransform = t; break;
+                case "GunTransform": defaultWeaponTransform = t; break;
+            }
+        }
+
+        deathChecker = GetComponent<TargetEventChecker>();
+    }
+
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+
+    }
+
+    public override void OnNetworkDespawn()
+    {
+        base.OnNetworkDespawn();
+    }
+
+    void OnEnable()
+    {
+
+        controls.BattleControls.Move.performed += onMovePerformed;
+        controls.BattleControls.Move.canceled += onMoveCanceled;
+        controls.BattleControls.Shoot.performed += onShootPerformed;
+        controls.BattleControls.Throw.performed += onThrowPerformed;
+        controls.Enable();
+    }
+
+    void OnDisable()
+    {
+
+        controls.BattleControls.Move.performed -= onMovePerformed;
+        controls.BattleControls.Move.canceled -= onMoveCanceled;
+        controls.BattleControls.Shoot.performed -= onShootPerformed;
+        controls.BattleControls.Throw.performed -= onThrowPerformed;
+        controls.Disable();
+    }
+
+    public void onMovePerformed(InputAction.CallbackContext c)
+    {
+
+        if (!IsOwner) return;
+
+        moveInput = c.ReadValue<Vector2>();
+    }
+
+    public void onMoveCanceled(InputAction.CallbackContext c)
+    {
+
+        if (!IsOwner) return;
+
+        moveInput = c.ReadValue<Vector2>();
+    }
+
+    public void onShootPerformed(InputAction.CallbackContext c)
+    {
+
+        if (!IsOwner) return;
+
+        weapon?.shoot();
+
+        if ((bool)weapon?.isEmpty())
+        {
+
+            dropWeaponClientRpc();
+        }
+    }
+
+    public void onThrowPerformed(InputAction.CallbackContext c)
+    {
+
+        if (!IsOwner) return;
+
+        if (molotov == null) return;
+
+        molotov.transform.SetParent(null);
+        molotov.shoot();
+
+        molotov = null;
+    }
+
+
+    void Start()
+    {
+
+
+        weapon = null;
+    }
+
+    void Update()
+    {
+
+        if (IsOwner)
+        {
+
+            setLookRotation();
+        }
+
+        if (IsHost)
+        {
+
+            if (deathChecker.getIsDeath())
+            {
+
+                die();
+            }
+        }
+    }
+
+    void FixedUpdate()
+    {
+
+        if (!IsOwner) return;
+
+        move();
+    }
+
+    private void move()
+    {
+
+        if (moveInput.x == 0.0f)
+        {
+
+            rb.velocity = new Vector3(0.0f, rb.velocity.y, rb.velocity.z);
+        }
+        if (moveInput.y == 0.0f)
+        {
+
+            rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, 0.0f);
+
+        }
+
+        if (rb.velocity.magnitude > maxMoveVelocity)
+        {
+
+            rb.velocity = rb.velocity.normalized * maxMoveVelocity;
+        }
+
+        Vector3 moveVec = new Vector3(moveInput.x, 0.0f, moveInput.y).normalized * moveForce;
+        rb.AddForce(moveVec);
+    }
+
+    private void setLookRotation()
+    {
+
+        Ray ray = Camera.main.ScreenPointToRay(
+              new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0.0f));
+
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, 100.0f, LayerMask.GetMask("Ground")) ||
+            Physics.Raycast(ray, out hit, 100.0f, LayerMask.GetMask("Wall")))
+        {
+
+            float t = (transform.position.y - ray.origin.y) / ray.direction.y;
+
+            Vector3 position = ray.origin + t * ray.direction;
+
+            Quaternion rot = Quaternion.LookRotation(position - transform.position, Vector3.up);
+            rot.x = 0.0f;
+            rot.z = 0.0f;
+
+            transform.rotation = rot;
+        }
+    }
+
+    [ServerRpc]
+    public void pickupWeaponServerRpc()
+    {
+
+        //pickupWeaponClientRpc();
+    }
+
+    [ClientRpc]
+    public void pickupWeaponClientRpc(Weapon weapon)
+    {
+
+        GameObject g = weapon.gameObject;
+
+        if (molotov == null && (weapon as MolotovCocktailMock) != null)
+        {
+
+
+            g.transform.position = molotovTransform.position;
+            g.transform.rotation = molotovTransform.rotation;
+            g.transform.SetParent(molotovTransform);
+            molotov = g.GetComponent<MolotovCocktailMock>();
+        }
+        else if ((weapon as MolotovCocktailMock) == null)
+        {
+
+            g.transform.position = defaultWeaponTransform.position;
+            g.transform.rotation = defaultWeaponTransform.rotation;
+            g.transform.SetParent(defaultWeaponTransform);
+
+
+            this.weapon = weapon;
+        }
+    }
+
+    [ServerRpc]
+    public void dropWeaponServerRpc()
+    {
+
+        dropWeaponClientRpc();
+    }
+
+    [ClientRpc]
+    private void dropWeaponClientRpc()
+    {
+
+        weapon.drop();
+
+        weapon = null;
+    }
+
+
+    public void die()
+    {
+
+
+        MeshRenderer renderer = GetComponent<MeshRenderer>();
+        renderer.material = deadMaterial;
+
+        StartCoroutine("hide", 2.0f);
+    }
+
+    public IEnumerator hide(float duration)
+    {
+
+        yield return new WaitForSeconds(duration);
+
+        GetComponent<MeshRenderer>().enabled = false;
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+
+        int layer = 1 << collision.gameObject.layer;
+        if (layer == LayerMask.GetMask("Wall"))
+        {
+
+
+
+        }
+
+    }
+
+
+    public bool canPickupWeapon()
+    {
+
+        return weapon == defaultWeapon;
+    }
+
+    public bool canPickupMolotov()
+    {
+
+        return molotov == null;
+    }
+
+}
