@@ -213,6 +213,7 @@ GameObject:
   - component: {fileID: 129245044}
   - component: {fileID: 129245043}
   - component: {fileID: 129245042}
+  - component: {fileID: 129245045}
   m_Layer: 9
   m_Name: WeaponSpawner (2)
   m_TagString: Untagged
@@ -253,9 +254,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 318615e648c67f24281ebe80fd179b1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponPrefabs:
-  - {fileID: 1984652972206848967, guid: c5602cba0bcfae4479d263b5d8e5666c, type: 3}
-  - {fileID: 4581869436542759413, guid: f86312870fc0b6b479041dc1ba31516a, type: 3}
   spawnDelay: 5
 --- !u!4 &129245044
 Transform:
@@ -272,6 +270,26 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &129245045
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 129245041}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 2293991868
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1 &151393549
 GameObject:
   m_ObjectHideFlags: 0
@@ -702,6 +720,7 @@ GameObject:
   m_Component:
   - component: {fileID: 859714116}
   - component: {fileID: 859714115}
+  - component: {fileID: 859714117}
   m_Layer: 0
   m_Name: Waypoints
   m_TagString: Untagged
@@ -754,6 +773,26 @@ Transform:
   - {fileID: 805920698}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &859714117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 859714114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 2263420858
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -857,6 +896,7 @@ GameObject:
   - component: {fileID: 997986477}
   - component: {fileID: 997986476}
   - component: {fileID: 997986478}
+  - component: {fileID: 997986479}
   m_Layer: 9
   m_Name: WeaponSpawner
   m_TagString: Untagged
@@ -876,9 +916,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 318615e648c67f24281ebe80fd179b1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponPrefabs:
-  - {fileID: 1984652972206848967, guid: c5602cba0bcfae4479d263b5d8e5666c, type: 3}
-  - {fileID: 4581869436542759413, guid: f86312870fc0b6b479041dc1ba31516a, type: 3}
   spawnDelay: 5
 --- !u!4 &997986477
 Transform:
@@ -916,6 +953,26 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &997986479
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 997986475}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 3431607975
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1 &1020506368
 GameObject:
   m_ObjectHideFlags: 0
@@ -1361,6 +1418,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 86371915}
     m_Modifications:
+    - target: {fileID: -1729728555965981687, guid: 0f6c28816ea11934b96367fcaec5eaf6, type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 374862345
+      objectReference: {fileID: 0}
     - target: {fileID: 490819494224565808, guid: 0f6c28816ea11934b96367fcaec5eaf6, type: 3}
       propertyPath: m_LocalPosition.x
       value: 16.34
@@ -1526,6 +1587,7 @@ GameObject:
   - component: {fileID: 1610859239}
   - component: {fileID: 1610859238}
   - component: {fileID: 1610859237}
+  - component: {fileID: 1610859240}
   m_Layer: 9
   m_Name: WeaponSpawner (1)
   m_TagString: Untagged
@@ -1566,9 +1628,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 318615e648c67f24281ebe80fd179b1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponPrefabs:
-  - {fileID: 1984652972206848967, guid: c5602cba0bcfae4479d263b5d8e5666c, type: 3}
-  - {fileID: 4581869436542759413, guid: f86312870fc0b6b479041dc1ba31516a, type: 3}
   spawnDelay: 5
 --- !u!4 &1610859239
 Transform:
@@ -1585,6 +1644,26 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1610859240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1610859236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 2167360224
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1 &1635700605
 GameObject:
   m_ObjectHideFlags: 0

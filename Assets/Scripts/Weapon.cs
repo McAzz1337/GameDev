@@ -6,12 +6,14 @@ using UnityEngine;
 public abstract class Weapon : NetworkBehaviour
 {
 
+
+
     [SerializeField] protected WeaponStats stats;
     [SerializeField] protected Transform muzzle;
 
     [Header("Stats")]
     [SerializeField] protected int ammo;
-
+    [SerializeField] protected EWeapon identifier;
 
     void Awake()
     {
@@ -70,6 +72,12 @@ public abstract class Weapon : NetworkBehaviour
     {
 
         return ammo <= 0;
+    }
+
+    public EWeapon getIdentifier()
+    {
+
+        return identifier;
     }
 
 }

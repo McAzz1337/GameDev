@@ -1,13 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
 using Random = System.Random;
+using System;
 
-public class WeaponSpawner : MonoBehaviour
+public class WeaponSpawner : NetworkBehaviour
 {
 
-    [SerializeField] private GameObject[] weaponPrefabs;
+    private static string[] weaponPrefabNames = new string[] {
+        "Bazooka",
+        "MolotovCocktail"
+    };
+
+
     [SerializeField] private float spawnDelay;
 
     private Weapon spawnedWeapon;
@@ -58,19 +65,35 @@ public class WeaponSpawner : MonoBehaviour
             if (spawnedWeapon as MolotovCocktailMock != null && player.canPickupMolotov())
             {
 
-                player.pickupWeaponClientRpc(spawnedWeapon);
-                spawnedWeapon = null;
+                player.pickupWeapon(spawnedWeapon);
+                removeWeapon();
             }
             else if (player.canPickupWeapon())
             {
 
-                player.pickupWeaponClientRpc(spawnedWeapon);
-                spawnedWeapon = null;
+                player.pickupWeapon(spawnedWeapon);
+                removeWeapon();
             }
 
             StartCoroutine("spawnWeaponTimed");
         }
     }
+
+    public void removeWeapon()
+    {
+
+        removeWeaponClientRpc();
+
+        spawnedWeapon = null;
+    }
+
+    [ClientRpc]
+    public void removeWeaponClientRpc()
+    {
+
+        spawnedWeapon = null;
+    }
+
 
     public IEnumerator spawnWeaponTimed()
     {
@@ -84,9 +107,15 @@ public class WeaponSpawner : MonoBehaviour
     public void spawnWeapon()
     {
 
-        int index = random.Next() % weaponPrefabs.Length;
+        int index = random.Next() % weaponPrefabNames.Length;
 
-        GameObject g = Instantiate(weaponPrefabs[index], transform);
+        GameObject g = (GameObject)Instantiate(Resources.Load(weaponPrefabNames[index]), transform);
         spawnedWeapon = g.GetComponent<Weapon>();
+    }
+
+    public static GameObject createFrom(EWeapon identifier)
+    {
+
+        return (GameObject)Instantiate(Resources.Load(weaponPrefabNames[(int)identifier]));
     }
 }

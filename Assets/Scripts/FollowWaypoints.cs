@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-
-public class FollowWaypoints : MonoBehaviour
+using Unity.Netcode;
+public class FollowWaypoints : NetworkBehaviour
 {
 
     //FollowPathBehavior

@@ -15,7 +15,6 @@ public class Player : NetworkBehaviour
 
 
     [Header("References")]
-    [SerializeField] private Weapon defaultWeapon;
     [SerializeField] private MolotovCocktailMock molotov = null;
     [SerializeField] private Material deadMaterial;
 
@@ -214,18 +213,19 @@ public class Player : NetworkBehaviour
         }
     }
 
-    [ServerRpc]
-    public void pickupWeaponServerRpc()
+    public void pickupWeapon(Weapon weapon)
     {
 
-        //pickupWeaponClientRpc();
+
+        pickupWeaponClientRpc(weapon.getIdentifier());
     }
 
     [ClientRpc]
-    public void pickupWeaponClientRpc(Weapon weapon)
+    public void pickupWeaponClientRpc(EWeapon identifier)
     {
 
-        GameObject g = weapon.gameObject;
+        GameObject g = WeaponSpawner.createFrom(identifier);
+        Weapon weapon = g.GetComponent<Weapon>();
 
         if (molotov == null && (weapon as MolotovCocktailMock) != null)
         {
@@ -300,7 +300,7 @@ public class Player : NetworkBehaviour
     public bool canPickupWeapon()
     {
 
-        return weapon == defaultWeapon;
+        return weapon == null;
     }
 
     public bool canPickupMolotov()
