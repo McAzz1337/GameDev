@@ -6,13 +6,10 @@ using Unity.Netcode;
 using Random = System.Random;
 using System;
 
-public class WeaponSpawner : NetworkBehaviour
+public class WeaponSpawner : MonoBehaviour
 {
 
-    private static string[] weaponPrefabNames = new string[] {
-        "Bazooka",
-        "MolotovCocktail"
-    };
+    [SerializeField] private GameObject[] weaponPrefabs;
 
 
     [SerializeField] private float spawnDelay;
@@ -107,15 +104,10 @@ public class WeaponSpawner : NetworkBehaviour
     public void spawnWeapon()
     {
 
-        int index = random.Next() % weaponPrefabNames.Length;
+        int index = random.Next() % weaponPrefabs.Length;
 
-        GameObject g = (GameObject)Instantiate(Resources.Load(weaponPrefabNames[index]), transform);
+        GameObject g = (GameObject)Instantiate((weaponPrefabs[index]), transform);
         spawnedWeapon = g.GetComponent<Weapon>();
     }
 
-    public static GameObject createFrom(EWeapon identifier)
-    {
-
-        return (GameObject)Instantiate(Resources.Load(weaponPrefabNames[(int)identifier]));
-    }
 }

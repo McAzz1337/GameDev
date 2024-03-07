@@ -1,9 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Unity.Netcode;
 
-public class TargetEventChecker : NetworkBehaviour
+public class TargetEventChecker : MonoBehaviour
 {
     public bool isDeath = false;
 

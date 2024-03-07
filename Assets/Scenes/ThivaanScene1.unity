@@ -254,6 +254,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 318615e648c67f24281ebe80fd179b1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponPrefabs:
+  - {fileID: 4581869436542759413, guid: f86312870fc0b6b479041dc1ba31516a, type: 3}
+  - {fileID: 1984652972206848967, guid: c5602cba0bcfae4479d263b5d8e5666c, type: 3}
   spawnDelay: 5
 --- !u!4 &129245044
 Transform:
@@ -916,6 +919,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 318615e648c67f24281ebe80fd179b1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponPrefabs:
+  - {fileID: 4581869436542759413, guid: f86312870fc0b6b479041dc1ba31516a, type: 3}
+  - {fileID: 1984652972206848967, guid: c5602cba0bcfae4479d263b5d8e5666c, type: 3}
   spawnDelay: 5
 --- !u!4 &997986477
 Transform:
@@ -1466,7 +1472,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -1729728555965981687, guid: 0f6c28816ea11934b96367fcaec5eaf6, type: 3}
+    - {fileID: -4931255540019118357, guid: 0f6c28816ea11934b96367fcaec5eaf6, type: 3}
+    - {fileID: -6341694253188454185, guid: 0f6c28816ea11934b96367fcaec5eaf6, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -1628,6 +1637,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 318615e648c67f24281ebe80fd179b1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponPrefabs:
+  - {fileID: 4581869436542759413, guid: f86312870fc0b6b479041dc1ba31516a, type: 3}
+  - {fileID: 1984652972206848967, guid: c5602cba0bcfae4479d263b5d8e5666c, type: 3}
   spawnDelay: 5
 --- !u!4 &1610859239
 Transform:

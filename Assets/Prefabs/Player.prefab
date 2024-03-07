@@ -47,6 +47,7 @@ MonoBehaviour:
   stats: {fileID: 0}
   muzzle: {fileID: 0}
   ammo: 0
+  identifier: 0
   molotovPrefab: {fileID: 1984652972206848967, guid: c5602cba0bcfae4479d263b5d8e5666c, type: 3}
   fireEffect: {fileID: 1956197547661106, guid: f293a2dcc753a4a489fefe7f8f312d69, type: 3}
 --- !u!1 &4570379688078303068
@@ -58,9 +59,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 490819494224565808}
-  - component: {fileID: -1729728555965981687}
-  - component: {fileID: -6341694253188454185}
-  - component: {fileID: -4931255540019118357}
   - component: {fileID: 1670628541391865288}
   - component: {fileID: 7103259863719568706}
   - component: {fileID: 8185121031870929673}
@@ -92,68 +90,6 @@ Transform:
   - {fileID: 331484796488214192}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-1729728555965981687
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4570379688078303068}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 951099334
-  AlwaysReplicateAsRoot: 0
-  SynchronizeTransform: 1
-  ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
-  SpawnWithObservers: 1
-  DontDestroyWithOwner: 0
-  AutoObjectParentSync: 1
---- !u!114 &-6341694253188454185
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4570379688078303068}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SyncPositionX: 1
-  SyncPositionY: 1
-  SyncPositionZ: 1
-  SyncRotAngleX: 1
-  SyncRotAngleY: 1
-  SyncRotAngleZ: 1
-  SyncScaleX: 0
-  SyncScaleY: 0
-  SyncScaleZ: 0
-  PositionThreshold: 0.001
-  RotAngleThreshold: 0.01
-  ScaleThreshold: 0.01
-  UseQuaternionSynchronization: 0
-  UseQuaternionCompression: 0
-  UseHalfFloatPrecision: 0
-  InLocalSpace: 0
-  Interpolate: 1
-  SlerpPosition: 0
---- !u!114 &-4931255540019118357
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4570379688078303068}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6c0be61502bb534f922ebb746851216, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!33 &1670628541391865288
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -268,7 +204,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveForce: 30
   maxMoveVelocity: 10
-  defaultWeapon: {fileID: 0}
   molotov: {fileID: 0}
   deadMaterial: {fileID: 2100000, guid: 16c521b5e7d2a9c4baa19a31abd5f22f, type: 2}
   weapon: {fileID: 0}

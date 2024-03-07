@@ -2,11 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
-using Unity.Netcode;
 using UnityEngine.InputSystem;
 
 
-public class Player : NetworkBehaviour
+public class Player : MonoBehaviour
 {
 
     [Header("Movement")]
@@ -54,16 +53,6 @@ public class Player : NetworkBehaviour
         deathChecker = GetComponent<TargetEventChecker>();
     }
 
-    public override void OnNetworkSpawn()
-    {
-        base.OnNetworkSpawn();
-
-    }
-
-    public override void OnNetworkDespawn()
-    {
-        base.OnNetworkDespawn();
-    }
 
     void OnEnable()
     {
@@ -88,7 +77,6 @@ public class Player : NetworkBehaviour
     public void onMovePerformed(InputAction.CallbackContext c)
     {
 
-        if (!IsOwner) return;
 
         moveInput = c.ReadValue<Vector2>();
     }
@@ -96,7 +84,6 @@ public class Player : NetworkBehaviour
     public void onMoveCanceled(InputAction.CallbackContext c)
     {
 
-        if (!IsOwner) return;
 
         moveInput = c.ReadValue<Vector2>();
     }
@@ -104,21 +91,20 @@ public class Player : NetworkBehaviour
     public void onShootPerformed(InputAction.CallbackContext c)
     {
 
-        if (!IsOwner) return;
+        if (weapon == null) return;
 
-        weapon?.shoot();
+        weapon.shoot();
 
-        if ((bool)weapon?.isEmpty())
+        if (weapon.isEmpty())
         {
 
-            dropWeaponClientRpc();
+            dropWeapon();
         }
     }
 
     public void onThrowPerformed(InputAction.CallbackContext c)
     {
 
-        if (!IsOwner) return;
 
         if (molotov == null) return;
 
@@ -139,27 +125,20 @@ public class Player : NetworkBehaviour
     void Update()
     {
 
-        if (IsOwner)
+
+        setLookRotation();
+
+
+        if (deathChecker.getIsDeath())
         {
 
-            setLookRotation();
-        }
-
-        if (IsHost)
-        {
-
-            if (deathChecker.getIsDeath())
-            {
-
-                die();
-            }
+            die();
         }
     }
 
     void FixedUpdate()
     {
 
-        if (!IsOwner) return;
 
         move();
     }
@@ -216,16 +195,7 @@ public class Player : NetworkBehaviour
     public void pickupWeapon(Weapon weapon)
     {
 
-
-        pickupWeaponClientRpc(weapon.getIdentifier());
-    }
-
-    [ClientRpc]
-    public void pickupWeaponClientRpc(EWeapon identifier)
-    {
-
-        GameObject g = WeaponSpawner.createFrom(identifier);
-        Weapon weapon = g.GetComponent<Weapon>();
+        GameObject g = weapon.gameObject;
 
         if (molotov == null && (weapon as MolotovCocktailMock) != null)
         {
@@ -248,15 +218,8 @@ public class Player : NetworkBehaviour
         }
     }
 
-    [ServerRpc]
-    public void dropWeaponServerRpc()
-    {
 
-        dropWeaponClientRpc();
-    }
-
-    [ClientRpc]
-    private void dropWeaponClientRpc()
+    private void dropWeapon()
     {
 
         weapon.drop();
