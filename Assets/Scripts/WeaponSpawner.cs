@@ -58,13 +58,13 @@ public class WeaponSpawner : MonoBehaviour
             if (spawnedWeapon as MolotovCocktailMock != null && player.canPickupMolotov())
             {
 
-                player.pickupWeapon(spawnedWeapon);
+                player.pickupWeaponClientRpc(spawnedWeapon);
                 spawnedWeapon = null;
             }
             else if (player.canPickupWeapon())
             {
 
-                player.pickupWeapon(spawnedWeapon);
+                player.pickupWeaponClientRpc(spawnedWeapon);
                 spawnedWeapon = null;
             }
 
