@@ -59,6 +59,7 @@ public class WeaponSpawner : MonoBehaviour
 
             Player player = collider.gameObject.GetComponent<Player>();
 
+            /*
             if (spawnedWeapon as MolotovCocktailMock != null && player.canPickupMolotov())
             {
 
@@ -71,6 +72,7 @@ public class WeaponSpawner : MonoBehaviour
                 player.pickupWeapon(spawnedWeapon);
                 removeWeapon();
             }
+            */
 
             StartCoroutine("spawnWeaponTimed");
         }

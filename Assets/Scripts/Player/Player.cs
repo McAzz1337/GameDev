@@ -197,6 +197,7 @@ public class Player : MonoBehaviour
 
         GameObject g = weapon.gameObject;
 
+        /*
         if (molotov == null && (weapon as MolotovCocktailMock) != null)
         {
 
@@ -216,6 +217,7 @@ public class Player : MonoBehaviour
 
             this.weapon = weapon;
         }
+        */
     }
 
 

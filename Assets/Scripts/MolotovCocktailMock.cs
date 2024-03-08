@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MolotovCocktailMock : Weapon
+public class MolotovCocktailMock : WeaponNetwork
 {
     [SerializeField] private GameObject molotovPrefab;
     [SerializeField] private GameObject fireEffect;
@@ -21,11 +21,14 @@ public class MolotovCocktailMock : Weapon
     public override void shoot()
     {
 
+        transform.SetParent(null);
         Rigidbody rb = gameObject.AddComponent<Rigidbody>();
         Vector3 throwDirection = transform.forward + transform.up;
         float throwForce = 10f;
         rb.AddForce(throwDirection.normalized * throwForce, ForceMode.VelocityChange);
     }
+
+
 
 
     void OnCollisionEnter(Collision collision)
@@ -46,6 +49,6 @@ public class MolotovCocktailMock : Weapon
         Destructor destructor = g.AddComponent<Destructor>();
         destructor.setDuration(5.0f);
         Destroy(gameObject);
-        
+
     }
 }
