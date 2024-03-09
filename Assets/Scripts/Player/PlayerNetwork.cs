@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.InputSystem;
+using Unity.VisualScripting;
 
 public class PlayerNetwork : NetworkBehaviour
 {
 
-
+    public static PlayerNetwork localPlayer;
 
     [Header("Movement")]
     [SerializeField] private float moveForce = 30.0f;
@@ -17,12 +18,17 @@ public class PlayerNetwork : NetworkBehaviour
     [SerializeField] private Transform weaponTransform;
 
     [Header("Debug Info")]
+    [SerializeField] private bool isHost;
+    [SerializeField] private bool isOwner;
+    [SerializeField] private bool isClient;
     [SerializeField] private WeaponNetwork weapon;
+
 
     private NetworkVariable<Vector2> moveInput =
         new NetworkVariable<Vector2>(Vector2.zero,
         NetworkVariableReadPermission.Everyone,
         NetworkVariableWritePermission.Owner);
+
 
     Rigidbody rb;
 
@@ -31,12 +37,14 @@ public class PlayerNetwork : NetworkBehaviour
     void Awake()
     {
 
+        localPlayer = this;
         controls = new PlayerControls();
         rb = GetComponent<Rigidbody>();
     }
 
     void OnEnable()
     {
+
 
         controls.BattleControls.Move.performed += onMovePerformed;
         controls.BattleControls.Move.canceled += onMoveCanceled;
@@ -107,15 +115,21 @@ public class PlayerNetwork : NetworkBehaviour
         */
     }
 
+
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
 
-        GameManager.instance.playerConnected(this);
+        isHost = IsHost;
+        isOwner = IsOwner;
+        isClient = IsClient;
+
+
     }
 
     void Start()
     {
+
 
     }
 
@@ -198,7 +212,6 @@ public class PlayerNetwork : NetworkBehaviour
             rot.z = 0.0f;
 
             setLookRotationServerRpc(rot);
-            //transform.rotation = rot;
         }
 
 
@@ -212,6 +225,9 @@ public class PlayerNetwork : NetworkBehaviour
         weapon.transform.rotation = weaponTransform.rotation;
         weapon.transform.SetParent(transform);
     }
+
+
+
 
     public void dropWeapon()
     {

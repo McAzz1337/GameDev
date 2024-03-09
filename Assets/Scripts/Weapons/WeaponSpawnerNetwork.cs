@@ -15,9 +15,11 @@ public class WeaponSpawnerNetwork : NetworkBehaviour
 
     [SerializeField] private WeaponNetwork spawnedWeapon;
 
+
     void Awake()
     {
 
+        gameObject.SetActive(false);
     }
 
     public override void OnNetworkSpawn()
@@ -90,15 +92,6 @@ public class WeaponSpawnerNetwork : NetworkBehaviour
     public void removeWeapon()
     {
 
-        removeWeaponClientRpc();
-
-        spawnedWeapon = null;
-    }
-
-    [ClientRpc]
-    public void removeWeaponClientRpc()
-    {
-
         spawnedWeapon = null;
     }
 
@@ -118,17 +111,7 @@ public class WeaponSpawnerNetwork : NetworkBehaviour
 
         GameObject g = Instantiate(weaponPrefabs[index], transform);
         spawnedWeapon = g.GetComponent<WeaponNetwork>();
-        g.GetComponent<NetworkObject>().Spawn();
+        g.GetComponent<NetworkObject>().Spawn(true);
 
-        spawnedWeaponClientRpc(index);
     }
-
-    [ClientRpc]
-    private void spawnedWeaponClientRpc(int index)
-    {
-
-        //GameObject g = (GameObject)Instantiate((weaponPrefabs[index]), transform);
-        //spawnedWeapon = g.GetComponent<WeaponNetwork>();
-    }
-
 }

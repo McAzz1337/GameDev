@@ -6,7 +6,7 @@ using Unity.Netcode;
 using Random = System.Random;
 using System;
 
-public class WeaponSpawner : MonoBehaviour
+public class WeaponSpawner : NetworkBehaviour
 {
 
     [SerializeField] private GameObject[] weaponPrefabs;
@@ -21,6 +21,8 @@ public class WeaponSpawner : MonoBehaviour
 
     void Awake()
     {
+        if (!IsHost) return;
+
         random = new Random();
         spawnWeapon();
     }
@@ -38,11 +40,15 @@ public class WeaponSpawner : MonoBehaviour
     void OnTriggerEnter(Collider collider)
     {
 
+        if (!IsHost) return;
+
         checkPlayerPickup(collider);
     }
 
     void OnTriggerStay(Collider collider)
     {
+
+        if (!IsHost) return;
 
         checkPlayerPickup(collider);
     }
@@ -108,8 +114,9 @@ public class WeaponSpawner : MonoBehaviour
 
         int index = random.Next() % weaponPrefabs.Length;
 
-        GameObject g = (GameObject)Instantiate((weaponPrefabs[index]), transform);
+        GameObject g = Instantiate((weaponPrefabs[index]), transform);
         spawnedWeapon = g.GetComponent<Weapon>();
+
     }
 
 }
