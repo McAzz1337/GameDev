@@ -697,7 +697,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 834d1a176fc4cfc4c8856a67103e065d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponPrefabs: []
+  weaponPrefabs:
+  - {fileID: 4581869436542759413, guid: 6a2880c4bc27c5249a27dab323645458, type: 3}
+  - {fileID: 1984652972206848967, guid: cecf6f83d623a68459e99afdfd4cb878, type: 3}
 --- !u!4 &395146016
 Transform:
   m_ObjectHideFlags: 0
@@ -827,8 +829,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponPrefabs:
-  - {fileID: 4581869436542759413, guid: 6a2880c4bc27c5249a27dab323645458, type: 3}
   - {fileID: 1984652972206848967, guid: cecf6f83d623a68459e99afdfd4cb878, type: 3}
+  - {fileID: 4581869436542759413, guid: 6a2880c4bc27c5249a27dab323645458, type: 3}
   delay: 5
   spawnedWeapon: {fileID: 0}
 --- !u!4 &528430977

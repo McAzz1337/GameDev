@@ -2,17 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
-
+using Random = System.Random;
 public class WeaponFactory : MonoBehaviour
 {
 
     public static WeaponFactory instance;
 
-    private static string[] weaponPrefabNames =  {
-
-        "WeaponsNetwork/Bazooka",
-        "WeaponsNetwork/MolotovCocktail"
-    };
+    public static Random random = new Random();
 
     [SerializeField] private GameObject[] weaponPrefabs;
 
@@ -21,27 +17,29 @@ public class WeaponFactory : MonoBehaviour
 
         instance = this;
 
-        weaponPrefabs = new GameObject[weaponPrefabNames.Length];
 
-        for (int i = 0; i < weaponPrefabNames.Length; i++)
-        {
-
-            weaponPrefabs[i] = Resources.Load(weaponPrefabNames[i]) as GameObject;
-        }
     }
 
 
-    public static GameObject createWeapon(EWeapon identifier)
-    {
-
-        return Instantiate(instance.weaponPrefabs[(int)identifier]);
-    }
-
-    public static GameObject spawnWeaponOnNetwork(EWeapon identifier)
+    public static WeaponNetwork spawnWeaponOnNetwork(EWeapon identifier)
     {
 
         GameObject g = Instantiate(instance.weaponPrefabs[(int)identifier]);
-        g.GetComponent<NetworkObject>().Spawn();
+        g.GetComponent<NetworkObject>().Spawn(true);
+
+        return g.GetComponent<WeaponNetwork>();
+    }
+
+
+
+    public static GameObject spawnRandomWeaponOnNetwork()
+    {
+
+        int index = random.Next() % instance.weaponPrefabs.Length;
+
+        GameObject g = Instantiate(instance.weaponPrefabs[index]);
+        Debug.Log("weapon : " + g == null);
+        g.GetComponent<NetworkObject>().Spawn(true);
 
         return g;
     }

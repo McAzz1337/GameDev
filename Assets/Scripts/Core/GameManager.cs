@@ -15,6 +15,7 @@ public class GameManager : NetworkBehaviour
     private const int MAX_PLAYERS = 4;
 
     private int playerCount = 0;
+    bool checkIfReady = true;
 
 
     [SerializeField]
@@ -53,8 +54,8 @@ public class GameManager : NetworkBehaviour
     void Update()
     {
 
+
         allPlayersReadyCheck();
-        ready.Value.log();
     }
 
 
@@ -63,7 +64,6 @@ public class GameManager : NetworkBehaviour
 
         if (!IsHost) return;
 
-        Debug.Log("Connected player: " + clientID);
         for (int i = 0; i < spawnTransforms.Length; i++)
         {
 
@@ -85,13 +85,15 @@ public class GameManager : NetworkBehaviour
     public void allPlayersReadyCheck()
     {
 
-        if (!IsHost) return;
+        if (!IsHost || !checkIfReady) return;
 
 
-        if (ready.Value.allReady(playerCount))
+        if (playerCount > 0 && ready.Value.allReady(playerCount))
         {
 
+            acitvate();
             startGameClientRpc();
+            checkIfReady = false;
         }
 
     }
@@ -100,8 +102,6 @@ public class GameManager : NetworkBehaviour
     public void startGameClientRpc()
     {
 
-        Debug.Log("Start Game");
-        acitvate();
         uiCanvas.enabled = false;
     }
 
@@ -111,7 +111,7 @@ public class GameManager : NetworkBehaviour
         foreach (GameObject g in toActivate)
         {
 
-            g.SetActive(true);
+            g.GetComponent<WeaponSpawnerNetwork>()?.acitvate();
         }
     }
 
@@ -126,7 +126,6 @@ public class GameManager : NetworkBehaviour
     public void readyPlayerServerRpc(ulong clientID)
     {
 
-        Debug.Log("readyPlayer: " + clientID);
         ready.Value.readyPlayer((int)clientID);
     }
 

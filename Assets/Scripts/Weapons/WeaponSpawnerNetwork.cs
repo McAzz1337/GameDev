@@ -10,11 +10,9 @@ public class WeaponSpawnerNetwork : NetworkBehaviour
 
     [SerializeField] private GameObject[] weaponPrefabs;
     [SerializeField] private float delay;
-
-    Random random;
-
     [SerializeField] private WeaponNetwork spawnedWeapon;
 
+    Random random = new Random();
 
     void Awake()
     {
@@ -26,17 +24,19 @@ public class WeaponSpawnerNetwork : NetworkBehaviour
     {
         base.OnNetworkSpawn();
 
-        if (IsHost)
-        {
-
-            spawnWeapon();
-        }
     }
+
+    public void acitvate()
+    {
+
+        gameObject.SetActive(true);
+        spawnWeapon();
+    }
+
 
     void Start()
     {
 
-        random = new Random();
 
     }
 
@@ -83,9 +83,9 @@ public class WeaponSpawnerNetwork : NetworkBehaviour
 
                 player.pickupWeapon(spawnedWeapon);
                 removeWeapon();
+                StartCoroutine("spawnWeaponTimed");
             }
 
-            StartCoroutine("spawnWeaponTimed");
         }
     }
 
@@ -101,7 +101,6 @@ public class WeaponSpawnerNetwork : NetworkBehaviour
         yield return new WaitForSeconds(delay);
 
         spawnWeapon();
-
     }
 
     private void spawnWeapon()
@@ -109,9 +108,11 @@ public class WeaponSpawnerNetwork : NetworkBehaviour
 
         int index = random.Next() % weaponPrefabs.Length;
 
-        GameObject g = Instantiate(weaponPrefabs[index], transform);
-        spawnedWeapon = g.GetComponent<WeaponNetwork>();
-        g.GetComponent<NetworkObject>().Spawn(true);
 
+        GameObject g = Instantiate(NetworkManager.GetNetworkPrefabOverride(weaponPrefabs[index]));
+        g.GetComponent<NetworkObject>().Spawn();
+        spawnedWeapon = g.GetComponent<WeaponNetwork>();
+        Debug.Log("spawned weapon == null" + spawnedWeapon == null);
+        g.transform.position = transform.position;
     }
 }
