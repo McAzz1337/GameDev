@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ammo: 5
   muzzleFlashPrefab: {fileID: 1743301284569550, guid: ad2ab49d0a2a17148bd51c93d977bdbc, type: 3}
-  projectilePrefab: {fileID: 7616238421904859548, guid: 11ffe592b8c4950449500e86028b4815, type: 3}
+  projectilePrefab: {fileID: 7616238421904859548, guid: dad6d9e0c53e63c4b88f84c2a260a201, type: 3}

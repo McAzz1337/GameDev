@@ -58,6 +58,7 @@ public class PlayerNetwork : NetworkBehaviour
     public void onMovePerformed(InputAction.CallbackContext c)
     {
 
+        if (!IsOwner) return;
 
         moveInput.Value = c.ReadValue<Vector2>();
     }
@@ -65,6 +66,7 @@ public class PlayerNetwork : NetworkBehaviour
     public void onMoveCanceled(InputAction.CallbackContext c)
     {
 
+        if (!IsOwner) return;
 
         moveInput.Value = c.ReadValue<Vector2>();
     }
@@ -73,9 +75,10 @@ public class PlayerNetwork : NetworkBehaviour
     {
 
 
+        if (!IsOwner) return;
+
         if (weapon == null) return;
 
-        Debug.Log("Shoot");
         weapon.shoot();
 
         if (weapon.isEmpty())
@@ -119,10 +122,21 @@ public class PlayerNetwork : NetworkBehaviour
     void Update()
     {
 
+        if (!IsOwner) return;
+
         setLookRotation();
     }
 
     void FixedUpdate()
+    {
+
+        if (!IsOwner) return;
+
+        moveServerRpc();
+    }
+
+    [ServerRpc]
+    public void moveServerRpc()
     {
 
         move();
@@ -130,6 +144,8 @@ public class PlayerNetwork : NetworkBehaviour
 
     private void move()
     {
+
+
 
         if (moveInput.Value.x == 0.0f)
         {
@@ -153,6 +169,14 @@ public class PlayerNetwork : NetworkBehaviour
         rb.AddForce(moveVec);
     }
 
+
+    [ServerRpc]
+    private void setLookRotationServerRpc(Quaternion rot)
+    {
+
+        transform.rotation = rot;
+    }
+
     private void setLookRotation()
     {
 
@@ -173,8 +197,11 @@ public class PlayerNetwork : NetworkBehaviour
             rot.x = 0.0f;
             rot.z = 0.0f;
 
-            transform.rotation = rot;
+            setLookRotationServerRpc(rot);
+            //transform.rotation = rot;
         }
+
+
     }
 
     public void pickupWeapon(WeaponNetwork weapon)

@@ -8,12 +8,14 @@ public class GameManager : NetworkBehaviour
 
     [SerializeField] private GameObject[] toActivate;
     public static GameManager instance;
-    [SerializeField] private Transform spawnTransform;
+    [SerializeField] private Transform[] spawnTransforms;
+    [SerializeField] private PlayerNetwork[] connectedPlayers;
 
     void Awake()
     {
 
         instance = this;
+        connectedPlayers = new PlayerNetwork[spawnTransforms.Length];
     }
 
     // Start is called before the first frame update
@@ -28,10 +30,23 @@ public class GameManager : NetworkBehaviour
 
     }
 
+
     public void playerConnected(PlayerNetwork player)
     {
 
-        player.transform.position = spawnTransform.position;
+
+        for (int i = 0; i < spawnTransforms.Length; i++)
+        {
+
+            if (connectedPlayers[i] == null)
+            {
+
+                player.transform.position = spawnTransforms[i].position;
+                connectedPlayers[i] = player;
+
+                break;
+            }
+        }
     }
 
     public void acitvate()

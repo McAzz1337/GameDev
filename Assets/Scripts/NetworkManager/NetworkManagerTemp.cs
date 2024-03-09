@@ -21,5 +21,6 @@ public class NetworkManagerTemp : MonoBehaviour
 
         canvas.enabled = false;
         NetworkManager.Singleton.StartClient();
+        GameManager.instance.acitvate();
     }
 }
