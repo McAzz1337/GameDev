@@ -50,4 +50,10 @@ public class Health : NetworkBehaviour
         }
     }
 
+    public bool isDead()
+    {
+
+        return hp.Value <= 0;
+    }
+
 }
