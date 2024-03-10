@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
 public class MolotovCocktailMock : WeaponNetwork
@@ -41,14 +42,16 @@ public class MolotovCocktailMock : WeaponNetwork
 
     void Explode()
     {
+
         GameObject g = Instantiate(fireEffect, transform.position, transform.rotation);
+        g.GetComponent<NetworkObject>().Spawn(true);
         g.layer = LayerMask.NameToLayer("Damaging");
+
         SphereCollider sc = g.AddComponent<SphereCollider>();
         sc.isTrigger = true;
         sc.radius = 2.0f;
-        Destructor destructor = g.AddComponent<Destructor>();
-        destructor.setDuration(5.0f);
-        Destroy(gameObject);
 
+        g.AddComponent<Destructor>().setDuration(5.0f);
+        Destroy(gameObject);
     }
 }
