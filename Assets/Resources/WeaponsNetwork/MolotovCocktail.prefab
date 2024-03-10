@@ -127,7 +127,7 @@ MonoBehaviour:
   ammo:
     m_InternalValue: 1
   molotovPrefab: {fileID: 0}
-  fireEffect: {fileID: 1956197547661106, guid: f293a2dcc753a4a489fefe7f8f312d69, type: 3}
+  fireEffect: {fileID: 1956197547661106, guid: 4495e62e903b6394da810ac7912351c5, type: 3}
 --- !u!1 &7351894105811354398
 GameObject:
   m_ObjectHideFlags: 0
