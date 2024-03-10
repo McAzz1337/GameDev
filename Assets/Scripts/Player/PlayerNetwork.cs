@@ -22,6 +22,12 @@ public class PlayerNetwork : NetworkBehaviour
     [SerializeField] private bool isOwner;
     [SerializeField] private bool isClient;
     [SerializeField] private WeaponNetwork weapon;
+    [SerializeField]
+    private NetworkVariable<EWeapon> weaponType =
+                            new NetworkVariable<EWeapon>(
+                                EWeapon.NONE,
+                                NetworkVariableReadPermission.Everyone,
+                                NetworkVariableWritePermission.Server);
 
 
     private NetworkVariable<Vector2> moveInput =
@@ -227,6 +233,7 @@ public class PlayerNetwork : NetworkBehaviour
     {
 
         this.weapon = weapon;
+        weaponType.Value = weapon.getIdentifier();
         weapon.transform.position = weaponTransform.position;
         weapon.transform.rotation = weaponTransform.rotation;
         weapon.transform.SetParent(transform);
