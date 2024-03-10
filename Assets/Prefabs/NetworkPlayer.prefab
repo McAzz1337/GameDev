@@ -258,6 +258,9 @@ MonoBehaviour:
   moveForce: 30
   maxMoveVelocity: 10
   weaponTransform: {fileID: 4600499575792454174}
+  isHost: 0
+  isOwner: 0
+  isClient: 0
   weapon: {fileID: 0}
 --- !u!114 &-7463074576433254994
 MonoBehaviour:

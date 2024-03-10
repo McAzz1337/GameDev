@@ -54,6 +54,7 @@ public class GameManager : NetworkBehaviour
     void Update()
     {
 
+        if (!IsHost) return;
 
         allPlayersReadyCheck();
     }
@@ -107,6 +108,7 @@ public class GameManager : NetworkBehaviour
 
     public void acitvate()
     {
+
 
         foreach (GameObject g in toActivate)
         {

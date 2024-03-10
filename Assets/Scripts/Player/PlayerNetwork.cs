@@ -85,6 +85,13 @@ public class PlayerNetwork : NetworkBehaviour
 
         if (!IsOwner) return;
 
+        onShootServerRpc();
+    }
+
+    [ServerRpc]
+    public void onShootServerRpc()
+    {
+
         if (weapon == null) return;
 
         weapon.shoot();
@@ -99,7 +106,6 @@ public class PlayerNetwork : NetworkBehaviour
 
             weapon = null;
         }
-
     }
 
     public void onThrowPerformed(InputAction.CallbackContext c)
@@ -225,6 +231,8 @@ public class PlayerNetwork : NetworkBehaviour
         weapon.transform.rotation = weaponTransform.rotation;
         weapon.transform.SetParent(transform);
     }
+
+
 
 
 

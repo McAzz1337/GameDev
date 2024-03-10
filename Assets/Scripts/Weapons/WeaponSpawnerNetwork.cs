@@ -29,6 +29,8 @@ public class WeaponSpawnerNetwork : NetworkBehaviour
     public void acitvate()
     {
 
+
+
         gameObject.SetActive(true);
         spawnWeapon();
     }
@@ -61,33 +63,35 @@ public class WeaponSpawnerNetwork : NetworkBehaviour
     private void checkPlayerPickup(Collider collider)
     {
 
-        if (!IsHost)
-        {
-            Debug.Log("IsNotHost");
-            return;
-        }
 
-
+        Debug.Log("check on  client");
 
         if (spawnedWeapon == null) return;
 
-        int layer = 1 << collider.gameObject.layer;
+        Debug.Log("not null");
 
-        if (layer == LayerMask.GetMask("Player"))
+        if (1 << collider.gameObject.layer == LayerMask.GetMask("Player"))
         {
+
+            Debug.Log("player collided");
 
             PlayerNetwork player = collider.gameObject.GetComponent<PlayerNetwork>();
 
             if (player.canPickupWeapon())
             {
 
+                Debug.Log("can pick up");
                 player.pickupWeapon(spawnedWeapon);
                 removeWeapon();
                 StartCoroutine("spawnWeaponTimed");
             }
 
         }
+
+
     }
+
+
 
     public void removeWeapon()
     {
@@ -112,7 +116,6 @@ public class WeaponSpawnerNetwork : NetworkBehaviour
         GameObject g = Instantiate(NetworkManager.GetNetworkPrefabOverride(weaponPrefabs[index]));
         g.GetComponent<NetworkObject>().Spawn();
         spawnedWeapon = g.GetComponent<WeaponNetwork>();
-        Debug.Log("spawned weapon == null" + spawnedWeapon == null);
         g.transform.position = transform.position;
     }
 }
