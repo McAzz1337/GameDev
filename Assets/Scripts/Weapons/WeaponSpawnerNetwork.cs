@@ -117,5 +117,8 @@ public class WeaponSpawnerNetwork : NetworkBehaviour
         g.GetComponent<NetworkObject>().Spawn();
         spawnedWeapon = g.GetComponent<WeaponNetwork>();
         g.transform.position = transform.position;
+
+        g.GetComponent<CapsuleCollider>().enabled = false;
+        g.GetComponentInChildren<MeshCollider>().enabled = false;
     }
 }

@@ -41,6 +41,11 @@ public class WeaponNetwork : NetworkBehaviour
     {
 
         shootServerRpc();
+
+        GameObject muzzleFlash = Instantiate(stats.muzzleFlashPrefab, muzzle.position, muzzle.rotation);
+        Destructor d = muzzleFlash.AddComponent<Destructor>();
+        d.setDuration(0.25f);
+        d.setDestructableByClient(true);
     }
 
     [ServerRpc]
@@ -53,16 +58,8 @@ public class WeaponNetwork : NetworkBehaviour
         g.GetComponent<NetworkObject>().Spawn();
         ammo.Value--;
 
-        shootClientRpc();
     }
 
-    [ClientRpc]
-    public void shootClientRpc()
-    {
-
-        GameObject muzzleFlash = Instantiate(stats.muzzleFlashPrefab, muzzle.position, muzzle.rotation);
-        muzzleFlash.AddComponent<Destructor>().setDuration(0.25f);
-    }
 
 
     public virtual void drop()
@@ -77,7 +74,6 @@ public class WeaponNetwork : NetworkBehaviour
 
         transform.SetParent(null);
         gameObject.AddComponent<Rigidbody>();
-        gameObject.AddComponent<Destructor>().setDuration(3.0f);
         GetComponent<CapsuleCollider>().enabled = true;
         gameObject.AddComponent<Destructor>().setDuration(3.0f);
     }

@@ -41,13 +41,23 @@ public class Health : NetworkBehaviour
     private void collisionCheck(int layer)
     {
 
-        if (hp.Value <= 0) return;
+        if (!IsOwner) return;
+
+        if (isDead()) return;
 
         if (layer == LayerMask.GetMask("Damaging"))
         {
 
-            hp.Value--;
+            takeDamageServerRpc();
         }
+    }
+
+    [ServerRpc]
+    public void takeDamageServerRpc()
+    {
+
+
+        hp.Value--;
     }
 
     public bool isDead()

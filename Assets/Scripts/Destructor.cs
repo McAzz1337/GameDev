@@ -1,13 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class Destructor : MonoBehaviour
+public class Destructor : NetworkBehaviour
 {
 
     [SerializeField] private float duration = 1.0f;
+
+    [SerializeField] private bool destructionByClientAllowed = false;
     void Start()
     {
+
+        if (!destructionByClientAllowed && !IsHost) return;
 
         StartCoroutine("destruct");
     }
@@ -31,5 +37,11 @@ public class Destructor : MonoBehaviour
     {
 
         this.duration = duration;
+    }
+
+    public void setDestructableByClient(bool b)
+    {
+
+        destructionByClientAllowed = b;
     }
 }
