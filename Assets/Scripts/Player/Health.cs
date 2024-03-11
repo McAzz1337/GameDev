@@ -12,6 +12,15 @@ public class Health : NetworkBehaviour
             NetworkVariableReadPermission.Everyone,
             NetworkVariableWritePermission.Server);
 
+    public delegate void DeathCalback();
+    private DeathCalback onDeath;
+
+    public void registerOnDeathCallback(DeathCalback callback)
+    {
+
+        onDeath += callback;
+    }
+
     void OnCollisionEnter(Collision collision)
     {
 
