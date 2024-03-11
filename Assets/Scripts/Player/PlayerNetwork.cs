@@ -57,6 +57,8 @@ public class PlayerNetwork : NetworkBehaviour
         controls.BattleControls.Shoot.performed += onShootPerformed;
         controls.BattleControls.Throw.performed += onThrowPerformed;
         controls.Enable();
+
+        controls.BattleControls.Disable();
     }
 
     void OnDisable()
@@ -68,6 +70,33 @@ public class PlayerNetwork : NetworkBehaviour
         controls.BattleControls.Throw.performed -= onThrowPerformed;
         controls.Disable();
     }
+
+    public void enableBattleControls()
+    {
+
+        enableBattleControlsClientRpc();
+    }
+
+    [ClientRpc]
+    public void enableBattleControlsClientRpc()
+    {
+
+        controls.BattleControls.Enable();
+    }
+
+    public void disableBattleControls()
+    {
+
+        disableBattleControlsClientRpc();
+    }
+
+    [ClientRpc]
+    public void disableBattleControlsClientRpc()
+    {
+
+        controls.BattleControls.Disable();
+    }
+
 
     public void onMovePerformed(InputAction.CallbackContext c)
     {
