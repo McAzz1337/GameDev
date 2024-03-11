@@ -44,13 +44,11 @@ public class GameManager : NetworkBehaviour
 
     }
 
-    // Start is called before the first frame update
     void Start()
     {
 
     }
 
-    // Update is called once per frame
     void Update()
     {
 
@@ -93,7 +91,6 @@ public class GameManager : NetworkBehaviour
         {
 
             acitvate();
-            startGameClientRpc();
             checkIfReady = false;
         }
 
@@ -103,6 +100,7 @@ public class GameManager : NetworkBehaviour
     public void startGameClientRpc()
     {
 
+        Debug.Log("diabsled canvas");
         uiCanvas.enabled = false;
     }
 
@@ -110,11 +108,21 @@ public class GameManager : NetworkBehaviour
     {
 
 
+
+        foreach (PlayerNetwork p in connectedPlayers)
+        {
+            if (p == null) continue;
+
+            p.enableBattleControls();
+        }
+
         foreach (GameObject g in toActivate)
         {
 
             g.GetComponent<WeaponSpawnerNetwork>()?.acitvate();
         }
+
+        startGameClientRpc();
     }
 
     public void readyPlayer(ulong clientID)
