@@ -65,8 +65,13 @@ public class Health : NetworkBehaviour
     public void takeDamageServerRpc()
     {
 
-
         hp.Value--;
+
+        if (isDead())
+        {
+
+            onDeath?.Invoke();
+        }
     }
 
     public bool isDead()
