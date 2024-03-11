@@ -119,6 +119,11 @@ public class WeaponSpawnerNetwork : NetworkBehaviour
         g.transform.position = transform.position;
 
         g.GetComponent<CapsuleCollider>().enabled = false;
-        g.GetComponentInChildren<MeshCollider>().enabled = false;
+
+        MeshCollider mc = g.GetComponentInChildren<MeshCollider>();
+        if (mc != null)
+        {
+            mc.enabled = false;
+        }
     }
 }
