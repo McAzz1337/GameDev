@@ -7,11 +7,11 @@ using System.Diagnostics;
 public class WeaponNetwork : NetworkBehaviour
 {
 
-    [SerializeField] private Transform muzzle;
-    [SerializeField] private WeaponStats stats;
+    [SerializeField] protected Transform muzzle;
+    [SerializeField] protected WeaponStats stats;
     [SerializeField] private EWeapon identifier;
     [SerializeField]
-    private NetworkVariable<int> ammo =
+    protected NetworkVariable<int> ammo =
                                 new NetworkVariable<int>(
                                     1,
                                     NetworkVariableReadPermission.Everyone,
@@ -40,6 +40,8 @@ public class WeaponNetwork : NetworkBehaviour
     public virtual void shoot()
     {
 
+        if (ammo.Value <= 0) return;
+
         shootServerRpc();
 
         GameObject muzzleFlash = Instantiate(stats.muzzleFlashPrefab, muzzle.position, muzzle.rotation);
@@ -49,10 +51,9 @@ public class WeaponNetwork : NetworkBehaviour
     }
 
     [ServerRpc]
-    public void shootServerRpc()
+    public virtual void shootServerRpc()
     {
 
-        if (ammo.Value <= 0) return;
 
         GameObject g = Instantiate(stats.projectilePrefab, muzzle.position, muzzle.rotation);
         g.GetComponent<NetworkObject>().Spawn();
