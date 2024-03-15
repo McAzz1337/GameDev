@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using Unity.Netcode.Components;
+using UnityEditor;
 using UnityEngine;
 
 public class MolotovCocktailMock : WeaponNetwork
@@ -36,20 +37,25 @@ public class MolotovCocktailMock : WeaponNetwork
     void OnCollisionEnter(Collision collision)
     {
 
-        //if (!IsHost) return;
-
-        Debug.Log("Collision");
-
         if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
+
             Explode();
+        }
+        else if (collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
+        {
+
+            Rigidbody rb = GetComponent<Rigidbody>();
+            float magnitude = rb.velocity.magnitude;
+            Vector3 direction = rb.velocity.normalized;
+            direction = Vector3.Reflect(direction, collision.contacts[0].normal);
+            rb.velocity = direction * magnitude * 0.75f;
         }
     }
 
     void Explode()
     {
 
-        Debug.Log("explode");
         GameObject g = Instantiate(fireEffect, transform.position, Quaternion.identity);
         g.GetComponent<NetworkObject>().Spawn(true);
         g.layer = LayerMask.NameToLayer("Damaging");
