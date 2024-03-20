@@ -27,6 +27,11 @@ public struct ReadyState : INetworkSerializable
         ready[i] = false;
     }
 
+    public readonly bool IsReady(int i)
+    {
+        return ready[i];
+    }
+
     public bool allReady(int count)
     {
 

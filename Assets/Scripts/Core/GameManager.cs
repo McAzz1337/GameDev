@@ -1,7 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements.Experimental;
 
 public class GameManager : NetworkBehaviour
@@ -11,11 +14,15 @@ public class GameManager : NetworkBehaviour
     public static GameManager instance;
     [SerializeField] private Transform[] spawnTransforms;
     [SerializeField] private PlayerNetwork[] connectedPlayers;
+    private NetworkList<PlayerData> playerDataNetworkList;
 
     private const int MAX_PLAYERS = 4;
 
     private int playerCount = 0;
     bool checkIfReady = true;
+
+    public event EventHandler OnPlayerDataNetworkListChanged;
+    public event EventHandler OnReadyChanged;
 
 
     [SerializeField]
@@ -34,14 +41,22 @@ public class GameManager : NetworkBehaviour
         base.OnNetworkSpawn();
 
         NetworkManager.Singleton.OnClientConnectedCallback += clientConnected;
+        NetworkManager.Singleton.OnClientConnectedCallback += addToNetworkPlayerList;
     }
 
     void Awake()
     {
 
         instance = this;
-        connectedPlayers = new PlayerNetwork[spawnTransforms.Length];
+        DontDestroyOnLoad(gameObject);
+        connectedPlayers = new PlayerNetwork[MAX_PLAYERS];
+        playerDataNetworkList = new NetworkList<PlayerData>();
+        playerDataNetworkList.OnListChanged += OnPlayerDataNetwork_OnListListChanged;
+    }
 
+    private void OnPlayerDataNetwork_OnListListChanged(NetworkListEvent<PlayerData> changeEvent)
+    {
+        OnPlayerDataNetworkListChanged?.Invoke(this, EventArgs.Empty);
     }
 
     void Start()
@@ -57,13 +72,20 @@ public class GameManager : NetworkBehaviour
         allPlayersReadyCheck();
     }
 
+    private void addToNetworkPlayerList(ulong clientId) {
+        playerDataNetworkList.Add(new PlayerData
+        {
+            clientId = clientId,
+        });
+    }
+
 
     public void clientConnected(ulong clientID)
     {
 
         if (!IsHost) return;
 
-        for (int i = 0; i < spawnTransforms.Length; i++)
+        for (int i = 0; i < MAX_PLAYERS; i++)
         {
 
             if (connectedPlayers[i] == null)
@@ -73,7 +95,7 @@ public class GameManager : NetworkBehaviour
                     NetworkManager.Singleton.ConnectedClients[clientID]
                     .PlayerObject.GetComponent<PlayerNetwork>();
 
-                connectedPlayers[i].transform.position = spawnTransforms[i].position;
+                //connectedPlayers[i].transform.position = spawnTransforms[i].position;
                 playerCount++;
 
                 break;
@@ -89,11 +111,16 @@ public class GameManager : NetworkBehaviour
 
         if (playerCount > 0 && ready.Value.allReady(playerCount))
         {
-
-            acitvate();
+            Debug.Log("Everybody is ready");
+            //NetworkManager.Singleton.SceneManager.LoadScene("CharacterScene", LoadSceneMode.Single);
+            //acitvate();
             checkIfReady = false;
         }
 
+    }
+
+    public bool IsPlayerReady(ulong clientID) {
+        return ready.Value.IsReady((int)clientID);
     }
 
     [ClientRpc]
@@ -106,8 +133,6 @@ public class GameManager : NetworkBehaviour
 
     public void acitvate()
     {
-
-
 
         foreach (PlayerNetwork p in connectedPlayers)
         {
@@ -127,17 +152,28 @@ public class GameManager : NetworkBehaviour
 
     public void readyPlayer(ulong clientID)
     {
-
-
         readyPlayerServerRpc(clientID);
     }
 
     [ServerRpc(RequireOwnership = false)]
     public void readyPlayerServerRpc(ulong clientID)
     {
-
         ready.Value.readyPlayer((int)clientID);
+        readyPlayerClientRpc(clientID);
     }
 
+    [ClientRpc]
+    public void readyPlayerClientRpc(ulong clientID) {
+        ready.Value.readyPlayer((int)clientID);
+        OnReadyChanged?.Invoke(this, EventArgs.Empty);
+    }
 
+    public bool IsPlayerIndexConnected(int playerIndex) { 
+        return playerIndex < playerDataNetworkList.Count;
+    }
+
+    public PlayerData GetPlayerDataFromPlayerIndex(int playerIndex)
+    {
+        return playerDataNetworkList[playerIndex];
+    }
 }
