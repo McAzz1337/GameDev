@@ -8,15 +8,16 @@ using Random = System.Random;
 
 public class PlayerSpawner : NetworkBehaviour
 {
-    public int amount;
+
+    public static PlayerSpawner instance = null;
     public SpawnPoint[] spawnPoints;
     private int spawnedPlayers;
-    private float spawnRadius = 1f;
 
     private Random random;
     void Awake()
     {
 
+        instance = this;
         spawnedPlayers = 0;
         random = new Random();
     }
