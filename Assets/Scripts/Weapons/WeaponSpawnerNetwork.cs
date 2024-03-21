@@ -17,19 +17,23 @@ public class WeaponSpawnerNetwork : NetworkBehaviour
     void Awake()
     {
 
-        gameObject.SetActive(false);
+
     }
+
 
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
 
+        if (!IsHost) return;
+
+        spawnWeapon();
     }
 
     public void acitvate()
     {
 
-
+        if (!IsHost) return;
 
         gameObject.SetActive(true);
         spawnWeapon();
