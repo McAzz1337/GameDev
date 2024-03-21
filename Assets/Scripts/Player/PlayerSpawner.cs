@@ -1,80 +1,47 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Netcode;
 using UnityEngine;
 
-public class PlayerSpawner : MonoBehaviour
+using Random = System.Random;
+
+public class PlayerSpawner : NetworkBehaviour
 {
-    public GameObject playerPrefab;
     public int amount;
-    public Transform[] spawnPoints;
+    public SpawnPoint[] spawnPoints;
+    private int spawnedPlayers;
     private float spawnRadius = 1f;
 
-
-
-    public void SpawnPlayer()
+    private Random random;
+    void Awake()
     {
 
-        if(amount > spawnPoints.Length){
-            throw new System.Exception("Not enough spawnPoints available for player");
-        }
-
-        for(int i = 0; i < amount; i++)
-        {
-            Transform spawnPoint = GetRandomSpawnPoint();
-
-            Instantiate(playerPrefab, spawnPoint.position, Quaternion.identity);
-
-        }
-
+        spawnedPlayers = 0;
+        random = new Random();
     }
 
-    private Transform GetRandomSpawnPoint()
+    public void SpawnPlayer(PlayerNetwork player)
     {
-        System.Random rng = new System.Random();
-        int n = spawnPoints.Length;
-        while (n > 1)
+
+        if (!IsHost) return;
+
+        if (spawnedPlayers >= GameManager.MAX_PLAYERS)
         {
-            n--;
-            int k = rng.Next(n + 1);
-            Transform value = spawnPoints[k];
-            spawnPoints[k] = spawnPoints[n];
-            spawnPoints[n] = value;
+
+            throw new System.Exception("Connected more Player than SpawnPoints in level");
         }
 
-        // Get all Player with LayerMask Player
-        int layerToFind = LayerMask.NameToLayer("Player");
-        GameObject[] objectsWithLayer = GameObject.FindObjectsOfType<GameObject>().Where(go => go.layer == layerToFind).ToArray();
-
-        // Check the spawn positions to ensure that the distance between players is large enough
-        foreach (Transform spawnPoint in spawnPoints)
+        int r;
+        bool accepted = false;
+        do
         {
-            bool validSpawnPoint = true;
-            foreach (GameObject player in objectsWithLayer)
-            {
-                float distance = Vector3.Distance(spawnPoint.position, player.transform.position);
-                if (distance < spawnRadius)
-                {
-                    //invalid if distance is to short
-                    validSpawnPoint = false;
-                    break;
-                }
-            }
-            
-            if (validSpawnPoint)
-            {
-                return spawnPoint;
-            }
-        }
+
+            r = random.Next() % GameManager.MAX_PLAYERS;
+            accepted = spawnPoints[r].acceptPlayer(player);
+        } while (accepted);
 
 
-        throw new System.Exception("No valid spawnPoints for SpawnPlayer. Make sure that the Spawnpoints have enough distance for eachother.");
-
+        spawnedPlayers++;
     }
-
-    public void setAmount(int amount)
-    {
-        this.amount = amount;
-    }
-
 }
