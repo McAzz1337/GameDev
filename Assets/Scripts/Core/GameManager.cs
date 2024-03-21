@@ -16,7 +16,7 @@ public class GameManager : NetworkBehaviour
     [SerializeField] private PlayerNetwork[] connectedPlayers;
     private NetworkList<PlayerData> playerDataNetworkList;
 
-    private const int MAX_PLAYERS = 4;
+    public static int MAX_PLAYERS = 4;
 
     private int playerCount = 0;
     bool checkIfReady = true;
@@ -72,7 +72,8 @@ public class GameManager : NetworkBehaviour
         allPlayersReadyCheck();
     }
 
-    private void addToNetworkPlayerList(ulong clientId) {
+    private void addToNetworkPlayerList(ulong clientId)
+    {
         playerDataNetworkList.Add(new PlayerData
         {
             clientId = clientId,
@@ -116,10 +117,15 @@ public class GameManager : NetworkBehaviour
             //acitvate();
             checkIfReady = false;
         }
-
     }
 
-    public bool IsPlayerReady(ulong clientID) {
+
+
+
+
+    public bool IsPlayerReady(ulong clientID)
+    {
+
         return ready.Value.IsReady((int)clientID);
     }
 
@@ -163,12 +169,14 @@ public class GameManager : NetworkBehaviour
     }
 
     [ClientRpc]
-    public void readyPlayerClientRpc(ulong clientID) {
+    public void readyPlayerClientRpc(ulong clientID)
+    {
         ready.Value.readyPlayer((int)clientID);
         OnReadyChanged?.Invoke(this, EventArgs.Empty);
     }
 
-    public bool IsPlayerIndexConnected(int playerIndex) { 
+    public bool IsPlayerIndexConnected(int playerIndex)
+    {
         return playerIndex < playerDataNetworkList.Count;
     }
 
