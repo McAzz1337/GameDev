@@ -29,6 +29,9 @@ public class GameMonitor : MonoBehaviour
 
     public void Update()
     {
+
+        return;
+
         if (isPlaying)
         {
             if (isRoundConcluded())
@@ -97,7 +100,7 @@ public class GameMonitor : MonoBehaviour
 
     private void scoringByLastSurvivor()
     {
-        for(int i = 0; i < this.scorelist.Count; i++)
+        for (int i = 0; i < this.scorelist.Count; i++)
         {
             TargetEventChecker checker = this.scorelist[i].getTargetEventChecker();
             if (checker.getIsDeath() == false)
@@ -110,19 +113,21 @@ public class GameMonitor : MonoBehaviour
 
     private int getWinningPlayer()
     {
-        for(int i = 0;i < this.scorelist.Count; i++)
+        for (int i = 0; i < this.scorelist.Count; i++)
         {
-            if (pointManager.getPoints(i) == winningConditionScore) {
+            if (pointManager.getPoints(i) == winningConditionScore)
+            {
                 return i;
             }
-        }    
+        }
         return -1;
 
     }
 
     public void getCurrentScores()
     {
-        for (int i = 0; i < this.scorelist.Count ; i++) {
+        for (int i = 0; i < this.scorelist.Count; i++)
+        {
             Debug.Log("Player " + i + " : " + pointManager.getPoints(i));
 
         }
