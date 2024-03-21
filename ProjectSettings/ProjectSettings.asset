@@ -854,11 +854,11 @@ PlayerSettings:
   apiCompatibilityLevel: 6
   activeInputHandler: 2
   windowsGamepadBackendHint: 0
-  cloudProjectId: c707e67b-ee21-43ad-a001-b0e429b4dd8b
+  cloudProjectId: 50e5e012-3f5f-4a3f-9f54-0a46793efaae
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: Chicken Out
-  organizationId: tkirc
+  projectName: Cicken Out
+  organizationId: mccanabi
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}
