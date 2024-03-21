@@ -74,6 +74,8 @@ public class GameManager : NetworkBehaviour
 
     private void addToNetworkPlayerList(ulong clientId)
     {
+        if (!IsHost) return;
+
         playerDataNetworkList.Add(new PlayerData
         {
             clientId = clientId,
@@ -113,8 +115,7 @@ public class GameManager : NetworkBehaviour
         if (playerDataNetworkList.Count > 0 && ready.Value.allReady(playerDataNetworkList.Count))
         {
             Debug.Log("Everybody is ready");
-            NetworkManager.Singleton.SceneManager.LoadScene("NetworkSceneTest", LoadSceneMode.Single);
-            //acitvate();
+            NetworkManager.Singleton.SceneManager.LoadScene("NetworkScene", LoadSceneMode.Single);
             checkIfReady = false;
         }
     }
@@ -129,32 +130,7 @@ public class GameManager : NetworkBehaviour
         return ready.Value.IsReady((int)clientID);
     }
 
-    [ClientRpc]
-    public void startGameClientRpc()
-    {
 
-        Debug.Log("diabsled canvas");
-        uiCanvas.enabled = false;
-    }
-
-    public void acitvate()
-    {
-
-        foreach (PlayerNetwork p in connectedPlayers)
-        {
-            if (p == null) continue;
-
-            p.enableBattleControls();
-        }
-
-        foreach (GameObject g in toActivate)
-        {
-
-            g.GetComponent<WeaponSpawnerNetwork>()?.acitvate();
-        }
-
-        startGameClientRpc();
-    }
 
     public void readyPlayer(ulong clientID)
     {
