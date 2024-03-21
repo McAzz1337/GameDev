@@ -7,35 +7,32 @@ using UnityEngine.SceneManagement;
 
 public class ScoreTableScreen : MonoBehaviour
 {
-    private List<PlayerScore> scorelist;
     public TextMeshProUGUI scoreText;
+    public PointManager pointManager;
+
     // Start is called before the first frame update
+
+    private void Awake()
+    {
+        pointManager = PointManager.Instance;
+    }
+
     void Start()
     {
         loadScoreList();
-        
     }
 
 
     public void RestartRound()
     {
         SceneManager.LoadScene(ScoreManager.sceneIndex);
-        
     }
 
 
     private void loadScoreList()
     {
-        string json = PlayerPrefs.GetString("scorelist");
-        Debug.Log(json);
-        this.scorelist = JsonUtility.FromJson<List<PlayerScore>>(json);
-        scoreText.text = "";
-        int playerindex = 1;
-        foreach (PlayerScore score in scorelist)
-        {
-            scoreText.text += "Player " + playerindex + " : " + score.getScore() + Environment.NewLine;
-            playerindex++;
+        for(int i = 0; i < pointManager.maxPlayers; i++) {
+            scoreText.text = pointManager.getPointText(i) + Environment.NewLine;
         }
-        
     }
 }
