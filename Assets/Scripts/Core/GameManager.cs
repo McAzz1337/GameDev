@@ -51,10 +51,10 @@ public class GameManager : NetworkBehaviour
         DontDestroyOnLoad(gameObject);
         connectedPlayers = new PlayerNetwork[MAX_PLAYERS];
         playerDataNetworkList = new NetworkList<PlayerData>();
-        playerDataNetworkList.OnListChanged += OnPlayerDataNetwork_OnListListChanged;
+        playerDataNetworkList.OnListChanged += OnPlayerDataNetwork_OnListChanged;
     }
 
-    private void OnPlayerDataNetwork_OnListListChanged(NetworkListEvent<PlayerData> changeEvent)
+    private void OnPlayerDataNetwork_OnListChanged(NetworkListEvent<PlayerData> changeEvent)
     {
         OnPlayerDataNetworkListChanged?.Invoke(this, EventArgs.Empty);
     }
@@ -109,10 +109,10 @@ public class GameManager : NetworkBehaviour
         if (!IsHost || !checkIfReady) return;
 
 
-        if (playerCount > 0 && ready.Value.allReady(playerCount))
+        if (playerDataNetworkList.Count > 0 && ready.Value.allReady(playerDataNetworkList.Count))
         {
             Debug.Log("Everybody is ready");
-            //NetworkManager.Singleton.SceneManager.LoadScene("CharacterScene", LoadSceneMode.Single);
+            NetworkManager.Singleton.SceneManager.LoadScene("NetworkSceneTest", LoadSceneMode.Single);
             //acitvate();
             checkIfReady = false;
         }
