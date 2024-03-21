@@ -20,7 +20,7 @@ public class NetworkManagerTemp : MonoBehaviour
         switchToConnectionChoice();
 
         hostBtn.onClick.AddListener(onStartHost);
-        clientBtn.onClick.AddListener(onStartClient);
+        clientBtn?.onClick.AddListener(onStartClient);
     }
 
     public void onStartHost()
@@ -32,6 +32,8 @@ public class NetworkManagerTemp : MonoBehaviour
 
     public void onStartClient()
     {
+        if (clientBtn == null) return;
+
         switchToReadyUp();
         NetworkManager.Singleton.StartClient();
     }
@@ -41,13 +43,13 @@ public class NetworkManagerTemp : MonoBehaviour
     {
 
         hostBtn.gameObject.SetActive(false);
-        clientBtn.gameObject.SetActive(false);
+        clientBtn?.gameObject.SetActive(false);
     }
 
     private void switchToConnectionChoice()
     {
 
         hostBtn.gameObject.SetActive(true);
-        clientBtn.gameObject.SetActive(true);
+        clientBtn?.gameObject.SetActive(true);
     }
 }
