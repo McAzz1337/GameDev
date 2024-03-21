@@ -101,7 +101,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -126,7 +126,6 @@ MonoBehaviour:
   identifier: 1
   ammo:
     m_InternalValue: 1
-  molotovPrefab: {fileID: 0}
   fireEffect: {fileID: 1956197547661106, guid: 4495e62e903b6394da810ac7912351c5, type: 3}
 --- !u!1 &7351894105811354398
 GameObject:

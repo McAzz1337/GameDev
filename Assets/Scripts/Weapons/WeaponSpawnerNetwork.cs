@@ -64,24 +64,21 @@ public class WeaponSpawnerNetwork : NetworkBehaviour
     {
 
 
-        Debug.Log("check on  client");
 
         if (spawnedWeapon == null) return;
 
-        Debug.Log("not null");
 
         if (1 << collider.gameObject.layer == LayerMask.GetMask("Player"))
         {
 
-            Debug.Log("player collided");
 
             PlayerNetwork player = collider.gameObject.GetComponent<PlayerNetwork>();
 
             if (player.canPickupWeapon())
             {
 
-                Debug.Log("can pick up");
                 player.pickupWeapon(spawnedWeapon);
+                spawnedWeapon.GetComponent<CapsuleCollider>().enabled = true;
                 removeWeapon();
                 StartCoroutine("spawnWeaponTimed");
             }
