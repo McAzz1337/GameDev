@@ -1,7 +1,9 @@
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
+using static Health;
 
-public class PointManager : MonoBehaviour
+public class PointManager : NetworkBehaviour
 {
     private static PointManager instance;
 
@@ -52,6 +54,11 @@ public class PointManager : MonoBehaviour
             }
             return instance;
         }
+    }
+
+    public void AddOnePoint(int playerIndex)
+    {
+        AddPoints(playerIndex, 1);
     }
 
     public void AddPoints(int playerIndex, int amount)
