@@ -13,7 +13,7 @@ public class Health : NetworkBehaviour
             NetworkVariableWritePermission.Server);
 
     // make DeathCallback take id of shooting player
-    public delegate void DeathCalback();
+    public delegate void DeathCalback(ulong clientID);
     private DeathCalback onDeath;
 
     public void registerOnDeathCallback(DeathCalback callback)
@@ -22,33 +22,88 @@ public class Health : NetworkBehaviour
         onDeath += callback;
     }
 
+    public void unregisterOnDeathCallback(DeathCalback callback)
+    {
+
+        onDeath -= callback;
+    }
+
+
     void OnCollisionEnter(Collision collision)
     {
 
-        collisionCheck(1 << collision.gameObject.layer);
+        ulong clientID = long.MaxValue;
+        if (collision.gameObject.TryGetComponent<Projectile>(out Projectile p))
+        {
+
+            clientID = p.getClientID();
+        }
+        else if (collision.gameObject.TryGetComponent<BlastRadius>(out BlastRadius b))
+        {
+
+            clientID = b.getClientID();
+        }
+
+        collisionCheck(1 << collision.gameObject.layer, clientID);
     }
 
     void OnCollisionStay(Collision collision)
     {
 
-        collisionCheck(1 << collision.gameObject.layer);
+        ulong clientID = long.MaxValue;
+        if (collision.gameObject.TryGetComponent<Projectile>(out Projectile p))
+        {
+
+            clientID = p.getClientID();
+        }
+        else if (collision.gameObject.TryGetComponent<BlastRadius>(out BlastRadius b))
+        {
+
+            clientID = b.getClientID();
+        }
+
+        collisionCheck(1 << collision.gameObject.layer, clientID);
     }
 
 
     void OnTriggerEnter(Collider collider)
     {
 
-        collisionCheck(1 << collider.gameObject.layer);
+        ulong clientID = long.MaxValue;
+        if (collider.gameObject.TryGetComponent<Projectile>(out Projectile p))
+        {
+
+            collisionCheck(1 << collider.gameObject.layer, p.getClientID());
+        }
+        else if (collider.gameObject.TryGetComponent<BlastRadius>(out BlastRadius b))
+        {
+
+            clientID = b.getClientID();
+        }
+
+        collisionCheck(1 << collider.gameObject.layer, clientID);
     }
 
 
     void OnTriggerStay(Collider collider)
     {
 
-        collisionCheck(1 << collider.gameObject.layer);
+        ulong clientID = long.MaxValue;
+        if (collider.gameObject.TryGetComponent<Projectile>(out Projectile p))
+        {
+
+            collisionCheck(1 << collider.gameObject.layer, p.getClientID());
+        }
+        else if (collider.gameObject.TryGetComponent<BlastRadius>(out BlastRadius b))
+        {
+
+            clientID = b.getClientID();
+        }
+
+        collisionCheck(1 << collider.gameObject.layer, clientID);
     }
 
-    private void collisionCheck(int layer)
+    private void collisionCheck(int layer, ulong clientID)
     {
 
         if (!IsOwner) return;
@@ -57,13 +112,12 @@ public class Health : NetworkBehaviour
 
         if (layer == LayerMask.GetMask("Damaging"))
         {
-
-            takeDamageServerRpc();
+            takeDamageServerRpc(clientID);
         }
     }
 
     [ServerRpc]
-    public void takeDamageServerRpc()
+    public void takeDamageServerRpc(ulong clientID)
     {
 
         hp.Value--;
@@ -71,8 +125,7 @@ public class Health : NetworkBehaviour
         if (isDead())
         {
 
-            // pass id of shooting player and maybe of killed player
-            onDeath?.Invoke();
+            onDeath?.Invoke(clientID);
         }
     }
 
