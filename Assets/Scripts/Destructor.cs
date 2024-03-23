@@ -13,7 +13,7 @@ public class Destructor : NetworkBehaviour
     void Start()
     {
 
-        if (destructionByClientAllowed && !IsHost) return;
+        if (!destructionByClientAllowed && !IsHost) return;
 
         StartCoroutine("destruct");
     }
