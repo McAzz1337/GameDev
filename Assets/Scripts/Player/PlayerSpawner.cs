@@ -40,7 +40,7 @@ public class PlayerSpawner : NetworkBehaviour
 
             r = random.Next() % GameManager.MAX_PLAYERS;
             accepted = spawnPoints[r].acceptPlayer(player);
-        } while (accepted);
+        } while (!accepted);
 
 
         spawnedPlayers++;
