@@ -12,6 +12,7 @@ public class Health : NetworkBehaviour
             NetworkVariableReadPermission.Everyone,
             NetworkVariableWritePermission.Server);
 
+    // make DeathCallback take id of shooting player
     public delegate void DeathCalback();
     private DeathCalback onDeath;
 
@@ -70,6 +71,7 @@ public class Health : NetworkBehaviour
         if (isDead())
         {
 
+            // pass id of shooting player and maybe of killed player
             onDeath?.Invoke();
         }
     }

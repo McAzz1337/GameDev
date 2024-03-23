@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.SocialPlatforms.Impl;
 
+// Change to NetworkBehaviour
 public class GameMonitor : MonoBehaviour
 {
     [SerializeField] public int winningConditionScore = 10;
@@ -25,7 +26,11 @@ public class GameMonitor : MonoBehaviour
         sceneIndex = SceneManager.GetActiveScene().buildIndex;
         //loadScoreList();
         Debug.Log("Amount Players: " + pointManager.maxPlayers);
+
+        // get players of GameManager and subscribe to DeathCallback
     }
+
+    // replace with the function called as DeathCallback
 
     public void Update()
     {

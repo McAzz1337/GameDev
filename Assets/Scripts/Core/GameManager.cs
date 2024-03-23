@@ -160,4 +160,11 @@ public class GameManager : NetworkBehaviour
     {
         return playerDataNetworkList[playerIndex];
     }
+
+    public int getPlayerCount()
+    {
+
+        return playerCount;
+    }
+
 }
