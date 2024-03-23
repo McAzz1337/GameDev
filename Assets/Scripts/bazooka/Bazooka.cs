@@ -24,7 +24,8 @@ public class Bazooka : WeaponNetwork
 
         if (ammo.Value <= 0) return;
 
-        shootServerRpc();
+        ulong clientID = NetworkManager.Singleton.LocalClientId;
+        shootServerRpc(clientID);
 
         GameObject muzzleFlash = Instantiate(stats.muzzleFlashPrefab, muzzle.position, muzzle.rotation);
         Destructor d = muzzleFlash.AddComponent<Destructor>();
@@ -33,7 +34,7 @@ public class Bazooka : WeaponNetwork
     }
 
     [ServerRpc]
-    public override void shootServerRpc()
+    public override void shootServerRpc(ulong clientID)
     {
 
         Vector3 direction = muzzle.position - transform.position;
@@ -48,6 +49,8 @@ public class Bazooka : WeaponNetwork
                 Quaternion.identity);
 
             g.GetComponent<NetworkObject>().Spawn(true);
+            g.GetComponent<Projectile>().setClientID(clientID);
+
             g.layer = LayerMask.NameToLayer("Damaging");
 
             Quaternion rot = Quaternion.LookRotation(Vector3.Cross(-direction, hit.normal), hit.normal);
@@ -58,6 +61,8 @@ public class Bazooka : WeaponNetwork
         {
             GameObject g = Instantiate(stats.projectilePrefab, muzzle.position, muzzle.rotation);
             g.GetComponent<NetworkObject>().Spawn();
+            g.GetComponent<Projectile>().setClientID(clientID);
+
             ammo.Value--;
         }
     }

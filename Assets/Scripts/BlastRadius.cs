@@ -7,6 +7,9 @@ public class BlastRadius : NetworkBehaviour
 {
     [SerializeField] private float radius;
     [SerializeField] private GameObject explosionPrefab;
+
+    private ulong clientID;
+
     void Start()
     {
 
@@ -29,5 +32,17 @@ public class BlastRadius : NetworkBehaviour
 
         this.radius = radius;
         GetComponent<SphereCollider>().radius = radius;
+    }
+
+    public void setClientID(ulong clientID)
+    {
+
+        this.clientID = clientID;
+    }
+
+    public ulong getClientID()
+    {
+
+        return clientID;
     }
 }

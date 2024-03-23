@@ -42,7 +42,8 @@ public class WeaponNetwork : NetworkBehaviour
 
         if (ammo.Value <= 0) return;
 
-        shootServerRpc();
+        ulong clientID = NetworkManager.Singleton.LocalClientId;
+        shootServerRpc(clientID);
 
         GameObject muzzleFlash = Instantiate(stats.muzzleFlashPrefab, muzzle.position, muzzle.rotation);
         Destructor d = muzzleFlash.AddComponent<Destructor>();
@@ -51,12 +52,13 @@ public class WeaponNetwork : NetworkBehaviour
     }
 
     [ServerRpc]
-    public virtual void shootServerRpc()
+    public virtual void shootServerRpc(ulong clientID)
     {
 
 
         GameObject g = Instantiate(stats.projectilePrefab, muzzle.position, muzzle.rotation);
         g.GetComponent<NetworkObject>().Spawn();
+        g.GetComponent<Projectile>().setClientID(clientID);
         ammo.Value--;
 
     }
