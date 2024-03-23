@@ -18,6 +18,7 @@ public class RoundManager : NetworkBehaviour
 
             NetworkClient client = NetworkManager.Singleton.ConnectedClients[(ulong)i];
             PlayerNetwork player = client.PlayerObject.GetComponent<PlayerNetwork>();
+            Debug.Log("null");
             player.enableBattleControls();
 
             PlayerSpawner.instance.SpawnPlayer(player);

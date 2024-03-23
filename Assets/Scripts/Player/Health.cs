@@ -126,6 +126,11 @@ public class Health : NetworkBehaviour
         {
 
             onDeath?.Invoke(clientID);
+
+            PlayerNetwork player = gameObject.GetComponent<PlayerNetwork>();
+            player.disableBattleControls();
+            Transform cam = Camera.main.transform;
+            player.transform.position = cam.position + new Vector3(0.0f, 0.0f, cam.forward.z * -10f);
         }
     }
 
