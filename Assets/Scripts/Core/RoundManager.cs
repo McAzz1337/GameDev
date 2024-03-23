@@ -24,5 +24,17 @@ public class RoundManager : NetworkBehaviour
         }
     }
 
+    public void endRound()
+    {
+
+        for (int i = 0; i < NetworkManager.Singleton.ConnectedClients.Count; i++)
+        {
+
+            NetworkClient client = NetworkManager.Singleton.ConnectedClients[(ulong)i];
+            PlayerNetwork player = client.PlayerObject.GetComponent<PlayerNetwork>();
+            player.disableBattleControls();
+        }
+    }
+
 
 }
