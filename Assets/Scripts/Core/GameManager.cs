@@ -115,7 +115,7 @@ public class GameManager : NetworkBehaviour
         if (playerDataNetworkList.Count > 0 && ready.Value.allReady(playerDataNetworkList.Count))
         {
             Debug.Log("Everybody is ready");
-            NetworkManager.Singleton.SceneManager.LoadScene("NetworkScene", LoadSceneMode.Single);
+            NetworkManager.Singleton.SceneManager.LoadScene("NewMap", LoadSceneMode.Single);
             checkIfReady = false;
         }
     }
