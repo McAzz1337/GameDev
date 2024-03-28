@@ -11,6 +11,7 @@ public class RoundManager : NetworkBehaviour
 
     private List<GameObject> toActivate = new List<GameObject>();
 
+    private int spawnedClients = 0;
     void Awake()
     {
 
@@ -22,15 +23,51 @@ public class RoundManager : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
+
+
+
+        NetworkManager.SceneManager.OnSceneEvent += onSceneEvent;
+
         base.OnNetworkSpawn();
 
+    }
+
+    private void onSceneEvent(SceneEvent e)
+    {
+
+        if (e.SceneEventType == SceneEventType.LoadEventCompleted)
+        {
+
+            if (IsHost)
+            {
+
+                spawnedClients++;
+            }
+            else
+            {
+
+                spawnClientServerRpc();
+            }
+        }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void spawnClientServerRpc()
+    {
+
+        spawnedClients++;
+
+        if (spawnedClients == GameManager.instance.getPlayerCount())
+        {
+
+            startRound();
+        }
     }
 
 
     void Start()
     {
 
-        startRound();
     }
 
     void startRound()
