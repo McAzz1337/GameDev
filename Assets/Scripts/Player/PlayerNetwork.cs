@@ -164,8 +164,6 @@ public class PlayerNetwork : NetworkBehaviour
         isHost = IsHost;
         isOwner = IsOwner;
         isClient = IsClient;
-
-
     }
 
     void Start()

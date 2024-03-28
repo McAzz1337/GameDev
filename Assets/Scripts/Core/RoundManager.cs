@@ -14,12 +14,26 @@ public class RoundManager : NetworkBehaviour
     void Awake()
     {
 
-        if (!IsHost) return;
-
         instance = this;
+
     }
 
+
+
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+
+    }
+
+
     void Start()
+    {
+
+        startRound();
+    }
+
+    void startRound()
     {
 
         if (!IsHost) return;
@@ -47,13 +61,6 @@ public class RoundManager : NetworkBehaviour
         }
     }
 
-    public override void OnNetworkSpawn()
-    {
-        base.OnNetworkSpawn();
-
-
-    }
-
     public void endRound()
     {
 
@@ -64,7 +71,9 @@ public class RoundManager : NetworkBehaviour
             PlayerNetwork player = client.PlayerObject.GetComponent<PlayerNetwork>();
             player.disableBattleControls();
         }
+
     }
+
 
 
     public void addGameObjectToActivate(GameObject g)
