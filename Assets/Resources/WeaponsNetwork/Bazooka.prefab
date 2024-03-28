@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 3523121921700065890}
   - component: {fileID: -2486089756232182549}
   - component: {fileID: 8161653879487080774}
-  - component: {fileID: 4314525783368307165}
   - component: {fileID: 8891121471299428648}
+  - component: {fileID: 1377205160885216545}
   m_Layer: 10
   m_Name: Bazooka
   m_TagString: Untagged
@@ -111,23 +111,6 @@ CapsuleCollider:
   m_Height: 1.8
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: 0.1}
---- !u!114 &4314525783368307165
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4581869436542759413}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f664c6db942c2242a0881b0201be732, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  muzzle: {fileID: 9031400165156301342}
-  stats: {fileID: 11400000, guid: 09cbcd8180fb1dc4a8f709d5bbd428d9, type: 2}
-  identifier: 0
-  ammo:
-    m_InternalValue: 5
 --- !u!114 &8891121471299428648
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -140,7 +123,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21ff34af00b2b7f41b898b731b584d77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clientID: 0
+  clientID:
+    m_InternalValue: 18446744073709551615
+--- !u!114 &1377205160885216545
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4581869436542759413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 507b7a97a12ead04584baf0d7218861a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  muzzle: {fileID: 9031400165156301342}
+  stats: {fileID: 11400000, guid: 09cbcd8180fb1dc4a8f709d5bbd428d9, type: 2}
+  identifier: 0
+  ammo:
+    m_InternalValue: 1
 --- !u!1 &5604169691940772782
 GameObject:
   m_ObjectHideFlags: 0
