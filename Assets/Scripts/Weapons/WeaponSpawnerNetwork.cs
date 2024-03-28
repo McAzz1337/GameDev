@@ -112,11 +112,12 @@ public class WeaponSpawnerNetwork : NetworkBehaviour
     private void spawnWeapon()
     {
 
+
         int index = random.Next() % weaponPrefabs.Length;
 
 
-        GameObject g = Instantiate(NetworkManager.GetNetworkPrefabOverride(weaponPrefabs[index]));
-        g.GetComponent<NetworkObject>().Spawn();
+        GameObject g = Instantiate(weaponPrefabs[index]);
+        g.GetComponent<NetworkObject>().Spawn(true);
         spawnedWeapon = g.GetComponent<WeaponNetwork>();
         g.transform.position = transform.position;
 

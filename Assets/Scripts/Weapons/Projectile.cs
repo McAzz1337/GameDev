@@ -6,7 +6,6 @@ using UnityEngine;
 public class Projectile : NetworkBehaviour
 {
 
-    [SerializeField] private ulong clientID;
     void Start()
     {
 
@@ -18,15 +17,4 @@ public class Projectile : NetworkBehaviour
     }
 
 
-    public ulong getClientID()
-    {
-
-        return clientID;
-    }
-
-    public void setClientID(ulong clientID)
-    {
-
-        this.clientID = clientID;
-    }
 }

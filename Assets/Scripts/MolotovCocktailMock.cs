@@ -31,6 +31,11 @@ public class MolotovCocktailMock : WeaponNetwork
         rb.AddForce(throwDirection.normalized * throwForce, ForceMode.VelocityChange);
     }
 
+    [ServerRpc]
+    public override void shootServerRpc(ulong clientID)
+    {
+    }
+
 
 
 

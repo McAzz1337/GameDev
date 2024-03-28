@@ -86,8 +86,17 @@ public class Health : NetworkBehaviour
     private void collisionCheck(int layer, ulong clientID)
     {
 
+        if (clientID < (ulong)GameManager.MAX_PLAYERS)
+        {
+            Debug.Log("Collision with clientID: " + clientID);
+            Debug.Log("IsOwner: " + IsOwner);
+            Debug.Log("dead: " + isDead());
+            Debug.Log("layer is damaging: " + (layer == LayerMask.NameToLayer("Damaging")));
+        }
+
         if (!IsOwner || isDead() || layer != LayerMask.NameToLayer("Damaging")) return;
 
+        Debug.Log("Hit by Damaging from client: " + clientID);
 
         takeDamageServerRpc(clientID);
     }

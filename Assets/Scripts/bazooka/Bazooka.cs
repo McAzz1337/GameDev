@@ -22,6 +22,7 @@ public class Bazooka : WeaponNetwork
     public override void shoot()
     {
 
+        Debug.Log("shoot");
         if (ammo.Value <= 0) return;
 
         ulong clientID = NetworkManager.Singleton.LocalClientId;
@@ -62,10 +63,8 @@ public class Bazooka : WeaponNetwork
         }
 
         ammo.Value--;
-        g.GetComponent<Projectile>().setClientID(clientID);
-        g.layer = LayerMask.NameToLayer("Damaging");
         g.GetComponent<NetworkObject>().Spawn(true);
-        g.GetComponent<IDHolder>().setClientID(GetComponent<IDHolder>().getClientID());
+        g.GetComponent<IDHolder>().setClientID(clientID);
     }
 
 
