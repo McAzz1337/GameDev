@@ -28,6 +28,7 @@ public abstract class WeaponNetwork : NetworkBehaviour
     protected void init()
     {
 
+        if (!IsHost) return;
 
         ammo.Value = stats.ammo;
         GetComponentInChildren<MeshCollider>().enabled = false;

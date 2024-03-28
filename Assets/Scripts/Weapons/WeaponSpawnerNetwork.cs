@@ -18,17 +18,16 @@ public class WeaponSpawnerNetwork : NetworkBehaviour
     {
 
 
+
+
     }
 
 
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
-
-        if (!IsHost) return;
-
-        spawnWeapon();
     }
+
 
     public void acitvate()
     {
@@ -43,7 +42,9 @@ public class WeaponSpawnerNetwork : NetworkBehaviour
     void Start()
     {
 
+        if (!IsHost) return;
 
+        spawnWeapon();
     }
 
     void Update()
@@ -105,6 +106,13 @@ public class WeaponSpawnerNetwork : NetworkBehaviour
     {
 
         yield return new WaitForSeconds(delay);
+
+        spawnWeapon();
+    }
+
+    [ServerRpc]
+    public void spawnWeaponServerRpc()
+    {
 
         spawnWeapon();
     }
