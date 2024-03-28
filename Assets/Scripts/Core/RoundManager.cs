@@ -7,10 +7,21 @@ using UnityEngine;
 public class RoundManager : NetworkBehaviour
 {
 
+    public static RoundManager instance = null;
 
+    private List<GameObject> toActivate = new List<GameObject>();
+
+    void Awake()
+    {
+
+        if (!IsHost) return;
+
+        instance = this;
+    }
 
     void Start()
     {
+
         if (!IsHost) return;
 
         for (int i = 0; i < NetworkManager.Singleton.ConnectedClients.Count; i++)
@@ -23,6 +34,24 @@ public class RoundManager : NetworkBehaviour
 
             PlayerSpawner.instance.SpawnPlayer(player);
         }
+
+
+        foreach (GameObject g in toActivate)
+        {
+
+            if (g.TryGetComponent<WeaponSpawnerNetwork>(out WeaponSpawnerNetwork w))
+            {
+
+                w.acitvate();
+            }
+        }
+    }
+
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+
+
     }
 
     public void endRound()
@@ -37,5 +66,11 @@ public class RoundManager : NetworkBehaviour
         }
     }
 
+
+    public void addGameObjectToActivate(GameObject g)
+    {
+
+        toActivate.Add(g);
+    }
 
 }
