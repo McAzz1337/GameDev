@@ -37,6 +37,8 @@ public class MolotovCocktailMock : WeaponNetwork
     void OnCollisionEnter(Collision collision)
     {
 
+        if (!IsHost) return;
+
         if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
 
@@ -58,13 +60,14 @@ public class MolotovCocktailMock : WeaponNetwork
 
         GameObject g = Instantiate(fireEffect, transform.position, Quaternion.identity);
         g.GetComponent<NetworkObject>().Spawn(true);
-        g.layer = LayerMask.NameToLayer("Damaging");
 
         SphereCollider sc = g.AddComponent<SphereCollider>();
         sc.isTrigger = true;
         sc.radius = 2.0f;
 
         g.AddComponent<Destructor>().setDuration(5.0f);
+
+        g.GetComponent<IDHolder>().setClientID(GetComponent<IDHolder>().getClientID());
 
         GetComponent<NetworkObject>().Despawn();
         Destroy(gameObject);

@@ -13,7 +13,16 @@ public class Destructor : NetworkBehaviour
     void Start()
     {
 
-        if (!destructionByClientAllowed && !IsHost) return;
+        if (!destructionByClientAllowed) return;
+
+        StartCoroutine("destruct");
+    }
+
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+
+        if (!IsHost) return;
 
         StartCoroutine("destruct");
     }
@@ -27,6 +36,12 @@ public class Destructor : NetworkBehaviour
     {
 
         yield return new WaitForSeconds(duration);
+
+        if (!destructionByClientAllowed)
+        {
+
+            GetComponent<NetworkObject>().Despawn();
+        }
 
         Destroy(gameObject);
     }

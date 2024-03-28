@@ -266,6 +266,7 @@ public class PlayerNetwork : NetworkBehaviour
         weapon.transform.position = weaponTransform.position;
         weapon.transform.rotation = weaponTransform.rotation;
         weapon.transform.SetParent(transform);
+
     }
 
 

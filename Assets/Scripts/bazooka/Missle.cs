@@ -8,7 +8,6 @@ public class Missle : Projectile
 {
 
 
-    [SerializeField] private GameObject explosionPrefab;
     [SerializeField] private GameObject blastRadiusPrefab;
     [SerializeField] private float force;
     void Start()
@@ -30,11 +29,13 @@ public class Missle : Projectile
         if (!IsHost) return;
 
         int layer = 1 << collision.gameObject.layer;
+
         if (layer == LayerMask.GetMask("Wall") ||
             layer == LayerMask.GetMask("Ground") ||
-            layer == LayerMask.GetMask("Player") ||
-            layer == LayerMask.GetMask("Enemy"))
+            layer == LayerMask.GetMask("Enemy") ||
+            layer == LayerMask.GetMask("Player"))
         {
+
 
             explode(
                 collision.contacts[0].point,
@@ -50,14 +51,6 @@ public class Missle : Projectile
 
         GameObject g = Instantiate(blastRadiusPrefab, transform.position, transform.rotation);
         g.layer = LayerMask.NameToLayer("Damaging");
-        g.GetComponent<NetworkObject>().Spawn(true);
-
-
-        Quaternion rot = Quaternion.LookRotation(Vector3.Cross(-direction, normal), normal);
-        float angle = Vector3.Angle(-direction, normal);
-        position -= direction * Mathf.Sin(angle) * 2;
-
-        g = Instantiate(explosionPrefab, position, rot);
         g.GetComponent<NetworkObject>().Spawn(true);
 
 

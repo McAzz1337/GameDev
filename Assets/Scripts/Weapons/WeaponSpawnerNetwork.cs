@@ -82,6 +82,7 @@ public class WeaponSpawnerNetwork : NetworkBehaviour
             {
 
                 player.pickupWeapon(spawnedWeapon);
+                spawnedWeapon.GetComponent<IDHolder>().setClientID(NetworkManager.Singleton.LocalClientId);
                 spawnedWeapon.GetComponent<CapsuleCollider>().enabled = true;
                 removeWeapon();
                 StartCoroutine("spawnWeaponTimed");

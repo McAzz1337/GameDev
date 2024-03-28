@@ -3,9 +3,26 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public interface IDHolder
+public class IDHolder : NetworkBehaviour
 {
 
-    public ulong getClientID();
-    public void setClientID(ulong clientID);
+    [SerializeField]
+    private NetworkVariable<ulong> clientID =
+                            new NetworkVariable<ulong>(
+                                ulong.MaxValue,
+                                NetworkVariableReadPermission.Everyone,
+                                NetworkVariableWritePermission.Server
+                            );
+
+    public ulong getClientID()
+    {
+
+        return clientID.Value;
+    }
+
+    public void setClientID(ulong clientID)
+    {
+
+        this.clientID.Value = clientID;
+    }
 }

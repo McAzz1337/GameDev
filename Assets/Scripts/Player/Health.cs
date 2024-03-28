@@ -33,15 +33,10 @@ public class Health : NetworkBehaviour
     {
 
         ulong clientID = long.MaxValue;
-        if (collision.gameObject.TryGetComponent<Projectile>(out Projectile p))
+        if (collision.gameObject.TryGetComponent<IDHolder>(out IDHolder i))
         {
 
-            clientID = p.getClientID();
-        }
-        else if (collision.gameObject.TryGetComponent<BlastRadius>(out BlastRadius b))
-        {
-
-            clientID = b.getClientID();
+            clientID = i.getClientID();
         }
 
         collisionCheck(1 << collision.gameObject.layer, clientID);
@@ -51,15 +46,10 @@ public class Health : NetworkBehaviour
     {
 
         ulong clientID = long.MaxValue;
-        if (collision.gameObject.TryGetComponent<Projectile>(out Projectile p))
+        if (collision.gameObject.TryGetComponent<IDHolder>(out IDHolder i))
         {
 
-            clientID = p.getClientID();
-        }
-        else if (collision.gameObject.TryGetComponent<BlastRadius>(out BlastRadius b))
-        {
-
-            clientID = b.getClientID();
+            clientID = i.getClientID();
         }
 
         collisionCheck(1 << collision.gameObject.layer, clientID);
@@ -70,15 +60,10 @@ public class Health : NetworkBehaviour
     {
 
         ulong clientID = long.MaxValue;
-        if (collider.gameObject.TryGetComponent<Projectile>(out Projectile p))
+        if (collider.gameObject.TryGetComponent<IDHolder>(out IDHolder i))
         {
 
-            collisionCheck(1 << collider.gameObject.layer, p.getClientID());
-        }
-        else if (collider.gameObject.TryGetComponent<BlastRadius>(out BlastRadius b))
-        {
-
-            clientID = b.getClientID();
+            clientID = i.getClientID();
         }
 
         collisionCheck(1 << collider.gameObject.layer, clientID);
@@ -89,15 +74,10 @@ public class Health : NetworkBehaviour
     {
 
         ulong clientID = long.MaxValue;
-        if (collider.gameObject.TryGetComponent<Projectile>(out Projectile p))
+        if (collider.gameObject.TryGetComponent<IDHolder>(out IDHolder i))
         {
 
-            collisionCheck(1 << collider.gameObject.layer, p.getClientID());
-        }
-        else if (collider.gameObject.TryGetComponent<BlastRadius>(out BlastRadius b))
-        {
-
-            clientID = b.getClientID();
+            clientID = i.getClientID();
         }
 
         collisionCheck(1 << collider.gameObject.layer, clientID);
@@ -106,14 +86,10 @@ public class Health : NetworkBehaviour
     private void collisionCheck(int layer, ulong clientID)
     {
 
-        if (!IsOwner) return;
+        if (!IsOwner || isDead() || layer != LayerMask.NameToLayer("Damaging")) return;
 
-        if (isDead()) return;
 
-        if (layer == LayerMask.GetMask("Damaging"))
-        {
-            takeDamageServerRpc(clientID);
-        }
+        takeDamageServerRpc(clientID);
     }
 
     [ServerRpc]
@@ -125,10 +101,19 @@ public class Health : NetworkBehaviour
         if (isDead())
         {
 
-            onDeath?.Invoke(clientID);
+            if (clientID != ulong.MaxValue)
+            {
+
+                onDeath?.Invoke(clientID);
+            }
+
 
             PlayerNetwork player = gameObject.GetComponent<PlayerNetwork>();
             player.disableBattleControls();
+            MeshRenderer mr = GetComponent<MeshRenderer>();
+            mr.enabled = false;
+            mr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+
             Transform cam = Camera.main.transform;
             player.transform.position = cam.position + new Vector3(0.0f, 0.0f, cam.forward.z * -10f);
         }

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: -3776329806428737290}
   - component: {fileID: 13333533124974051}
   - component: {fileID: 4285824024538862517}
+  - component: {fileID: 7673489782708855528}
   m_Layer: 10
   m_Name: MolotovCocktail
   m_TagString: Untagged
@@ -127,6 +128,19 @@ MonoBehaviour:
   ammo:
     m_InternalValue: 1
   fireEffect: {fileID: 1956197547661106, guid: 4495e62e903b6394da810ac7912351c5, type: 3}
+--- !u!114 &7673489782708855528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1984652972206848967}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21ff34af00b2b7f41b898b731b584d77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clientID: 0
 --- !u!1 &7351894105811354398
 GameObject:
   m_ObjectHideFlags: 0

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: -2486089756232182549}
   - component: {fileID: 8161653879487080774}
   - component: {fileID: 4314525783368307165}
+  - component: {fileID: 8891121471299428648}
   m_Layer: 10
   m_Name: Bazooka
   m_TagString: Untagged
@@ -127,6 +128,19 @@ MonoBehaviour:
   identifier: 0
   ammo:
     m_InternalValue: 5
+--- !u!114 &8891121471299428648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4581869436542759413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21ff34af00b2b7f41b898b731b584d77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clientID: 0
 --- !u!1 &5604169691940772782
 GameObject:
   m_ObjectHideFlags: 0

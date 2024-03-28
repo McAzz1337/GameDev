@@ -18,6 +18,7 @@ public class WeaponNetwork : NetworkBehaviour
                                     NetworkVariableWritePermission.Server
                                 );
 
+
     void Start()
     {
 
@@ -39,6 +40,8 @@ public class WeaponNetwork : NetworkBehaviour
 
     public virtual void shoot()
     {
+
+
 
         if (ammo.Value <= 0) return;
 

@@ -40,18 +40,16 @@ public class Bazooka : WeaponNetwork
         Vector3 direction = muzzle.position - transform.position;
         Ray ray = new Ray(transform.position, direction);
 
+        GameObject g;
         if (Physics.Raycast(ray, out RaycastHit hit, direction.magnitude, LayerMask.GetMask("Wall")))
         {
 
-            GameObject g = (GameObject)Instantiate(
+            g = (GameObject)Instantiate(
                 Resources.Load("WeaponsNetwork/BlastRadius"),
                 hit.transform.position,
                 Quaternion.identity);
 
-            g.GetComponent<NetworkObject>().Spawn(true);
-            g.GetComponent<Projectile>().setClientID(clientID);
 
-            g.layer = LayerMask.NameToLayer("Damaging");
 
             Quaternion rot = Quaternion.LookRotation(Vector3.Cross(-direction, hit.normal), hit.normal);
             float angle = Vector3.Angle(-direction, hit.normal);
@@ -59,12 +57,15 @@ public class Bazooka : WeaponNetwork
         }
         else
         {
-            GameObject g = Instantiate(stats.projectilePrefab, muzzle.position, muzzle.rotation);
-            g.GetComponent<NetworkObject>().Spawn();
-            g.GetComponent<Projectile>().setClientID(clientID);
 
-            ammo.Value--;
+            g = Instantiate(stats.projectilePrefab, muzzle.position, muzzle.rotation);
         }
+
+        ammo.Value--;
+        g.GetComponent<Projectile>().setClientID(clientID);
+        g.layer = LayerMask.NameToLayer("Damaging");
+        g.GetComponent<NetworkObject>().Spawn(true);
+        g.GetComponent<IDHolder>().setClientID(GetComponent<IDHolder>().getClientID());
     }
 
 
