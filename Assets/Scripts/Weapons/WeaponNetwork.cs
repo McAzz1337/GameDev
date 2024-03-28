@@ -22,7 +22,6 @@ public abstract class WeaponNetwork : NetworkBehaviour
     void Start()
     {
 
-        ammo.Value = stats.ammo;
         GetComponent<CapsuleCollider>().enabled = false;
     }
 
@@ -30,6 +29,7 @@ public abstract class WeaponNetwork : NetworkBehaviour
     {
 
 
+        ammo.Value = stats.ammo;
         GetComponentInChildren<MeshCollider>().enabled = false;
     }
 
