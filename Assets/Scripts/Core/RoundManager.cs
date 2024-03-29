@@ -25,7 +25,7 @@ public class RoundManager : NetworkBehaviour
     {
 
 
-
+        Debug.Log("Spawned on network id:" + NetworkManager.Singleton.LocalClientId);
         NetworkManager.SceneManager.OnSceneEvent += onSceneEvent;
 
         base.OnNetworkSpawn();
@@ -42,6 +42,12 @@ public class RoundManager : NetworkBehaviour
             {
 
                 spawnedClients++;
+
+                if (spawnedClients == GameManager.instance.getPlayerCount())
+                {
+
+                    startRound();
+                }
             }
             else
             {
