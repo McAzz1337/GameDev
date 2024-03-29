@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Timers;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -16,6 +17,7 @@ public class OscelatingMovement : NetworkBehaviour
     private Transform start;
     [SerializeField] private float travelDuration;
     private float actualDuration;
+    private float elapsed;
 
     bool moving;
 
@@ -25,13 +27,14 @@ public class OscelatingMovement : NetworkBehaviour
     void Start()
     {
 
+        elapsed = 0.5f * travelDuration;
         moving = false;
 
         if (!IsHost) return;
 
         random = new Random();
         int r = random.Next();
-        start = transform;
+        start = (r & 0b1) == 1 ? transformA : transformB;
         target = (r & 0b1) == 1 ? transformB : transformA;
     }
 
@@ -40,19 +43,13 @@ public class OscelatingMovement : NetworkBehaviour
 
         if (!IsHost || !moving) return;
 
-        float t = (Time.time - startTime) / actualDuration;
+        float t = (Time.time - startTime) / travelDuration;
 
         float z = Mathf.SmoothStep(start.position.z, target.position.z, t);
         transform.position = new Vector3(transform.position.x, transform.position.y, z);
 
         if (t >= 1.0f)
         {
-
-            if (start == transform)
-            {
-
-                start = target == transformA ? transformB : transformA;
-            }
 
             Transform temp = start;
             start = target;
@@ -67,11 +64,11 @@ public class OscelatingMovement : NetworkBehaviour
 
         if (!IsHost) return;
 
-        startTime = Time.time;
+        startTime = Time.time - elapsed;
         moving = true;
 
         float percentageAlreadyTraveled =
-            (target.position - transform.position).magnitude / (transformA.position - transformB.position).magnitude;
+            Mathf.Abs(target.position.z - transform.position.z) / Mathf.Abs(transformA.position.z - transformB.position.z);
 
         percentageAlreadyTraveled = Mathf.Max(1.0f - percentageAlreadyTraveled, 0.000001f);
         actualDuration = percentageAlreadyTraveled * travelDuration;
@@ -79,7 +76,7 @@ public class OscelatingMovement : NetworkBehaviour
 
     public void deactivate()
     {
-
+        elapsed = Time.time - startTime;
         moving = false;
     }
 }
