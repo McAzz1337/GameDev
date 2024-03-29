@@ -40,6 +40,9 @@ public class PlayerNetwork : NetworkBehaviour
 
     PlayerControls controls;
 
+    public delegate void UseCallback();
+    private UseCallback onUse;
+
     void Awake()
     {
 
@@ -56,6 +59,7 @@ public class PlayerNetwork : NetworkBehaviour
         controls.BattleControls.Move.canceled += onMoveCanceled;
         controls.BattleControls.Shoot.performed += onShootPerformed;
         controls.BattleControls.Throw.performed += onThrowPerformed;
+        controls.BattleControls.Use.performed += usePerformed;
         controls.Enable();
 
         controls.BattleControls.Disable();
@@ -68,6 +72,7 @@ public class PlayerNetwork : NetworkBehaviour
         controls.BattleControls.Move.canceled -= onMoveCanceled;
         controls.BattleControls.Shoot.performed -= onShootPerformed;
         controls.BattleControls.Throw.performed -= onThrowPerformed;
+        controls.BattleControls.Use.performed -= usePerformed;
         controls.Disable();
     }
 
@@ -154,6 +159,24 @@ public class PlayerNetwork : NetworkBehaviour
 
         molotov = null;
         */
+    }
+
+    public void usePerformed(InputAction.CallbackContext c)
+    {
+
+        onUse?.Invoke();
+    }
+
+    public void registerOnUseCallback(UseCallback callback)
+    {
+
+        onUse += callback;
+    }
+
+    public void unregisterOnUseCallback(UseCallback callback)
+    {
+
+        onUse -= callback;
     }
 
 
