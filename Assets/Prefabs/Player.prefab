@@ -44,11 +44,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4aea4e75b73c91a43b49078a1917a8d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stats: {fileID: 0}
   muzzle: {fileID: 0}
-  ammo: 0
+  stats: {fileID: 0}
   identifier: 0
-  molotovPrefab: {fileID: 1984652972206848967, guid: c5602cba0bcfae4479d263b5d8e5666c, type: 3}
+  ammo:
+    m_InternalValue: 1
   fireEffect: {fileID: 1956197547661106, guid: f293a2dcc753a4a489fefe7f8f312d69, type: 3}
 --- !u!1 &4570379688078303068
 GameObject:
@@ -65,6 +65,7 @@ GameObject:
   - component: {fileID: 3936502541044741067}
   - component: {fileID: -1858205675049475269}
   - component: {fileID: 1796141485710372485}
+  - component: {fileID: 1584040344510430347}
   m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
@@ -240,6 +241,21 @@ MonoBehaviour:
   InLocalSpace: 0
   Interpolate: 1
   SlerpPosition: 0
+--- !u!114 &1584040344510430347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4570379688078303068}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d582898a4ee0b34284c4706b419d5d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hostBtn: {fileID: 0}
+  clientBtn: {fileID: 0}
+  readyText: {fileID: 0}
 --- !u!1 &4654733898092045301
 GameObject:
   m_ObjectHideFlags: 0
