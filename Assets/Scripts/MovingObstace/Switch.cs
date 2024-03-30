@@ -123,8 +123,6 @@ public class Switch : NetworkBehaviour
     {
 
         on.Value = !on.Value;
-        string onOff = on.Value ? "on" : "off";
-        Debug.Log("Toggled " + onOff + " by :" + clientID);
 
         foreach (Switch s in swicthes)
         {
