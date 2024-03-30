@@ -101,6 +101,35 @@ public class PlayerNetwork : NetworkBehaviour
         controls.BattleControls.Disable();
     }
 
+    public void enableRenderer()
+    {
+
+        enableRendererClientRpc();
+    }
+
+    [ClientRpc]
+    public void enableRendererClientRpc()
+    {
+
+        MeshRenderer mr = GetComponent<MeshRenderer>();
+        mr.enabled = true;
+        mr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
+    }
+
+    public void disableRenderer()
+    {
+
+        disableRendererClientRpc();
+    }
+
+    [ClientRpc]
+    public void disableRendererClientRpc()
+    {
+
+        MeshRenderer mr = GetComponent<MeshRenderer>();
+        mr.enabled = false;
+        mr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+    }
 
     public void onMovePerformed(InputAction.CallbackContext c)
     {
