@@ -102,14 +102,14 @@ public class Switch : NetworkBehaviour
 
 
         PlayerNetwork p = PlayerNetwork.localPlayer;
-        p.registerOnUseCallback(buttonPressed);
+        p.GetComponent<PlayerInput>().registerOnUseCallback(buttonPressed);
     }
 
     private void stopListeningToClient()
     {
 
         PlayerNetwork p = PlayerNetwork.localPlayer;
-        p.unregisterOnUseCallback(buttonPressed);
+        p.GetComponent<PlayerInput>().unregisterOnUseCallback(buttonPressed);
     }
 
     public void buttonPressed()
