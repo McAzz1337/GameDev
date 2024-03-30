@@ -129,6 +129,7 @@ public class RoundManager : NetworkBehaviour
     public void endRound()
     {
 
+        Debug.Log("END ROUND");
         for (int i = 0; i < NetworkManager.Singleton.ConnectedClients.Count; i++)
         {
 
