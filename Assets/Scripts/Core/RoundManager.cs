@@ -105,6 +105,7 @@ public class RoundManager : NetworkBehaviour
             PlayerNetwork player = client.PlayerObject.GetComponent<PlayerNetwork>();
             Debug.Log("null");
             player.enableBattleControls();
+            player.enableRenderer();
 
             Health h = player.GetComponent<Health>();
             h.registerOnDeathCallback(ackgnowledgeDeath);
