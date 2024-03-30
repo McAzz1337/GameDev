@@ -16,7 +16,6 @@ public class OscelatingMovement : NetworkBehaviour
     private Transform target;
     private Transform start;
     [SerializeField] private float travelDuration;
-    private float actualDuration;
     private float elapsed;
 
     bool moving;
@@ -27,11 +26,11 @@ public class OscelatingMovement : NetworkBehaviour
     void Start()
     {
 
-        elapsed = 0.5f * travelDuration;
         moving = false;
 
         if (!IsHost) return;
 
+        elapsed = 0.5f * travelDuration;
         random = new Random();
         int r = random.Next();
         start = (r & 0b1) == 1 ? transformA : transformB;
@@ -54,7 +53,6 @@ public class OscelatingMovement : NetworkBehaviour
             Transform temp = start;
             start = target;
             target = temp;
-            actualDuration = travelDuration;
             startTime = Time.time;
         }
     }
@@ -66,16 +64,12 @@ public class OscelatingMovement : NetworkBehaviour
 
         startTime = Time.time - elapsed;
         moving = true;
-
-        float percentageAlreadyTraveled =
-            Mathf.Abs(target.position.z - transform.position.z) / Mathf.Abs(transformA.position.z - transformB.position.z);
-
-        percentageAlreadyTraveled = Mathf.Max(1.0f - percentageAlreadyTraveled, 0.000001f);
-        actualDuration = percentageAlreadyTraveled * travelDuration;
     }
 
     public void deactivate()
     {
+        if (!IsHost) return;
+
         elapsed = Time.time - startTime;
         moving = false;
     }
