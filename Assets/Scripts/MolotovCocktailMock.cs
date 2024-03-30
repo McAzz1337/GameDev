@@ -64,17 +64,12 @@ public class MolotovCocktailMock : WeaponNetwork
     {
 
         GameObject g = Instantiate(fireEffect, transform.position, Quaternion.identity);
-        g.GetComponent<NetworkObject>().Spawn(true);
-
-        SphereCollider sc = g.AddComponent<SphereCollider>();
-        sc.isTrigger = true;
-        sc.radius = 2.0f;
-
-        g.AddComponent<Destructor>().setDuration(5.0f);
 
         g.GetComponent<IDHolder>().setClientID(GetComponent<IDHolder>().getClientID());
+        g.GetComponent<NetworkObject>().Spawn(true);
 
         GetComponent<NetworkObject>().Despawn();
         Destroy(gameObject);
     }
+
 }
