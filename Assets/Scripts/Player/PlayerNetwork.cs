@@ -46,7 +46,6 @@ public class PlayerNetwork : NetworkBehaviour
     void Awake()
     {
 
-        localPlayer = this;
         controls = new PlayerControls();
         rb = GetComponent<Rigidbody>();
     }
@@ -170,12 +169,14 @@ public class PlayerNetwork : NetworkBehaviour
     public void registerOnUseCallback(UseCallback callback)
     {
 
+        Debug.Log("registered");
         onUse += callback;
     }
 
     public void unregisterOnUseCallback(UseCallback callback)
     {
 
+        Debug.Log("unregistered");
         onUse -= callback;
     }
 
@@ -183,6 +184,8 @@ public class PlayerNetwork : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
+
+        if (IsOwner) localPlayer = this;
 
         isHost = IsHost;
         isOwner = IsOwner;
