@@ -11,12 +11,13 @@ public class RoundManager : NetworkBehaviour
 
     private List<GameObject> toActivate = new List<GameObject>();
 
+    [SerializeField]
+    private int deadPlayers = 0;
     private int spawnedClients = 0;
     void Awake()
     {
 
         instance = this;
-
     }
 
 
@@ -25,7 +26,6 @@ public class RoundManager : NetworkBehaviour
     {
 
 
-        Debug.Log("Spawned on network id:" + NetworkManager.Singleton.LocalClientId);
         NetworkManager.SceneManager.OnSceneEvent += onSceneEvent;
 
         base.OnNetworkSpawn();
@@ -76,6 +76,23 @@ public class RoundManager : NetworkBehaviour
 
     }
 
+    public void acknowledgeSuicide()
+    {
+
+        ackgnowledgeDeath();
+    }
+    public void ackgnowledgeDeath(ulong clientID = ulong.MaxValue)
+    {
+
+        deadPlayers++;
+        if (NetworkManager.Singleton.ConnectedClients.Count - deadPlayers <= 1)
+        {
+
+            endRound();
+        }
+    }
+
+
     void startRound()
     {
 
@@ -88,6 +105,10 @@ public class RoundManager : NetworkBehaviour
             PlayerNetwork player = client.PlayerObject.GetComponent<PlayerNetwork>();
             Debug.Log("null");
             player.enableBattleControls();
+
+            Health h = player.GetComponent<Health>();
+            h.registerOnDeathCallback(ackgnowledgeDeath);
+            h.registerOnSuicideCallback(acknowledgeSuicide);
 
             PlayerSpawner.instance.SpawnPlayer(player);
         }
@@ -103,6 +124,7 @@ public class RoundManager : NetworkBehaviour
             }
         }
     }
+
 
     public void endRound()
     {
