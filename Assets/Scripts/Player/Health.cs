@@ -149,9 +149,7 @@ public class Health : NetworkBehaviour
 
             PlayerNetwork player = gameObject.GetComponent<PlayerNetwork>();
             player.disableBattleControls();
-            MeshRenderer mr = GetComponent<MeshRenderer>();
-            mr.enabled = false;
-            mr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+            player.disableRenderer();
 
             Transform cam = Camera.main.transform;
             player.transform.position = cam.position + new Vector3(0.0f, 0.0f, cam.forward.z * -10f);
