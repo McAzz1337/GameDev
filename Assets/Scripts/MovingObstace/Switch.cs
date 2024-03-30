@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
+using Unity.Services.Lobbies.Models;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Switch : NetworkBehaviour
 {
@@ -25,6 +27,12 @@ public class Switch : NetworkBehaviour
                 NetworkVariableReadPermission.Everyone,
                 NetworkVariableWritePermission.Server
             );
+
+
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+    }
 
     void Start()
     {
@@ -59,50 +67,64 @@ public class Switch : NetworkBehaviour
                 oscelating.deactivate();
             }
         }
-
     }
 
     public void OnTriggerEnter(Collider collider)
     {
 
-        if (!IsClient) return;
 
-        startListeningToClient();
+        if ((1 << collider.gameObject.layer) == LayerMask.GetMask("Player"))
+        {
+
+            if (!collider.gameObject.GetComponent<PlayerNetwork>().IsOwner) return;
+
+            startListeningToClient();
+        }
     }
 
     public void OnTriggerExit(Collider collider)
     {
 
-        if (!IsClient) return;
 
-        stopListeningToClient();
+        if ((1 << collider.gameObject.layer) == LayerMask.GetMask("Player"))
+        {
+
+            if (!collider.gameObject.GetComponent<PlayerNetwork>().IsOwner) return;
+
+            stopListeningToClient();
+        }
     }
+
 
 
     private void startListeningToClient()
     {
 
-        PlayerNetwork.localPlayer.registerOnUseCallback(buttonPressed);
+
+        PlayerNetwork p = PlayerNetwork.localPlayer;
+        p.registerOnUseCallback(buttonPressed);
     }
 
     private void stopListeningToClient()
     {
 
-        PlayerNetwork.localPlayer.unregisterOnUseCallback(buttonPressed);
-
+        PlayerNetwork p = PlayerNetwork.localPlayer;
+        p.unregisterOnUseCallback(buttonPressed);
     }
 
     public void buttonPressed()
     {
 
-        toggleOnOffServerRpc();
+        toggleOnOffServerRpc(NetworkManager.Singleton.LocalClientId);
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void toggleOnOffServerRpc()
+    public void toggleOnOffServerRpc(ulong clientID)
     {
 
         on.Value = !on.Value;
+        string onOff = on.Value ? "on" : "off";
+        Debug.Log("Toggled " + onOff + " by :" + clientID);
 
         foreach (Switch s in swicthes)
         {
