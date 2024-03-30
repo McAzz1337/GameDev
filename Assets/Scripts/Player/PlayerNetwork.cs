@@ -10,10 +10,6 @@ public class PlayerNetwork : NetworkBehaviour
 
     public static PlayerNetwork localPlayer;
 
-    [Header("Movement")]
-    [SerializeField] private float moveForce = 30.0f;
-    [SerializeField] private float maxMoveVelocity = 10.0f;
-
     [Header("References")]
     [SerializeField] private Transform weaponTransform;
 
@@ -50,56 +46,7 @@ public class PlayerNetwork : NetworkBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
-    void OnEnable()
-    {
 
-
-        controls.BattleControls.Move.performed += onMovePerformed;
-        controls.BattleControls.Move.canceled += onMoveCanceled;
-        controls.BattleControls.Shoot.performed += onShootPerformed;
-        controls.BattleControls.Throw.performed += onThrowPerformed;
-        controls.BattleControls.Use.performed += usePerformed;
-        controls.Enable();
-
-        controls.BattleControls.Disable();
-    }
-
-    void OnDisable()
-    {
-
-        controls.BattleControls.Move.performed -= onMovePerformed;
-        controls.BattleControls.Move.canceled -= onMoveCanceled;
-        controls.BattleControls.Shoot.performed -= onShootPerformed;
-        controls.BattleControls.Throw.performed -= onThrowPerformed;
-        controls.BattleControls.Use.performed -= usePerformed;
-        controls.Disable();
-    }
-
-    public void enableBattleControls()
-    {
-
-        enableBattleControlsClientRpc();
-    }
-
-    [ClientRpc]
-    public void enableBattleControlsClientRpc()
-    {
-
-        controls.BattleControls.Enable();
-    }
-
-    public void disableBattleControls()
-    {
-
-        disableBattleControlsClientRpc();
-    }
-
-    [ClientRpc]
-    public void disableBattleControlsClientRpc()
-    {
-
-        controls.BattleControls.Disable();
-    }
 
     public void enableRenderer()
     {
@@ -131,81 +78,6 @@ public class PlayerNetwork : NetworkBehaviour
         mr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
     }
 
-    public void onMovePerformed(InputAction.CallbackContext c)
-    {
-
-        if (!IsOwner) return;
-
-        moveInput.Value = c.ReadValue<Vector2>();
-    }
-
-    public void onMoveCanceled(InputAction.CallbackContext c)
-    {
-
-        if (!IsOwner) return;
-
-        moveInput.Value = c.ReadValue<Vector2>();
-    }
-
-    public void onShootPerformed(InputAction.CallbackContext c)
-    {
-
-
-        if (!IsOwner) return;
-
-        onShootServerRpc();
-    }
-
-    [ServerRpc]
-    public void onShootServerRpc()
-    {
-
-        if (weapon == null) return;
-
-        weapon.shoot();
-
-        if (weapon.isEmpty())
-        {
-
-            dropWeapon();
-        }
-        else if (weapon as MolotovCocktailMock != null)
-        {
-
-            weapon = null;
-        }
-    }
-
-    public void onThrowPerformed(InputAction.CallbackContext c)
-    {
-
-        /*
-        if (molotov == null) return;
-
-        molotov.transform.SetParent(null);
-        molotov.shoot();
-
-        molotov = null;
-        */
-    }
-
-    public void usePerformed(InputAction.CallbackContext c)
-    {
-
-        onUse?.Invoke();
-    }
-
-    public void registerOnUseCallback(UseCallback callback)
-    {
-
-        onUse += callback;
-    }
-
-    public void unregisterOnUseCallback(UseCallback callback)
-    {
-
-        onUse -= callback;
-    }
 
 
     public override void OnNetworkSpawn()
@@ -225,89 +97,30 @@ public class PlayerNetwork : NetworkBehaviour
 
     }
 
-    void Update()
-    {
 
-        if (!IsOwner) return;
 
-        setLookRotation();
-    }
 
-    void FixedUpdate()
-    {
-
-        if (!IsOwner) return;
-
-        moveServerRpc();
-    }
-
-    [ServerRpc]
-    public void moveServerRpc()
-    {
-
-        move();
-    }
-
-    private void move()
+    public void shoot()
     {
 
 
+        if (weapon == null) return;
 
-        if (moveInput.Value.x == 0.0f)
+        weapon.shoot();
+
+        if (weapon.isEmpty())
         {
 
-            rb.velocity = new Vector3(0.0f, rb.velocity.y, rb.velocity.z);
+            dropWeapon();
         }
-        if (moveInput.Value.y == 0.0f)
+        else if (weapon as MolotovCocktailMock != null)
         {
 
-            rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, 0.0f);
-
+            weapon = null;
         }
-
-        if (rb.velocity.magnitude > maxMoveVelocity)
-        {
-
-            rb.velocity = rb.velocity.normalized * maxMoveVelocity;
-        }
-
-        Vector3 moveVec = new Vector3(moveInput.Value.x, 0.0f, moveInput.Value.y).normalized * moveForce;
-        rb.AddForce(moveVec);
     }
 
 
-    [ServerRpc]
-    private void setLookRotationServerRpc(Quaternion rot)
-    {
-
-        transform.rotation = rot;
-    }
-
-    private void setLookRotation()
-    {
-
-        Ray ray = Camera.main.ScreenPointToRay(
-                     new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0.0f));
-
-        RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit, 100.0f, LayerMask.GetMask("Ground")) ||
-            Physics.Raycast(ray, out hit, 100.0f, LayerMask.GetMask("Wall")))
-        {
-
-            float t = (transform.position.y - ray.origin.y) / ray.direction.y;
-
-            Vector3 position = ray.origin + t * ray.direction;
-
-            Quaternion rot = Quaternion.LookRotation(position - transform.position, Vector3.up);
-            rot.x = 0.0f;
-            rot.z = 0.0f;
-
-            setLookRotationServerRpc(rot);
-        }
-
-
-    }
 
     public void pickupWeapon(WeaponNetwork weapon)
     {
