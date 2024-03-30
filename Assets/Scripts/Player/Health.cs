@@ -148,7 +148,7 @@ public class Health : NetworkBehaviour
 
 
             PlayerNetwork player = gameObject.GetComponent<PlayerNetwork>();
-            player.disableBattleControls();
+            player.GetComponent<PlayerInput>().disableBattleControls();
             player.disableRenderer();
 
             Transform cam = Camera.main.transform;
