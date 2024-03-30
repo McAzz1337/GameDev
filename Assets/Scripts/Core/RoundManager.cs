@@ -104,7 +104,7 @@ public class RoundManager : NetworkBehaviour
             NetworkClient client = NetworkManager.Singleton.ConnectedClients[(ulong)i];
             PlayerNetwork player = client.PlayerObject.GetComponent<PlayerNetwork>();
             Debug.Log("null");
-            player.enableBattleControls();
+            player.GetComponent<PlayerInput>().enableBattleControls();
             player.enableRenderer();
 
             Health h = player.GetComponent<Health>();
@@ -136,7 +136,7 @@ public class RoundManager : NetworkBehaviour
 
             NetworkClient client = NetworkManager.Singleton.ConnectedClients[(ulong)i];
             PlayerNetwork player = client.PlayerObject.GetComponent<PlayerNetwork>();
-            player.disableBattleControls();
+            player.GetComponent<PlayerInput>().disableBattleControls();
         }
 
     }
