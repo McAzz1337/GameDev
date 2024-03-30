@@ -12,6 +12,9 @@ public class OscelatingMovement : NetworkBehaviour
 
     [SerializeField] private Transform transformA;
     [SerializeField] private Transform transformB;
+    [SerializeField] private BoxCollider killZoneTop;
+    [SerializeField] private BoxCollider killZoneBottom;
+    private BoxCollider boxCollider;
     private float startTime;
     private Transform target;
     private Transform start;
@@ -26,7 +29,9 @@ public class OscelatingMovement : NetworkBehaviour
     void Start()
     {
 
+        boxCollider = GetComponent<BoxCollider>();
         moving = false;
+        disableKillZones();
 
         if (!IsHost) return;
 
@@ -47,6 +52,21 @@ public class OscelatingMovement : NetworkBehaviour
         float z = Mathf.SmoothStep(start.position.z, target.position.z, t);
         transform.position = new Vector3(transform.position.x, transform.position.y, z);
 
+        if (Mathf.Abs(transform.position.z - target.position.z) < boxCollider.size.z + 1.0f)
+        {
+
+            if (target.position.z > transform.position.z)
+            {
+
+                killZoneTop.enabled = true;
+            }
+            else if (target.position.z < transform.position.z)
+            {
+
+                killZoneBottom.enabled = true;
+            }
+        }
+
         if (t >= 1.0f)
         {
 
@@ -54,6 +74,7 @@ public class OscelatingMovement : NetworkBehaviour
             start = target;
             target = temp;
             startTime = Time.time;
+            disableKillZones();
         }
     }
 
@@ -72,5 +93,12 @@ public class OscelatingMovement : NetworkBehaviour
 
         elapsed = Time.time - startTime;
         moving = false;
+    }
+
+    public void disableKillZones()
+    {
+
+        killZoneTop.enabled = false;
+        killZoneBottom.enabled = false;
     }
 }
