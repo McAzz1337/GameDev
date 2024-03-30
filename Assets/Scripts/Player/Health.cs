@@ -59,42 +59,42 @@ public class Health : NetworkBehaviour
     void OnTriggerEnter(Collider collider)
     {
 
-        ulong clientID = long.MaxValue;
+        ulong shooterID = long.MaxValue;
         if (collider.gameObject.TryGetComponent<IDHolder>(out IDHolder i))
         {
 
-            clientID = i.getClientID();
+            shooterID = i.getClientID();
         }
 
-        collisionCheck(1 << collider.gameObject.layer, clientID);
+        collisionCheck(1 << collider.gameObject.layer, shooterID);
     }
 
 
     void OnTriggerStay(Collider collider)
     {
 
-        ulong clientID = long.MaxValue;
+        ulong shooterID = long.MaxValue;
         if (collider.gameObject.TryGetComponent<IDHolder>(out IDHolder i))
         {
 
-            clientID = i.getClientID();
+            shooterID = i.getClientID();
         }
 
-        collisionCheck(1 << collider.gameObject.layer, clientID);
+        collisionCheck(1 << collider.gameObject.layer, shooterID);
     }
 
-    private void collisionCheck(int layer, ulong clientID)
+    private void collisionCheck(int layer, ulong shooterID)
     {
 
         bool takesDamage = IsOwner && !isDead() && (layer == LayerMask.GetMask("Damaging"));
 
         if (!takesDamage) return;
 
-        takeDamageServerRpc(clientID);
+        takeDamageServerRpc(shooterID, NetworkManager.Singleton.LocalClientId);
     }
 
     [ServerRpc]
-    public void takeDamageServerRpc(ulong clientID)
+    public void takeDamageServerRpc(ulong shooterID, ulong hitClientID)
     {
 
         hp.Value--;
@@ -102,10 +102,10 @@ public class Health : NetworkBehaviour
         if (isDead())
         {
 
-            if (clientID < ulong.MaxValue)
+            if (shooterID < ulong.MaxValue && shooterID != hitClientID)
             {
 
-                onDeath?.Invoke(clientID);
+                onDeath?.Invoke(shooterID);
             }
 
 
