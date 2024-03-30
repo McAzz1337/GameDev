@@ -13,20 +13,43 @@ public class Health : NetworkBehaviour
             NetworkVariableWritePermission.Server);
 
     // make DeathCallback take id of shooting player
-    public delegate void DeathCalback(ulong clientID);
-    private DeathCalback onDeath;
+    public delegate void DeathCallback(ulong clientID);
+    public delegate void SuicideCallback();
 
-    public void registerOnDeathCallback(DeathCalback callback)
+    private DeathCallback onDeath;
+    private SuicideCallback onSuicide;
+
+    public void registerOnDeathCallback(DeathCallback callback)
     {
 
         onDeath += callback;
     }
 
-    public void unregisterOnDeathCallback(DeathCalback callback)
+    public void unregisterOnDeathCallback(DeathCallback callback)
     {
 
         onDeath -= callback;
     }
+
+
+
+    public void registerOnSuicideCallback(SuicideCallback callback)
+    {
+
+        onSuicide += callback;
+    }
+
+    public void unregisterOnDeathCallback(SuicideCallback callback)
+    {
+
+        onSuicide -= callback;
+    }
+
+
+
+
+
+
 
 
     void OnCollisionEnter(Collision collision)
@@ -102,11 +125,26 @@ public class Health : NetworkBehaviour
         if (isDead())
         {
 
-            if (shooterID < ulong.MaxValue && shooterID != hitClientID)
+            if (shooterID <= ulong.MaxValue)
             {
 
-                onDeath?.Invoke(shooterID);
+                if (shooterID != hitClientID)
+                {
+
+                    onDeath?.Invoke(shooterID);
+                }
+                else
+                {
+
+                    onSuicide?.Invoke();
+                }
             }
+            else
+            {
+
+                onSuicide?.Invoke();
+            }
+
 
 
             PlayerNetwork player = gameObject.GetComponent<PlayerNetwork>();
