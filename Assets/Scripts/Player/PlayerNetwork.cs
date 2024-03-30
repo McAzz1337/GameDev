@@ -169,14 +169,12 @@ public class PlayerNetwork : NetworkBehaviour
     public void registerOnUseCallback(UseCallback callback)
     {
 
-        Debug.Log("registered");
         onUse += callback;
     }
 
     public void unregisterOnUseCallback(UseCallback callback)
     {
 
-        Debug.Log("unregistered");
         onUse -= callback;
     }
 
