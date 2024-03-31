@@ -84,16 +84,21 @@ public class PlayerNetwork : NetworkBehaviour
     {
         base.OnNetworkSpawn();
 
-        if (IsOwner) localPlayer = this;
-
-        isHost = IsHost;
-        isOwner = IsOwner;
-        isClient = IsClient;
     }
 
     void Start()
     {
 
+        if (IsOwner)
+        {
+
+            localPlayer = this;
+            GetComponent<IDHolder>().setClientID(NetworkManager.Singleton.LocalClientId);
+        }
+
+        isHost = IsHost;
+        isOwner = IsOwner;
+        isClient = IsClient;
 
     }
 
@@ -131,9 +136,10 @@ public class PlayerNetwork : NetworkBehaviour
         weapon.transform.rotation = weaponTransform.rotation;
         weapon.transform.SetParent(transform);
 
+        ulong clientID = GetComponent<IDHolder>().getClientID();
+        Debug.Log("ID ON PICKUP: " + clientID);
+        weapon.GetComponent<IDHolder>().setClientID(clientID);
     }
-
-
 
 
 

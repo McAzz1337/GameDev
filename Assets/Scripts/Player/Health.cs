@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Health : NetworkBehaviour
@@ -123,6 +124,7 @@ public class Health : NetworkBehaviour
     {
 
         hp.Value--;
+        Debug.Log(hitClientID + "was shot by: " + shooterID);
 
         if (isDead())
         {

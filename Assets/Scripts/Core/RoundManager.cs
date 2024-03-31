@@ -82,6 +82,7 @@ public class RoundManager : NetworkBehaviour
     public void ackgnowledgeDeath(ulong shooterID = ulong.MaxValue)
     {
 
+        Debug.Log("Shot by: " + shooterID);
         deadPlayers++;
         if (playersAlive() <= 1)
         {

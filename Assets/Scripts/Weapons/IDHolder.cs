@@ -11,7 +11,7 @@ public class IDHolder : NetworkBehaviour
                             new NetworkVariable<ulong>(
                                 ulong.MaxValue,
                                 NetworkVariableReadPermission.Everyone,
-                                NetworkVariableWritePermission.Server
+                                NetworkVariableWritePermission.Owner
                             );
 
     public ulong getClientID()

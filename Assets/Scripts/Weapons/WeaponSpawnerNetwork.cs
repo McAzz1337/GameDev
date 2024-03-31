@@ -32,7 +32,6 @@ public class WeaponSpawnerNetwork : NetworkBehaviour
     public void acitvate()
     {
 
-        if (!IsHost) return;
 
         gameObject.SetActive(true);
         spawnWeapon();
@@ -61,8 +60,8 @@ public class WeaponSpawnerNetwork : NetworkBehaviour
 
     void OnTriggerStay(Collider collider)
     {
-        checkPlayerPickup(collider);
 
+        checkPlayerPickup(collider);
     }
 
     private void checkPlayerPickup(Collider collider)
@@ -83,7 +82,6 @@ public class WeaponSpawnerNetwork : NetworkBehaviour
             {
 
                 player.pickupWeapon(spawnedWeapon);
-                spawnedWeapon.GetComponent<IDHolder>().setClientID(NetworkManager.Singleton.LocalClientId);
                 spawnedWeapon.GetComponent<CapsuleCollider>().enabled = true;
                 removeWeapon();
                 StartCoroutine("spawnWeaponTimed");
