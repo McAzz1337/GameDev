@@ -18,7 +18,6 @@ public class GameManager : NetworkBehaviour
 
     public static int MAX_PLAYERS = 4;
 
-    private int playerCount = 0;
     bool checkIfReady = true;
 
     public event EventHandler OnPlayerDataNetworkListChanged;
@@ -99,7 +98,6 @@ public class GameManager : NetworkBehaviour
                     .PlayerObject.GetComponent<PlayerNetwork>();
 
                 //connectedPlayers[i].transform.position = spawnTransforms[i].position;
-                playerCount++;
 
                 break;
             }
@@ -164,7 +162,7 @@ public class GameManager : NetworkBehaviour
     public int getPlayerCount()
     {
 
-        return playerCount;
+        return NetworkManager.Singleton.ConnectedClients.Count;
     }
 
 }
