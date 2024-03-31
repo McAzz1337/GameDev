@@ -41,13 +41,7 @@ public class RoundManager : NetworkBehaviour
             if (IsHost)
             {
 
-                spawnedClients++;
-
-                if (spawnedClients == GameManager.instance.getPlayerCount())
-                {
-
-                    startRound();
-                }
+                countSpawnedClients();
             }
             else
             {
@@ -61,6 +55,14 @@ public class RoundManager : NetworkBehaviour
     private void spawnClientServerRpc()
     {
 
+        countSpawnedClients();
+    }
+
+    private void countSpawnedClients()
+    {
+
+        if (!IsHost) return;
+
         spawnedClients++;
 
         if (spawnedClients == GameManager.instance.getPlayerCount())
@@ -68,11 +70,6 @@ public class RoundManager : NetworkBehaviour
 
             startRound();
         }
-    }
-
-
-    void Start()
-    {
 
     }
 
@@ -81,17 +78,23 @@ public class RoundManager : NetworkBehaviour
 
         ackgnowledgeDeath();
     }
-    public void ackgnowledgeDeath(ulong clientID = ulong.MaxValue)
+
+    public void ackgnowledgeDeath(ulong shooterID = ulong.MaxValue)
     {
 
         deadPlayers++;
-        if (NetworkManager.Singleton.ConnectedClients.Count - deadPlayers <= 1)
+        if (playersAlive() <= 1)
         {
 
             endRound();
         }
     }
 
+    public int playersAlive()
+    {
+
+        return NetworkManager.Singleton.ConnectedClients.Count - deadPlayers;
+    }
 
     void startRound()
     {
@@ -149,5 +152,7 @@ public class RoundManager : NetworkBehaviour
 
         toActivate.Add(g);
     }
+
+
 
 }
