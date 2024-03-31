@@ -25,8 +25,7 @@ public class Bazooka : WeaponNetwork
         Debug.Log("shoot");
         if (ammo.Value <= 0) return;
 
-        ulong clientID = NetworkManager.Singleton.LocalClientId;
-        shootServerRpc(clientID);
+        shootServerRpc(GetComponent<IDHolder>().getClientID());
 
         GameObject muzzleFlash = Instantiate(stats.muzzleFlashPrefab, muzzle.position, muzzle.rotation);
         Destructor d = muzzleFlash.AddComponent<Destructor>();
