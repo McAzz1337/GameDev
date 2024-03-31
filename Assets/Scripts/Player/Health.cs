@@ -6,7 +6,7 @@ using UnityEngine;
 public class Health : NetworkBehaviour
 {
 
-    public static int MAX_HP;
+    public static int MAX_HP = 1;
 
     [SerializeField]
     private NetworkVariable<int> hp =
