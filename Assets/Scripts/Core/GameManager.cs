@@ -10,9 +10,7 @@ using UnityEngine.UIElements.Experimental;
 public class GameManager : NetworkBehaviour
 {
 
-    [SerializeField] private GameObject[] toActivate;
     public static GameManager instance;
-    [SerializeField] private Transform[] spawnTransforms;
     [SerializeField] private PlayerNetwork[] connectedPlayers;
     private NetworkList<PlayerData> playerDataNetworkList;
 
