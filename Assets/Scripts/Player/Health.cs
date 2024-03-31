@@ -6,6 +6,8 @@ using UnityEngine;
 public class Health : NetworkBehaviour
 {
 
+    public static int MAX_HP;
+
     [SerializeField]
     private NetworkVariable<int> hp =
         new NetworkVariable<int>(1,
@@ -160,6 +162,12 @@ public class Health : NetworkBehaviour
     {
 
         return hp.Value <= 0;
+    }
+
+    public void resetHealth()
+    {
+
+        hp.Value = MAX_HP;
     }
 
 }
