@@ -108,6 +108,7 @@ public class RoundManager : NetworkBehaviour
             player.enableRenderer();
 
             Health h = player.GetComponent<Health>();
+            h.resetHealth();
             h.registerOnDeathCallback(ackgnowledgeDeath);
             h.registerOnSuicideCallback(acknowledgeSuicide);
 
