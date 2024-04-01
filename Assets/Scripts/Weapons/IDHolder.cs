@@ -25,4 +25,19 @@ public class IDHolder : NetworkBehaviour
 
         this.clientID.Value = clientID;
     }
+
+    public void fetchLocalClientID()
+    {
+
+        fetchLocalClientIClientRpc();
+    }
+
+    [ClientRpc]
+    public void fetchLocalClientIClientRpc()
+    {
+
+        if (!IsOwner) return;
+
+        clientID.Value = NetworkManager.Singleton.LocalClientId;
+    }
 }
