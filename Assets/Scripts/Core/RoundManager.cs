@@ -93,7 +93,7 @@ public class RoundManager : NetworkBehaviour
     public int playersAlive()
     {
 
-        return NetworkManager.Singleton.ConnectedClients.Count - deadPlayers;
+        return GameManager.instance.getPlayerCount() - deadPlayers;
     }
 
     void startRound()
@@ -135,13 +135,11 @@ public class RoundManager : NetworkBehaviour
     {
 
         Debug.Log("END ROUND");
-        for (int i = 0; i < NetworkManager.Singleton.ConnectedClients.Count; i++)
+        List<PlayerNetwork> players = GameManager.instance.getConnectedPlayers();
+
+        for (int i = 0; i < players.Count; i++)
         {
-
-            if (!GameManager.instance.isClientStillConnected(i)) continue;
-
-            NetworkClient client = NetworkManager.Singleton.ConnectedClients[(ulong)i];
-            PlayerNetwork player = client.PlayerObject.GetComponent<PlayerNetwork>();
+            PlayerNetwork player = players[i];
             player.GetComponent<PlayerInput>().disableBattleControls();
         }
 
