@@ -25,7 +25,6 @@ public class WeaponHolder : NetworkBehaviour
         weapon.transform.SetParent(transform);
 
         ulong clientID = GetComponent<IDHolder>().getClientID();
-        Debug.Log("ID ON PICKUP: " + clientID);
         weapon.GetComponent<IDHolder>().setClientID(clientID);
     }
 
