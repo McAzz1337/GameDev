@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 public class PlayerInput : NetworkBehaviour
 {
 
-    PlayerNetwork player;
+    private WeaponHolder weaponHolder;
     public delegate void UseCallback();
 
     private UseCallback onUse;
@@ -26,7 +26,7 @@ public class PlayerInput : NetworkBehaviour
     {
 
         controls = new PlayerControls();
-        player = GetComponent<PlayerNetwork>();
+        weaponHolder = GetComponent<WeaponHolder>();
     }
 
     void OnEnable()
@@ -110,7 +110,7 @@ public class PlayerInput : NetworkBehaviour
     {
 
 
-        player.shoot();
+        weaponHolder.shoot();
     }
 
     public void onThrowPerformed(InputAction.CallbackContext c)
