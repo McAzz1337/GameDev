@@ -11,7 +11,7 @@ public class GameManager : NetworkBehaviour
 {
 
     public static GameManager instance;
-    [SerializeField] private PlayerNetwork[] connectedPlayers;
+    [SerializeField] private List<PlayerNetwork> connectedPlayers;
     private NetworkList<PlayerData> playerDataNetworkList;
 
     public static int MAX_PLAYERS = 4;
@@ -48,7 +48,7 @@ public class GameManager : NetworkBehaviour
 
         instance = this;
         DontDestroyOnLoad(gameObject);
-        connectedPlayers = new PlayerNetwork[MAX_PLAYERS];
+        connectedPlayers = new List<PlayerNetwork>();
         playerDataNetworkList = new NetworkList<PlayerData>();
         playerDataNetworkList.OnListChanged += OnPlayerDataNetwork_OnListChanged;
     }
@@ -87,21 +87,11 @@ public class GameManager : NetworkBehaviour
 
         if (!IsHost) return;
 
-        for (int i = 0; i < MAX_PLAYERS; i++)
-        {
-
-            if (connectedPlayers[i] == null)
-            {
-
-                connectedPlayers[i] =
+        PlayerNetwork player =
                     NetworkManager.Singleton.ConnectedClients[clientID]
                     .PlayerObject.GetComponent<PlayerNetwork>();
 
-                //connectedPlayers[i].transform.position = spawnTransforms[i].position;
-
-                break;
-            }
-        }
+        connectedPlayers.Add(player);
     }
 
     public void clientDisconnected(ulong clientID)
@@ -109,7 +99,18 @@ public class GameManager : NetworkBehaviour
 
         if (!IsHost) return;
 
-        connectedPlayers[clientID] = null;
+        for (int i = 0; i < connectedPlayers.Count; i++)
+        {
+
+            IDHolder holder = connectedPlayers[i].GetComponent<IDHolder>();
+
+            if (holder.getClientID() == clientID)
+            {
+
+                connectedPlayers.Remove(holder.GetComponent<PlayerNetwork>());
+                break;
+            }
+        }
     }
 
     public void allPlayersReadyCheck()
@@ -170,13 +171,28 @@ public class GameManager : NetworkBehaviour
     public int getPlayerCount()
     {
 
-        return NetworkManager.Singleton.ConnectedClients.Count;
+        return connectedPlayers.Count;
+    }
+
+    public List<PlayerNetwork> getConnectedPlayers()
+    {
+
+        return connectedPlayers;
     }
 
     public bool isClientStillConnected(int index)
     {
 
-        return connectedPlayers[index] != null;
+        for (int i = 0; i < connectedPlayers.Count; i++)
+        {
+            if ((ulong)index == connectedPlayers[i].GetComponent<IDHolder>().getClientID())
+            {
+
+                return true;
+            }
+        }
+
+        return false;
     }
 
 }
