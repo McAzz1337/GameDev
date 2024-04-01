@@ -124,7 +124,6 @@ public class Health : NetworkBehaviour
     {
 
         hp.Value--;
-        Debug.Log(hitClientID + "was shot by: " + shooterID);
 
         if (isDead())
         {
