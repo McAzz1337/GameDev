@@ -138,6 +138,8 @@ public class RoundManager : NetworkBehaviour
         for (int i = 0; i < NetworkManager.Singleton.ConnectedClients.Count; i++)
         {
 
+            if (!GameManager.instance.isClientStillConnected(i)) continue;
+
             NetworkClient client = NetworkManager.Singleton.ConnectedClients[(ulong)i];
             PlayerNetwork player = client.PlayerObject.GetComponent<PlayerNetwork>();
             player.GetComponent<PlayerInput>().disableBattleControls();
