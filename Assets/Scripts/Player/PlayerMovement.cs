@@ -11,6 +11,41 @@ public class PlayerMovement : NetworkBehaviour
     [SerializeField] private float maxMoveVelocity = 10.0f;
     [SerializeField] private float moveForce = 30.0f;
 
+    [SerializeField]
+    NetworkVariable<bool> lookEnabled =
+                    new NetworkVariable<bool>(
+                        true,
+                        NetworkVariableReadPermission.Everyone,
+                        NetworkVariableWritePermission.Owner
+                    );
+
+    public void enableLookRotation()
+    {
+
+        enableLookRotationClientRpc();
+    }
+
+    [ClientRpc]
+    public void enableLookRotationClientRpc()
+    {
+
+        if (!IsOwner) return;
+
+        lookEnabled.Value = true;
+    }
+
+    public void disableLookRotation()
+    {
+
+        enableLookRotationClientRpc();
+    }
+
+    [ClientRpc]
+    public void disableLookRotationClientRpc()
+    {
+
+        lookEnabled.Value = false;
+    }
 
     void Start()
     {
@@ -38,6 +73,7 @@ public class PlayerMovement : NetworkBehaviour
     private void setLookRotation()
     {
 
+        if (!lookEnabled.Value) return;
         Ray ray = Camera.main.ScreenPointToRay(
                      new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0.0f));
 
