@@ -107,7 +107,6 @@ public class RoundManager : NetworkBehaviour
         {
 
             PlayerNetwork player = players[i];
-            Debug.Log("null");
             player.GetComponent<PlayerInput>().enableBattleControls();
             player.enableRenderer();
 
