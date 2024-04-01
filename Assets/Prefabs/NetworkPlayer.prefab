@@ -70,6 +70,7 @@ GameObject:
   - component: {fileID: -7463074576433254994}
   - component: {fileID: 30729105864835915}
   - component: {fileID: -5341838517421844599}
+  - component: {fileID: -1588126159106823521}
   m_Layer: 8
   m_Name: NetworkPlayer
   m_TagString: Untagged
@@ -257,13 +258,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e5dc2530d2933e4bab6b7d43fa5dffa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponTransform: {fileID: 4600499575792454174}
   isHost: 0
   isOwner: 0
   isClient: 0
-  weapon: {fileID: 0}
-  weaponType:
-    m_InternalValue: 2
 --- !u!114 &6527195847735747946
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -304,6 +301,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxMoveVelocity: 10
   moveForce: 30
+  lookEnabled:
+    m_InternalValue: 1
 --- !u!114 &-5341838517421844599
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -318,6 +317,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   clientID:
     m_InternalValue: 18446744073709551615
+--- !u!114 &-1588126159106823521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4570379688078303068}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a249969e67da25b4ab9ef84e8bc7b4f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponTransform: {fileID: 4600499575792454174}
+  weapon: {fileID: 0}
+  weaponType:
+    m_InternalValue: 2
 --- !u!1 &4654733898092045301
 GameObject:
   m_ObjectHideFlags: 0
