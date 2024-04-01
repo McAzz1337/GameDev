@@ -101,11 +101,12 @@ public class RoundManager : NetworkBehaviour
 
         if (!IsHost) return;
 
-        for (int i = 0; i < NetworkManager.Singleton.ConnectedClients.Count; i++)
+        List<PlayerNetwork> players = GameManager.instance.getConnectedPlayers();
+
+        for (int i = 0; i < players.Count; i++)
         {
 
-            NetworkClient client = NetworkManager.Singleton.ConnectedClients[(ulong)i];
-            PlayerNetwork player = client.PlayerObject.GetComponent<PlayerNetwork>();
+            PlayerNetwork player = players[i];
             Debug.Log("null");
             player.GetComponent<PlayerInput>().enableBattleControls();
             player.enableRenderer();
