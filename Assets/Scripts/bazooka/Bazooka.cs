@@ -22,8 +22,7 @@ public class Bazooka : WeaponNetwork
     public override void shoot()
     {
 
-        Debug.Log("shoot");
-        if (ammo.Value <= 0) return;
+
 
         shootServerRpc(GetComponent<IDHolder>().getClientID());
 
@@ -48,12 +47,6 @@ public class Bazooka : WeaponNetwork
                 Resources.Load("WeaponsNetwork/BlastRadius"),
                 hit.transform.position,
                 Quaternion.identity);
-
-
-
-            Quaternion rot = Quaternion.LookRotation(Vector3.Cross(-direction, hit.normal), hit.normal);
-            float angle = Vector3.Angle(-direction, hit.normal);
-            Vector3 position = hit.transform.position - direction * Mathf.Sin(angle) * 2;
         }
         else
         {
