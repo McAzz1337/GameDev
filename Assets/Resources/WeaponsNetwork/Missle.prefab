@@ -193,7 +193,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
@@ -233,8 +233,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22a7b3c5e05b0964f84e5296360fa525, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clientID: 0
-  explosionPrefab: {fileID: 1121192042590650, guid: 1edf73f9aa55d604ba61dbe1fe3faff8, type: 3}
   blastRadiusPrefab: {fileID: 6313982783840988302, guid: aef8d789205e4c941bdcc02e90e62c41, type: 3}
   force: 2000
 --- !u!114 &-7554864926788696449
@@ -249,4 +247,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21ff34af00b2b7f41b898b731b584d77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clientID: 0
+  clientID:
+    m_InternalValue: 18446744073709551615
