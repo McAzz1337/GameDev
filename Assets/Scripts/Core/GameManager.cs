@@ -110,19 +110,6 @@ public class GameManager : NetworkBehaviour
         if (!IsHost) return;
 
         connectedPlayers[clientID] = null;
-        Debug.Log("Client disconnected: " + clientID);
-
-        Debug.Log("Count: " + NetworkManager.Singleton.ConnectedClients.Count);
-        for (int i = 0; i < NetworkManager.Singleton.ConnectedClients.Count; i++)
-        {
-
-            if (connectedPlayers[i] == null) continue;
-
-            IDHolder holder = NetworkManager.Singleton.ConnectedClients[(ulong)i]
-                                .PlayerObject.GetComponent<IDHolder>();
-
-            Debug.Log("Connected client[" + i + "] has id: " + holder.getClientID());
-        }
     }
 
     public void allPlayersReadyCheck()
