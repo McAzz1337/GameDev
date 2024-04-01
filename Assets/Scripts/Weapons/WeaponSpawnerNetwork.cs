@@ -76,12 +76,12 @@ public class WeaponSpawnerNetwork : NetworkBehaviour
         {
 
 
-            PlayerNetwork player = collider.gameObject.GetComponent<PlayerNetwork>();
+            WeaponHolder holder = collider.gameObject.GetComponent<WeaponHolder>();
 
-            if (player.canPickupWeapon())
+            if (holder.canPickupWeapon())
             {
 
-                player.pickupWeapon(spawnedWeapon);
+                holder.pickupWeapon(spawnedWeapon);
                 spawnedWeapon.GetComponent<CapsuleCollider>().enabled = true;
                 removeWeapon();
                 StartCoroutine("spawnWeaponTimed");
