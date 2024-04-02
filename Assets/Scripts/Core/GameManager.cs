@@ -16,8 +16,6 @@ public class GameManager : NetworkBehaviour
 
     public static int MAX_PLAYERS = 4;
 
-    bool checkIfReady = true;
-
     public event EventHandler OnPlayerDataNetworkListChanged;
     public event EventHandler OnReadyChanged;
 
@@ -58,18 +56,7 @@ public class GameManager : NetworkBehaviour
         OnPlayerDataNetworkListChanged?.Invoke(this, EventArgs.Empty);
     }
 
-    void Start()
-    {
 
-    }
-
-    void Update()
-    {
-
-        if (!IsHost) return;
-
-        allPlayersReadyCheck();
-    }
 
     private void addToNetworkPlayerList(ulong clientId)
     {
@@ -108,22 +95,22 @@ public class GameManager : NetworkBehaviour
             {
 
                 connectedPlayers.Remove(player);
+                ready.Value.unreadyPlayer((int)clientID);
                 break;
             }
         }
+
+        allPlayersReadyCheck();
     }
 
     public void allPlayersReadyCheck()
     {
 
-        if (!IsHost || !checkIfReady) return;
 
-
-        if (playerDataNetworkList.Count > 0 && ready.Value.allReady(playerDataNetworkList.Count))
+        if (playerDataNetworkList.Count > 0 && ready.Value.allReady(connectedPlayers.Count))
         {
             Debug.Log("Everybody is ready");
             NetworkManager.Singleton.SceneManager.LoadScene("Map_004", LoadSceneMode.Single);
-            checkIfReady = false;
         }
     }
 
@@ -149,6 +136,8 @@ public class GameManager : NetworkBehaviour
     {
         ready.Value.readyPlayer((int)clientID);
         readyPlayerClientRpc(clientID);
+
+        allPlayersReadyCheck();
     }
 
     [ClientRpc]
