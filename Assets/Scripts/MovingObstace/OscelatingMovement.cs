@@ -40,6 +40,10 @@ public class OscelatingMovement : NetworkBehaviour
         int r = random.Next();
         start = (r & 0b1) == 1 ? transformA : transformB;
         target = (r & 0b1) == 1 ? transformB : transformA;
+
+        if (!IsHost) return;
+
+        calculatePosition();
     }
 
     void Update()
@@ -47,11 +51,7 @@ public class OscelatingMovement : NetworkBehaviour
 
         if (!IsHost || !moving) return;
 
-        float t = (Time.time - startTime) / travelDuration;
-
-        float z = Mathf.SmoothStep(start.position.z, target.position.z, t);
-        transform.position = new Vector3(transform.position.x, transform.position.y, z);
-
+        float t = calculatePosition();
         if (Mathf.Abs(transform.position.z - target.position.z) < boxCollider.size.z + 1.0f)
         {
 
@@ -78,6 +78,17 @@ public class OscelatingMovement : NetworkBehaviour
         }
     }
 
+    private float calculatePosition()
+    {
+
+        float t = (Time.time - startTime) / travelDuration;
+
+        float z = Mathf.SmoothStep(start.position.z, target.position.z, t);
+        transform.position = new Vector3(transform.position.x, transform.position.y, z);
+
+        return t;
+    }
+
     public void activate()
     {
 
@@ -93,6 +104,7 @@ public class OscelatingMovement : NetworkBehaviour
 
         elapsed = Time.time - startTime;
         moving = false;
+        disableKillZones();
     }
 
     public void disableKillZones()
