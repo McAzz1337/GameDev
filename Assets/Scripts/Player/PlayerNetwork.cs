@@ -10,281 +10,75 @@ public class PlayerNetwork : NetworkBehaviour
 
     public static PlayerNetwork localPlayer;
 
-    [Header("Movement")]
-    [SerializeField] private float moveForce = 30.0f;
-    [SerializeField] private float maxMoveVelocity = 10.0f;
-
-    [Header("References")]
-    [SerializeField] private Transform weaponTransform;
 
     [Header("Debug Info")]
     [SerializeField] private bool isHost;
     [SerializeField] private bool isOwner;
     [SerializeField] private bool isClient;
-    [SerializeField] private WeaponNetwork weapon;
-    [SerializeField]
-    private NetworkVariable<EWeapon> weaponType =
-                            new NetworkVariable<EWeapon>(
-                                EWeapon.NONE,
-                                NetworkVariableReadPermission.Everyone,
-                                NetworkVariableWritePermission.Server);
 
 
-    private NetworkVariable<Vector2> moveInput =
-        new NetworkVariable<Vector2>(Vector2.zero,
-        NetworkVariableReadPermission.Everyone,
-        NetworkVariableWritePermission.Owner);
-
-
-    Rigidbody rb;
-
-    PlayerControls controls;
+    public delegate void UseCallback();
+    private UseCallback onUse;
 
     void Awake()
     {
 
-        localPlayer = this;
-        controls = new PlayerControls();
-        rb = GetComponent<Rigidbody>();
     }
-
-    void OnEnable()
-    {
-
-
-        controls.BattleControls.Move.performed += onMovePerformed;
-        controls.BattleControls.Move.canceled += onMoveCanceled;
-        controls.BattleControls.Shoot.performed += onShootPerformed;
-        controls.BattleControls.Throw.performed += onThrowPerformed;
-        controls.Enable();
-
-        controls.BattleControls.Disable();
-    }
-
-    void OnDisable()
-    {
-
-        controls.BattleControls.Move.performed -= onMovePerformed;
-        controls.BattleControls.Move.canceled -= onMoveCanceled;
-        controls.BattleControls.Shoot.performed -= onShootPerformed;
-        controls.BattleControls.Throw.performed -= onThrowPerformed;
-        controls.Disable();
-    }
-
-    public void enableBattleControls()
-    {
-
-        enableBattleControlsClientRpc();
-    }
-
-    [ClientRpc]
-    public void enableBattleControlsClientRpc()
-    {
-
-        controls.BattleControls.Enable();
-    }
-
-    public void disableBattleControls()
-    {
-
-        disableBattleControlsClientRpc();
-    }
-
-    [ClientRpc]
-    public void disableBattleControlsClientRpc()
-    {
-
-        controls.BattleControls.Disable();
-    }
-
-
-    public void onMovePerformed(InputAction.CallbackContext c)
-    {
-
-        if (!IsOwner) return;
-
-        moveInput.Value = c.ReadValue<Vector2>();
-    }
-
-    public void onMoveCanceled(InputAction.CallbackContext c)
-    {
-
-        if (!IsOwner) return;
-
-        moveInput.Value = c.ReadValue<Vector2>();
-    }
-
-    public void onShootPerformed(InputAction.CallbackContext c)
-    {
-
-
-        if (!IsOwner) return;
-
-        onShootServerRpc();
-    }
-
-    [ServerRpc]
-    public void onShootServerRpc()
-    {
-
-        if (weapon == null) return;
-
-        weapon.shoot();
-
-        if (weapon.isEmpty())
-        {
-
-            dropWeapon();
-        }
-        else if (weapon as MolotovCocktailMock != null)
-        {
-
-            weapon = null;
-        }
-    }
-
-    public void onThrowPerformed(InputAction.CallbackContext c)
-    {
-
-        /*
-        if (molotov == null) return;
-
-        molotov.transform.SetParent(null);
-        molotov.shoot();
-
-        molotov = null;
-        */
-    }
-
 
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
 
-        isHost = IsHost;
-        isOwner = IsOwner;
-        isClient = IsClient;
-
-
     }
+
 
     void Start()
     {
 
-
-    }
-
-    void Update()
-    {
-
-        if (!IsOwner) return;
-
-        setLookRotation();
-    }
-
-    void FixedUpdate()
-    {
-
-        if (!IsOwner) return;
-
-        moveServerRpc();
-    }
-
-    [ServerRpc]
-    public void moveServerRpc()
-    {
-
-        move();
-    }
-
-    private void move()
-    {
-
-
-
-        if (moveInput.Value.x == 0.0f)
+        if (IsOwner)
         {
 
-            rb.velocity = new Vector3(0.0f, rb.velocity.y, rb.velocity.z);
-        }
-        if (moveInput.Value.y == 0.0f)
-        {
-
-            rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, 0.0f);
-
+            localPlayer = this;
+            GetComponent<IDHolder>().setClientID(NetworkManager.Singleton.LocalClientId);
         }
 
-        if (rb.velocity.magnitude > maxMoveVelocity)
-        {
-
-            rb.velocity = rb.velocity.normalized * maxMoveVelocity;
-        }
-
-        Vector3 moveVec = new Vector3(moveInput.Value.x, 0.0f, moveInput.Value.y).normalized * moveForce;
-        rb.AddForce(moveVec);
+        isHost = IsHost;
+        isOwner = IsOwner;
+        isClient = IsClient;
     }
 
-
-    [ServerRpc]
-    private void setLookRotationServerRpc(Quaternion rot)
+    public void enableRenderer()
     {
 
-        transform.rotation = rot;
+        enableRendererClientRpc();
     }
 
-    private void setLookRotation()
+    [ClientRpc]
+    public void enableRendererClientRpc()
     {
 
-        Ray ray = Camera.main.ScreenPointToRay(
-                     new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0.0f));
-
-        RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit, 100.0f, LayerMask.GetMask("Ground")) ||
-            Physics.Raycast(ray, out hit, 100.0f, LayerMask.GetMask("Wall")))
-        {
-
-            float t = (transform.position.y - ray.origin.y) / ray.direction.y;
-
-            Vector3 position = ray.origin + t * ray.direction;
-
-            Quaternion rot = Quaternion.LookRotation(position - transform.position, Vector3.up);
-            rot.x = 0.0f;
-            rot.z = 0.0f;
-
-            setLookRotationServerRpc(rot);
-        }
-
-
+        MeshRenderer mr = GetComponent<MeshRenderer>();
+        mr.enabled = true;
+        mr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
     }
 
-    public void pickupWeapon(WeaponNetwork weapon)
+    public void disableRenderer()
     {
 
-        this.weapon = weapon;
-        weaponType.Value = weapon.getIdentifier();
-        weapon.transform.position = weaponTransform.position;
-        weapon.transform.rotation = weaponTransform.rotation;
-        weapon.transform.SetParent(transform);
+        disableRendererClientRpc();
     }
 
-
-
-
-
-
-    public void dropWeapon()
+    [ClientRpc]
+    public void disableRendererClientRpc()
     {
 
-        weapon.drop();
-        weapon = null;
+        MeshRenderer mr = GetComponent<MeshRenderer>();
+        mr.enabled = false;
+        mr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
     }
 
 
-    public bool canPickupWeapon()
-    {
 
-        return weapon == null;
-    }
+
 
 }

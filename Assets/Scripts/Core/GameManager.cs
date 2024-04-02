@@ -10,16 +10,11 @@ using UnityEngine.UIElements.Experimental;
 public class GameManager : NetworkBehaviour
 {
 
-    [SerializeField] private GameObject[] toActivate;
     public static GameManager instance;
-    [SerializeField] private Transform[] spawnTransforms;
-    [SerializeField] private PlayerNetwork[] connectedPlayers;
+    [SerializeField] private List<PlayerNetwork> connectedPlayers;
     private NetworkList<PlayerData> playerDataNetworkList;
 
     public static int MAX_PLAYERS = 4;
-
-    private int playerCount = 0;
-    bool checkIfReady = true;
 
     public event EventHandler OnPlayerDataNetworkListChanged;
     public event EventHandler OnReadyChanged;
@@ -42,6 +37,8 @@ public class GameManager : NetworkBehaviour
 
         NetworkManager.Singleton.OnClientConnectedCallback += clientConnected;
         NetworkManager.Singleton.OnClientConnectedCallback += addToNetworkPlayerList;
+
+        NetworkManager.Singleton.OnClientDisconnectCallback += clientDisconnected;
     }
 
     void Awake()
@@ -49,7 +46,7 @@ public class GameManager : NetworkBehaviour
 
         instance = this;
         DontDestroyOnLoad(gameObject);
-        connectedPlayers = new PlayerNetwork[MAX_PLAYERS];
+        connectedPlayers = new List<PlayerNetwork>();
         playerDataNetworkList = new NetworkList<PlayerData>();
         playerDataNetworkList.OnListChanged += OnPlayerDataNetwork_OnListChanged;
     }
@@ -59,18 +56,7 @@ public class GameManager : NetworkBehaviour
         OnPlayerDataNetworkListChanged?.Invoke(this, EventArgs.Empty);
     }
 
-    void Start()
-    {
 
-    }
-
-    void Update()
-    {
-
-        if (!IsHost) return;
-
-        allPlayersReadyCheck();
-    }
 
     private void addToNetworkPlayerList(ulong clientId)
     {
@@ -88,35 +74,43 @@ public class GameManager : NetworkBehaviour
 
         if (!IsHost) return;
 
-        for (int i = 0; i < MAX_PLAYERS; i++)
-        {
-
-            if (connectedPlayers[i] == null)
-            {
-
-                connectedPlayers[i] =
+        PlayerNetwork player =
                     NetworkManager.Singleton.ConnectedClients[clientID]
                     .PlayerObject.GetComponent<PlayerNetwork>();
 
-                //connectedPlayers[i].transform.position = spawnTransforms[i].position;
-                playerCount++;
+        connectedPlayers.Add(player);
+    }
 
+    public void clientDisconnected(ulong clientID)
+    {
+
+        if (!IsHost) return;
+
+        foreach (PlayerNetwork player in connectedPlayers)
+        {
+
+            IDHolder holder = player.GetComponent<IDHolder>();
+
+            if (holder.getClientID() == clientID)
+            {
+
+                connectedPlayers.Remove(player);
+                ready.Value.unreadyPlayer((int)clientID);
                 break;
             }
         }
+
+        allPlayersReadyCheck();
     }
 
     public void allPlayersReadyCheck()
     {
 
-        if (!IsHost || !checkIfReady) return;
 
-
-        if (playerDataNetworkList.Count > 0 && ready.Value.allReady(playerDataNetworkList.Count))
+        if (playerDataNetworkList.Count > 0 && ready.Value.allReady(connectedPlayers.Count))
         {
             Debug.Log("Everybody is ready");
-            NetworkManager.Singleton.SceneManager.LoadScene("Map_003", LoadSceneMode.Single);
-            checkIfReady = false;
+            NetworkManager.Singleton.SceneManager.LoadScene("Map_004", LoadSceneMode.Single);
         }
     }
 
@@ -142,6 +136,8 @@ public class GameManager : NetworkBehaviour
     {
         ready.Value.readyPlayer((int)clientID);
         readyPlayerClientRpc(clientID);
+
+        allPlayersReadyCheck();
     }
 
     [ClientRpc]
@@ -164,7 +160,28 @@ public class GameManager : NetworkBehaviour
     public int getPlayerCount()
     {
 
-        return playerCount;
+        return connectedPlayers.Count;
+    }
+
+    public List<PlayerNetwork> getConnectedPlayers()
+    {
+
+        return connectedPlayers;
+    }
+
+    public bool isClientStillConnected(int index)
+    {
+
+        for (int i = 0; i < connectedPlayers.Count; i++)
+        {
+            if ((ulong)index == connectedPlayers[i].GetComponent<IDHolder>().getClientID())
+            {
+
+                return true;
+            }
+        }
+
+        return false;
     }
 
 }

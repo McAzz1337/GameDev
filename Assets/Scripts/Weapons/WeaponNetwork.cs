@@ -4,7 +4,7 @@ using UnityEngine;
 using Unity.Netcode;
 using System.Diagnostics;
 
-public class WeaponNetwork : NetworkBehaviour
+public abstract class WeaponNetwork : NetworkBehaviour
 {
 
     [SerializeField] protected Transform muzzle;
@@ -18,17 +18,19 @@ public class WeaponNetwork : NetworkBehaviour
                                     NetworkVariableWritePermission.Server
                                 );
 
+
     void Start()
     {
 
-        ammo.Value = stats.ammo;
         GetComponent<CapsuleCollider>().enabled = false;
     }
 
     protected void init()
     {
 
+        if (!IsHost) return;
 
+        ammo.Value = stats.ammo;
         GetComponentInChildren<MeshCollider>().enabled = false;
     }
 
@@ -37,29 +39,11 @@ public class WeaponNetwork : NetworkBehaviour
 
     }
 
-    public virtual void shoot()
-    {
-
-        if (ammo.Value <= 0) return;
-
-        ulong clientID = NetworkManager.Singleton.LocalClientId;
-        shootServerRpc(clientID);
-
-        GameObject muzzleFlash = Instantiate(stats.muzzleFlashPrefab, muzzle.position, muzzle.rotation);
-        Destructor d = muzzleFlash.AddComponent<Destructor>();
-        d.setDuration(0.25f);
-        d.setDestructableByClient(true);
-    }
+    public abstract void shoot();
 
     [ServerRpc]
     public virtual void shootServerRpc(ulong clientID)
     {
-
-
-        GameObject g = Instantiate(stats.projectilePrefab, muzzle.position, muzzle.rotation);
-        g.GetComponent<NetworkObject>().Spawn();
-        g.GetComponent<Projectile>().setClientID(clientID);
-        ammo.Value--;
 
     }
 

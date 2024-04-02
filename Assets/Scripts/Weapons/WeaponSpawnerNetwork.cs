@@ -18,22 +18,20 @@ public class WeaponSpawnerNetwork : NetworkBehaviour
     {
 
 
+
+
     }
 
 
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
-
-        if (!IsHost) return;
-
-        spawnWeapon();
     }
+
 
     public void acitvate()
     {
 
-        if (!IsHost) return;
 
         gameObject.SetActive(true);
         spawnWeapon();
@@ -43,7 +41,9 @@ public class WeaponSpawnerNetwork : NetworkBehaviour
     void Start()
     {
 
+        if (!IsHost) return;
 
+        spawnWeapon();
     }
 
     void Update()
@@ -60,8 +60,8 @@ public class WeaponSpawnerNetwork : NetworkBehaviour
 
     void OnTriggerStay(Collider collider)
     {
-        checkPlayerPickup(collider);
 
+        checkPlayerPickup(collider);
     }
 
     private void checkPlayerPickup(Collider collider)
@@ -76,12 +76,12 @@ public class WeaponSpawnerNetwork : NetworkBehaviour
         {
 
 
-            PlayerNetwork player = collider.gameObject.GetComponent<PlayerNetwork>();
+            WeaponHolder holder = collider.gameObject.GetComponent<WeaponHolder>();
 
-            if (player.canPickupWeapon())
+            if (holder.canPickupWeapon())
             {
 
-                player.pickupWeapon(spawnedWeapon);
+                holder.pickupWeapon(spawnedWeapon);
                 spawnedWeapon.GetComponent<CapsuleCollider>().enabled = true;
                 removeWeapon();
                 StartCoroutine("spawnWeaponTimed");
@@ -108,14 +108,22 @@ public class WeaponSpawnerNetwork : NetworkBehaviour
         spawnWeapon();
     }
 
+    [ServerRpc]
+    public void spawnWeaponServerRpc()
+    {
+
+        spawnWeapon();
+    }
+
     private void spawnWeapon()
     {
+
 
         int index = random.Next() % weaponPrefabs.Length;
 
 
-        GameObject g = Instantiate(NetworkManager.GetNetworkPrefabOverride(weaponPrefabs[index]));
-        g.GetComponent<NetworkObject>().Spawn();
+        GameObject g = Instantiate(weaponPrefabs[index]);
+        g.GetComponent<NetworkObject>().Spawn(true);
         spawnedWeapon = g.GetComponent<WeaponNetwork>();
         g.transform.position = transform.position;
 

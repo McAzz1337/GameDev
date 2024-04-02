@@ -31,11 +31,18 @@ public class MolotovCocktailMock : WeaponNetwork
         rb.AddForce(throwDirection.normalized * throwForce, ForceMode.VelocityChange);
     }
 
+    [ServerRpc]
+    public override void shootServerRpc(ulong clientID)
+    {
+    }
+
 
 
 
     void OnCollisionEnter(Collision collision)
     {
+
+        if (!IsHost) return;
 
         if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
@@ -57,16 +64,12 @@ public class MolotovCocktailMock : WeaponNetwork
     {
 
         GameObject g = Instantiate(fireEffect, transform.position, Quaternion.identity);
+
+        g.GetComponent<IDHolder>().setClientID(GetComponent<IDHolder>().getClientID());
         g.GetComponent<NetworkObject>().Spawn(true);
-        g.layer = LayerMask.NameToLayer("Damaging");
-
-        SphereCollider sc = g.AddComponent<SphereCollider>();
-        sc.isTrigger = true;
-        sc.radius = 2.0f;
-
-        g.AddComponent<Destructor>().setDuration(5.0f);
 
         GetComponent<NetworkObject>().Despawn();
         Destroy(gameObject);
     }
+
 }
