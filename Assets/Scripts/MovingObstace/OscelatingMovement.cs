@@ -15,6 +15,7 @@ public class OscelatingMovement : NetworkBehaviour
     [SerializeField] private BoxCollider killZoneTop;
     [SerializeField] private BoxCollider killZoneBottom;
     private BoxCollider boxCollider;
+    private float thersholdToSquash;
     private float startTime;
     private Transform target;
     private Transform start;
@@ -30,6 +31,7 @@ public class OscelatingMovement : NetworkBehaviour
     {
 
         boxCollider = GetComponent<BoxCollider>();
+        thersholdToSquash = PlayerNetwork.localPlayer.GetComponent<CapsuleCollider>().radius;
         moving = false;
         disableKillZones();
 
@@ -52,7 +54,7 @@ public class OscelatingMovement : NetworkBehaviour
         if (!IsHost || !moving) return;
 
         float t = calculatePosition();
-        if (Mathf.Abs(transform.position.z - target.position.z) < boxCollider.size.z + 1.0f)
+        if (Mathf.Abs(transform.position.z - target.position.z) < boxCollider.size.z - thersholdToSquash)
         {
 
             if (target.position.z > transform.position.z)
