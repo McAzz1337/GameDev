@@ -103,10 +103,9 @@ public class RoundManager : NetworkBehaviour
 
         List<PlayerNetwork> players = GameManager.instance.getConnectedPlayers();
 
-        for (int i = 0; i < players.Count; i++)
+        foreach (PlayerNetwork player in players)
         {
 
-            PlayerNetwork player = players[i];
             player.GetComponent<PlayerInput>().enableBattleControls();
             player.enableRenderer();
 
@@ -137,9 +136,9 @@ public class RoundManager : NetworkBehaviour
         Debug.Log("END ROUND");
         List<PlayerNetwork> players = GameManager.instance.getConnectedPlayers();
 
-        for (int i = 0; i < players.Count; i++)
+        foreach (PlayerNetwork player in players)
         {
-            PlayerNetwork player = players[i];
+
             player.GetComponent<PlayerInput>().disableBattleControls();
         }
 
