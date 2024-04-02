@@ -30,6 +30,10 @@ public class RoundManager : NetworkBehaviour
 
         base.OnNetworkSpawn();
 
+        if (!IsHost) return;
+
+        NetworkManager.Singleton.OnClientDisconnectCallback += acknowledgeDisconnect;
+
     }
 
     private void onSceneEvent(SceneEvent e)
@@ -77,6 +81,16 @@ public class RoundManager : NetworkBehaviour
     {
 
         ackgnowledgeDeath();
+    }
+
+    public void acknowledgeDisconnect(ulong clientID)
+    {
+
+        if (playersAlive() <= 1)
+        {
+
+            endRound();
+        }
     }
 
     public void ackgnowledgeDeath(ulong shooterID = ulong.MaxValue)
