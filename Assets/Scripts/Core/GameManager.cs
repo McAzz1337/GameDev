@@ -99,15 +99,15 @@ public class GameManager : NetworkBehaviour
 
         if (!IsHost) return;
 
-        for (int i = 0; i < connectedPlayers.Count; i++)
+        foreach (PlayerNetwork player in connectedPlayers)
         {
 
-            IDHolder holder = connectedPlayers[i].GetComponent<IDHolder>();
+            IDHolder holder = player.GetComponent<IDHolder>();
 
             if (holder.getClientID() == clientID)
             {
 
-                connectedPlayers.Remove(holder.GetComponent<PlayerNetwork>());
+                connectedPlayers.Remove(player);
                 break;
             }
         }
