@@ -24,8 +24,9 @@ public class Health : NetworkBehaviour
 
     public void registerOnDeathCallback(DeathCallback callback)
     {
-
         onDeath += callback;
+        PointManager.Instance.AddOnePoint((int)NetworkManager.Singleton.LocalClientId); // after kills system
+
     }
 
     public void unregisterOnDeathCallback(DeathCallback callback)

@@ -1,23 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.SocialPlatforms.Impl;
 
 // Change to NetworkBehaviour
-public class GameMonitor : MonoBehaviour
+public class GameMonitor : NetworkBehaviour
 {
     [SerializeField] public int winningConditionScore = 10;
     private bool isPlaying = true;
     public static int sceneIndex;
     public PointManager pointManager;
-    private List<PlayerScore> scorelist = new List<PlayerScore>();
+    public GameManager gameManager;
+   // private List<PlayerScore> scorelist = new List<PlayerScore>();
 
     private void Awake()
     {
-        loadScoreList();
-        PointManager.Instance.maxPlayers = transform.childCount;
+        //loadScoreList();
+        gameManager = GameManager.instance;
+        PointManager.Instance.maxPlayers = GameManager.MAX_PLAYERS;
         pointManager = PointManager.Instance;
+        
     }
 
     public void Start()
@@ -35,14 +40,15 @@ public class GameMonitor : MonoBehaviour
     public void Update()
     {
 
-        return;
+        //return;
+        if (!IsHost) return;
 
         if (isPlaying)
         {
             if (isRoundConcluded())
             {
                 isPlaying = false;
-                scoringByLastSurvivor();
+                //scoringByLastSurvivor();
                 getCurrentScores();
                 int winningPlayer = getWinningPlayer();
                 if (winningPlayer != -1)
@@ -53,13 +59,13 @@ public class GameMonitor : MonoBehaviour
                 else
                 {
                     Debug.Log("Called");
-                    SceneManager.LoadSceneAsync(3);
+                    SceneManager.LoadSceneAsync(5);
                 }
             }
         }
     }
-
-    private void loadScoreList()
+    
+   /* private void loadScoreList()
     {
         this.scorelist = new List<PlayerScore>();
         // Gehe durch jedes Kind des GameObjects
@@ -79,7 +85,7 @@ public class GameMonitor : MonoBehaviour
         {
             Debug.LogWarning("No TargetObject Available");
         }
-    }
+    }*/
     private void loadWinningScene(int winningPlayerIndex)
     {
         PlayerPrefs.SetInt("WinningPlayer", winningPlayerIndex);
@@ -88,7 +94,8 @@ public class GameMonitor : MonoBehaviour
 
     private bool isRoundConcluded()
     {
-        int remainingPlayers = this.scorelist.Count;
+        return gameManager.getPlayerCount() <= 1;
+        /*int remainingPlayers = this.scorelist.Count;
         foreach (PlayerScore p in scorelist)
         {
             TargetEventChecker checker = p.getPlayer().GetComponent<TargetEventChecker>();
@@ -99,13 +106,13 @@ public class GameMonitor : MonoBehaviour
         }
         Debug.Log("Amount Players: " + remainingPlayers);
 
-        return remainingPlayers <= 1;
+        return remainingPlayers <= 1;*/
     }
 
 
-    private void scoringByLastSurvivor()
+    /*private void scoringByLastSurvivor()
     {
-        for (int i = 0; i < this.scorelist.Count; i++)
+        for (int i = 0; i < GameManager.MAX_PLAYERS; i++)
         {
             TargetEventChecker checker = this.scorelist[i].getTargetEventChecker();
             if (checker.getIsDeath() == false)
@@ -114,11 +121,11 @@ public class GameMonitor : MonoBehaviour
             }
 
         }
-    }
+    }*/
 
     private int getWinningPlayer()
     {
-        for (int i = 0; i < this.scorelist.Count; i++)
+        for (int i = 0; i < GameManager.MAX_PLAYERS; i++)
         {
             if (pointManager.getPoints(i) == winningConditionScore)
             {
@@ -131,7 +138,7 @@ public class GameMonitor : MonoBehaviour
 
     public void getCurrentScores()
     {
-        for (int i = 0; i < this.scorelist.Count; i++)
+        for (int i = 0; i < GameManager.MAX_PLAYERS; i++)
         {
             Debug.Log("Player " + i + " : " + pointManager.getPoints(i));
 
