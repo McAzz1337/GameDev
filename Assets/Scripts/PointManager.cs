@@ -4,6 +4,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 using static Health;
+using System.Collections.Generic;
 
 public class PointManager : NetworkBehaviour
 {
@@ -24,7 +25,7 @@ public class PointManager : NetworkBehaviour
     }
 
     public int maxPlayers = 4;
-    private PlayerPoints[] playerPointsList;
+    [SerializeField] private PlayerPoints[] playerPointsList;
 
     private void Awake()
     {
@@ -33,7 +34,7 @@ public class PointManager : NetworkBehaviour
             instance = this;
             DontDestroyOnLoad(gameObject); // Make sure That GameObject won't be Destroyed by loading in Other Scenes.
             Initialize();
-            
+
         }
         else
         {
@@ -48,6 +49,16 @@ public class PointManager : NetworkBehaviour
         for (int i = 0; i < maxPlayers; i++)
         {
             playerPointsList[i] = new PlayerPoints(i);
+        }
+
+        if (!IsHost) return;
+
+        List<PlayerNetwork> players = GameManager.instance.getConnectedPlayers();
+        foreach (PlayerNetwork p in players)
+        {
+
+            Health healt = p.GetComponent<Health>();
+            healt.registerOnDeathCallback(AddOnePoint);
         }
     }
 
@@ -65,9 +76,9 @@ public class PointManager : NetworkBehaviour
         }
     }
 
-    public void AddOnePoint(int playerIndex)
+    public void AddOnePoint(ulong playerIndex)
     {
-        AddPoints(playerIndex, 1);
+        AddPoints((int)playerIndex, 1);
     }
 
     public void AddPoints(int playerIndex, int amount)

@@ -14,7 +14,7 @@ public class GameMonitor : NetworkBehaviour
     public static int sceneIndex;
     public PointManager pointManager;
     public GameManager gameManager;
-   // private List<PlayerScore> scorelist = new List<PlayerScore>();
+    // private List<PlayerScore> scorelist = new List<PlayerScore>();
 
     private void Awake()
     {
@@ -22,7 +22,7 @@ public class GameMonitor : NetworkBehaviour
         gameManager = GameManager.instance;
         PointManager.Instance.maxPlayers = GameManager.MAX_PLAYERS;
         pointManager = PointManager.Instance;
-        
+
     }
 
     public void Start()
@@ -64,28 +64,28 @@ public class GameMonitor : NetworkBehaviour
             }
         }
     }
-    
-   /* private void loadScoreList()
-    {
-        this.scorelist = new List<PlayerScore>();
-        // Gehe durch jedes Kind des GameObjects
-        if (transform.childCount > 0)
-        {
-            for (int i = 0; i < transform.childCount; i++)
-            {
-                // Hole das Transform des aktuellen Kindes
-                GameObject child = transform.GetChild(i).gameObject;
 
-                PlayerScore p = new PlayerScore(child);
-                this.scorelist.Add(p);
-                Debug.Log("score: " + p.getScore());
-            }
-        }
-        else
-        {
-            Debug.LogWarning("No TargetObject Available");
-        }
-    }*/
+    /* private void loadScoreList()
+     {
+         this.scorelist = new List<PlayerScore>();
+         // Gehe durch jedes Kind des GameObjects
+         if (transform.childCount > 0)
+         {
+             for (int i = 0; i < transform.childCount; i++)
+             {
+                 // Hole das Transform des aktuellen Kindes
+                 GameObject child = transform.GetChild(i).gameObject;
+
+                 PlayerScore p = new PlayerScore(child);
+                 this.scorelist.Add(p);
+                 Debug.Log("score: " + p.getScore());
+             }
+         }
+         else
+         {
+             Debug.LogWarning("No TargetObject Available");
+         }
+     }*/
     private void loadWinningScene(int winningPlayerIndex)
     {
         PlayerPrefs.SetInt("WinningPlayer", winningPlayerIndex);

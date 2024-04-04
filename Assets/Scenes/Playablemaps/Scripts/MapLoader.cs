@@ -29,7 +29,7 @@ public class MapLoader : NetworkBehaviour
 
     public static void loadMap(string mapnumber)
     {
-        string scenePath = Path.Combine(sceneFolderPath,"Map_" + mapnumber + ".unity");
+        string scenePath = Path.Combine(sceneFolderPath, "Map_" + mapnumber + ".unity");
 
         if (File.Exists(scenePath))
         {
@@ -38,7 +38,7 @@ public class MapLoader : NetworkBehaviour
         }
         else
         {
-            Debug.LogWarning("Szene '" + "Map_" + mapnumber  + "' nicht gefunden im Ordner '" + sceneFolderPath + "'.");
+            Debug.LogWarning("Szene '" + "Map_" + mapnumber + "' nicht gefunden im Ordner '" + sceneFolderPath + "'.");
         }
 
     }

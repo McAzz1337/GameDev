@@ -26,9 +26,10 @@ public class OscelatingMovement : NetworkBehaviour
 
     Random random;
 
-    // Start is called before the first frame update
-    void Start()
+
+    public override void OnNetworkSpawn()
     {
+        base.OnNetworkDespawn();
 
         boxCollider = GetComponent<BoxCollider>();
         thersholdToSquash = PlayerNetwork.localPlayer.GetComponent<CapsuleCollider>().radius;
@@ -43,9 +44,15 @@ public class OscelatingMovement : NetworkBehaviour
         start = (r & 0b1) == 1 ? transformA : transformB;
         target = (r & 0b1) == 1 ? transformB : transformA;
 
-        if (!IsHost) return;
-
         calculatePosition();
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+
+
+
     }
 
     void Update()
