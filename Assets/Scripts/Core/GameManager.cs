@@ -112,7 +112,7 @@ public class GameManager : NetworkBehaviour
             PointManager.Instance.maxPlayers = GameManager.MAX_PLAYERS;
             Debug.Log("Everybody is ready");
             MapLoader.LoadRandomSceneFromFolder();
-            //MapLoader.loadMap("002");
+            //MapLoader.loadMap("005");
             //NetworkManager.Singleton.SceneManager.LoadScene("Map_001", LoadSceneMode.Single);
         }
     }
