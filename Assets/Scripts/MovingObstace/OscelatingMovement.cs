@@ -35,16 +35,17 @@ public class OscelatingMovement : NetworkBehaviour
         thersholdToSquash = PlayerNetwork.localPlayer.GetComponent<CapsuleCollider>().radius;
         moving = false;
         disableKillZones();
+        random = new Random();
+        int r = random.Next();
+        start = (r & 0b1) == 1 ? transformA : transformB;
+        target = (r & 0b1) == 1 ? transformB : transformA;
+        calculatePosition();
 
         if (!IsHost) return;
 
         elapsed = 0.5f * travelDuration;
         random = new Random();
-        int r = random.Next();
-        start = (r & 0b1) == 1 ? transformA : transformB;
-        target = (r & 0b1) == 1 ? transformB : transformA;
 
-        calculatePosition();
     }
 
     // Start is called before the first frame update

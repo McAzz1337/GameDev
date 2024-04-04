@@ -2618,12 +2618,12 @@ MonoBehaviour:
   SyncPositionX: 1
   SyncPositionY: 1
   SyncPositionZ: 1
-  SyncRotAngleX: 1
-  SyncRotAngleY: 1
-  SyncRotAngleZ: 1
-  SyncScaleX: 1
-  SyncScaleY: 1
-  SyncScaleZ: 1
+  SyncRotAngleX: 0
+  SyncRotAngleY: 0
+  SyncRotAngleZ: 0
+  SyncScaleX: 0
+  SyncScaleY: 0
+  SyncScaleZ: 0
   PositionThreshold: 0.001
   RotAngleThreshold: 0.01
   ScaleThreshold: 0.01
@@ -3084,6 +3084,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1dbcfeb06ab578f4786d81f388702fb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pointManager: {fileID: 0}
+  winningConditionScore: 10
   deadPlayers: 0
 --- !u!4 &1854915078
 Transform:
