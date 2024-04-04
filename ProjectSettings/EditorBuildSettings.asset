@@ -32,13 +32,25 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/LobbyScene/LobbyScene.unity
     guid: acc2c53ee2af04e43b1f674a50bf9a54
-  - enabled: 1
+  - enabled: 0
+    path: Assets/Scenes/Playablemaps/Map_001.unity
+    guid: 5f3b34231ee64614ca1bfd1b0e7c189c
+  - enabled: 0
     path: Assets/Scenes/Playablemaps/Map_003/Map_003.unity
     guid: 6d25f28ec5cddf348b221c91d62587e6
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Playablemaps/Map_002/Map_002.unity
     guid: e2c67dd6b9a55ed449b93c4c36a7874f
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Playablemaps/Map_004/Map_004.unity
     guid: 4671a57e04f609447ab72a8a73cae454
+  - enabled: 1
+    path: Assets/Scenes/Playablemaps/Map_002.unity
+    guid: 2ecccbb29cbfa674699223a247376896
+  - enabled: 1
+    path: Assets/Scenes/Playablemaps/Map_003.unity
+    guid: 988f3eead51be954bb188c6e6241a9c6
+  - enabled: 1
+    path: Assets/Scenes/Playablemaps/Map_004.unity
+    guid: b46158f6905236e47b1df528289df1ad
   m_configObjects: {}

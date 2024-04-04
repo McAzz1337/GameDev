@@ -1,13 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using Unity.Netcode;
 using Unity.Services.Lobbies;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class RoundManager : NetworkBehaviour
 {
 
     public static RoundManager instance = null;
+    public PointManager pointManager;
+    [SerializeField] public int winningConditionScore = 10;
 
     private List<GameObject> toActivate = new List<GameObject>();
 
@@ -18,6 +22,7 @@ public class RoundManager : NetworkBehaviour
     {
 
         instance = this;
+        pointManager = PointManager.Instance;
     }
 
 
@@ -95,7 +100,7 @@ public class RoundManager : NetworkBehaviour
 
     public void ackgnowledgeDeath(ulong shooterID = ulong.MaxValue)
     {
-
+        Debug.Log("Shooter id" + shooterID);
         deadPlayers++;
         if (playersAlive() <= 1)
         {
@@ -154,6 +159,24 @@ public class RoundManager : NetworkBehaviour
         {
 
             player.GetComponent<PlayerInput>().disableBattleControls();
+        }
+        endGame();
+        NetworkManager.Singleton.SceneManager.LoadScene("scoretable", LoadSceneMode.Single);
+
+        //SceneManager.LoadSceneAsync(5);
+
+    }
+
+    public void endGame()
+    {
+        for (int i = 0; i < GameManager.MAX_PLAYERS; i++)
+        {
+            if (pointManager.getPoints(i) >= winningConditionScore)
+            {
+                PlayerPrefs.SetInt("WinningPlayer", i);
+                NetworkManager.Singleton.SceneManager.LoadScene("WinningScene", LoadSceneMode.Single);
+
+            }
         }
 
     }

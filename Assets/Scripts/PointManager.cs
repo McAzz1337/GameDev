@@ -1,3 +1,5 @@
+using TMPro;
+using System;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,10 +13,11 @@ public class PointManager : NetworkBehaviour
     private class PlayerPoints
     {
         public int points = 0;
-        public Text pointsText;
+        public TextMeshProUGUI pointsText;
+
     }
 
-    public int maxPlayers = 2;
+    public int maxPlayers = 4;
     private PlayerPoints[] playerPointsList;
 
     private void Awake()
@@ -63,6 +66,8 @@ public class PointManager : NetworkBehaviour
 
     public void AddPoints(int playerIndex, int amount)
     {
+        Debug.Log("Add Point for Player: " + playerIndex);
+        Debug.Log("playerPointsList :" + playerPointsList.Length);
         if (playerIndex >= 0 && playerIndex < maxPlayers)
         {
             playerPointsList[playerIndex].points += amount;
@@ -90,7 +95,7 @@ public class PointManager : NetworkBehaviour
 
     public int getPoints(int playerIndex)
     {
-        if(playerIndex >= 0 && playerIndex < maxPlayers)
+        if (playerIndex >= 0 && playerIndex < maxPlayers)
         {
             return playerPointsList[playerIndex].points;
         }
@@ -100,16 +105,18 @@ public class PointManager : NetworkBehaviour
     // Update UI Text for a certain Player
     private void UpdatePointsText(int playerIndex)
     {
+        Debug.Log("Enter Methode Update Text: " + playerIndex);
         if (playerIndex >= 0 && playerIndex < maxPlayers)
         {
             if (playerPointsList[playerIndex].pointsText != null)
             {
+                Debug.Log("Update Text: " + playerIndex);
                 playerPointsList[playerIndex].pointsText.text = "Player " + (playerIndex + 1) + " Points: " + playerPointsList[playerIndex].points.ToString();
             }
         }
     }
 
-    public void SetPointsText(int playerIndex, Text pointsText)
+    public void SetPointsText(int playerIndex, TextMeshProUGUI pointsText)
     {
         if (playerIndex >= 0 && playerIndex < maxPlayers)
         {
@@ -118,10 +125,10 @@ public class PointManager : NetworkBehaviour
         }
     }
 
-    public Text getPointText(int playerIndex)
+    public TextMeshProUGUI getPointText(int playerIndex)
     {
         if (playerIndex >= 0 && playerIndex < maxPlayers)
-        {
+        {          
             return playerPointsList[playerIndex].pointsText;
         }
         throw new System.Exception("PointText: Index Number is outside of Range");

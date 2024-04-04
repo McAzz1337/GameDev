@@ -109,8 +109,11 @@ public class GameManager : NetworkBehaviour
 
         if (playerDataNetworkList.Count > 0 && ready.Value.allReady(connectedPlayers.Count))
         {
+            PointManager.Instance.maxPlayers = GameManager.MAX_PLAYERS;
             Debug.Log("Everybody is ready");
-            NetworkManager.Singleton.SceneManager.LoadScene("Map_004", LoadSceneMode.Single);
+            MapLoader.LoadRandomSceneFromFolder();
+            //MapLoader.loadMap("002");
+            //NetworkManager.Singleton.SceneManager.LoadScene("Map_001", LoadSceneMode.Single);
         }
     }
 

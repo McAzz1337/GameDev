@@ -2,10 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class ScoreTableScreen : MonoBehaviour
+public class ScoreTableScreen : NetworkBehaviour
 {
     public TextMeshProUGUI scoreText;
     public PointManager pointManager;
@@ -25,14 +26,28 @@ public class ScoreTableScreen : MonoBehaviour
 
     public void RestartRound()
     {
-        SceneManager.LoadScene(ScoreManager.sceneIndex);
+        MapLoader.LoadRandomSceneFromFolder();
+        //SceneManager.LoadScene(ScoreManager.sceneIndex);
     }
 
 
     private void loadScoreList()
     {
-        for(int i = 0; i < pointManager.maxPlayers; i++) {
-            scoreText.text = pointManager.getPointText(i) + Environment.NewLine;
+        Debug.Log(pointManager.maxPlayers);
+        scoreText.text = "";
+        for (int i = 0; i < pointManager.maxPlayers; i++) {
+            TextMeshProUGUI playerText = pointManager.getPointText(i);
+
+            if (playerText != null)
+            {
+                // Füge den Text des Spielers zum scoreText hinzu
+                scoreText.text += playerText.text + Environment.NewLine;
+            }
+            else
+            {
+                // Wenn der Text null ist, füge eine Nachricht hinzu, dass der Spieler nicht existiert
+                scoreText.text += "Player " + (i + 1) + " Points: Player does not exist" + Environment.NewLine;
+            }
         }
     }
 }
