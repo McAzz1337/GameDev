@@ -36,12 +36,12 @@ public class ScoreTableScreen : NetworkBehaviour
         Debug.Log(pointManager.maxPlayers);
         scoreText.text = "";
         for (int i = 0; i < pointManager.maxPlayers; i++) {
-            TextMeshProUGUI playerText = pointManager.getPointText(i);
+            String playerText = pointManager.getPointText(i);
 
             if (playerText != null)
             {
                 // Füge den Text des Spielers zum scoreText hinzu
-                scoreText.text += playerText.text + Environment.NewLine;
+                scoreText.text += playerText + Environment.NewLine;
             }
             else
             {

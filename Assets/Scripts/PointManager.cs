@@ -13,7 +13,13 @@ public class PointManager : NetworkBehaviour
     private class PlayerPoints
     {
         public int points = 0;
-        public TextMeshProUGUI pointsText;
+        public String pointsText;
+
+        public PlayerPoints(int playerIndex)
+        {
+            this.pointsText = "Player " + (playerIndex + 1) + " Points: 0";
+        }
+
 
     }
 
@@ -41,7 +47,7 @@ public class PointManager : NetworkBehaviour
         playerPointsList = new PlayerPoints[maxPlayers];
         for (int i = 0; i < maxPlayers; i++)
         {
-            playerPointsList[i] = new PlayerPoints();
+            playerPointsList[i] = new PlayerPoints(i);
         }
     }
 
@@ -111,12 +117,12 @@ public class PointManager : NetworkBehaviour
             if (playerPointsList[playerIndex].pointsText != null)
             {
                 Debug.Log("Update Text: " + playerIndex);
-                playerPointsList[playerIndex].pointsText.text = "Player " + (playerIndex + 1) + " Points: " + playerPointsList[playerIndex].points.ToString();
+                playerPointsList[playerIndex].pointsText = "Player " + (playerIndex + 1) + " Points: " + playerPointsList[playerIndex].points.ToString();
             }
         }
     }
 
-    public void SetPointsText(int playerIndex, TextMeshProUGUI pointsText)
+    public void SetPointsText(int playerIndex, String pointsText)
     {
         if (playerIndex >= 0 && playerIndex < maxPlayers)
         {
@@ -125,10 +131,10 @@ public class PointManager : NetworkBehaviour
         }
     }
 
-    public TextMeshProUGUI getPointText(int playerIndex)
+    public String getPointText(int playerIndex)
     {
         if (playerIndex >= 0 && playerIndex < maxPlayers)
-        {          
+        {
             return playerPointsList[playerIndex].pointsText;
         }
         throw new System.Exception("PointText: Index Number is outside of Range");
