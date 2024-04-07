@@ -172,6 +172,21 @@ public class GameManager : NetworkBehaviour
         return connectedPlayers;
     }
 
+    public PlayerNetwork getPlayerWithID(ulong clientID)
+    {
+
+        foreach (PlayerNetwork player in getConnectedPlayers())
+        {
+            if (player.GetComponent<IDHolder>().getClientID() == clientID)
+            {
+
+                return player;
+            }
+        }
+
+        return null;
+    }
+
     public bool isClientStillConnected(int index)
     {
 
