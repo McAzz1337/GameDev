@@ -68,7 +68,12 @@ public class MolotovCocktailMock : WeaponNetwork
         g.GetComponent<IDHolder>().setClientID(GetComponent<IDHolder>().getClientID());
         g.GetComponent<NetworkObject>().Spawn(true);
 
-        GetComponent<NetworkObject>().Despawn();
+        if (TryGetComponent<NetworkObject>(out NetworkObject n))
+        {
+
+            n.Despawn();
+        }
+
         Destroy(gameObject);
     }
 
