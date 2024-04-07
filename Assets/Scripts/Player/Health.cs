@@ -122,6 +122,7 @@ public class Health : NetworkBehaviour
     public void takeDamageServerRpc(ulong shooterID, ulong hitClientID)
     {
 
+        Debug.Log("Hit from Player");
         hp.Value--;
 
         if (isDead())
