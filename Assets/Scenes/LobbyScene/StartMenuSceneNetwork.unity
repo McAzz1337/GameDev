@@ -1115,16 +1115,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7141b0ca85f19ea428aca3326cc85804, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  toActivate:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  spawnTransforms:
-  - {fileID: 1754582657}
-  - {fileID: 1839573724}
-  - {fileID: 898777033}
-  - {fileID: 1694776976}
   connectedPlayers: []
   ready:
     m_InternalValue:
