@@ -53,7 +53,7 @@ public class WeaponHolder : NetworkBehaviour
     public void dropWeapon()
     {
 
-        weapon.drop();
+        weapon?.drop();
         weapon = null;
     }
 
