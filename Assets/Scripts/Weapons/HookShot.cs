@@ -14,7 +14,7 @@ public class HookShot : WeaponNetwork
     public override void shoot()
     {
 
-        shootServerRpc(NetworkManager.Singleton.LocalClientId);
+        shootServerRpc(GetComponent<IDHolder>().getClientID());
     }
 
     [ServerRpc]
@@ -25,21 +25,20 @@ public class HookShot : WeaponNetwork
 
         ammo.Value--;
 
-        hook.GetComponent<IDHolder>().setClientID(GetComponent<IDHolder>().getClientID());
+        hook.GetComponent<IDHolder>().setClientID(clientID);
         hook.transform.SetParent(null);
         hook.GetComponent<CapsuleCollider>().enabled = true;
-        hook.GetComponent<Hook>().registerDropCallback(dropOnServer);
-        hook.layer = LayerMask.NameToLayer("Damaging");
 
-        Rigidbody rb = hook.AddComponent<Rigidbody>();
-        Vector3 dir = transform.forward;
-        rb.useGravity = false;
-        rb.AddForce(dir * force);
+        Hook hookObject = hook.GetComponent<Hook>();
+        hookObject.registerDropCallback(dropOnServer);
+        hookObject.setLayer(clientID);
+        hookObject.shoot();
 
 
         PlayerNetwork player = GameManager.instance.getPlayerWithID(clientID);
         player.GetComponent<PlayerMovement>().disableLookRotation();
         player.GetComponent<PlayerInput>().disableBattleControls();
+        player.GetComponent<Rigidbody>().velocity = Vector3.zero;
     }
 
     public override void drop()
@@ -57,13 +56,13 @@ public class HookShot : WeaponNetwork
     public void dropOnServer()
     {
 
+        transform.SetParent(null);
         PlayerNetwork player = GameManager.instance.getPlayerWithID(GetComponent<IDHolder>().getClientID());
         player.GetComponent<WeaponHolder>().dropWeapon();
         gameObject.AddComponent<Rigidbody>();
-        transform.SetParent(null);
 
-        gameObject.AddComponent<Destructor>().setDuration(5.0f);
-        hook.AddComponent<Destructor>().setDuration(5.0f);
+        gameObject.AddComponent<Destructor>().setDuration(3.0f);
+        hook.AddComponent<Destructor>().setDuration(3.0f);
     }
 
     public override bool isEmpty()
