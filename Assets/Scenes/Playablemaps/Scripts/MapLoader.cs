@@ -8,12 +8,19 @@ using UnityEngine.SceneManagement;
 public class MapLoader : NetworkBehaviour
 {
     public static string sceneFolderPath = "Assets/Scenes/Playablemaps";
+    private static int[] sceneIndeces = { 6, 7, 8, 9 };
 
     public static void LoadRandomSceneFromFolder()
     {
 
         // Get all scenes from a folder
-        string[] sceneFiles = Directory.GetFiles(sceneFolderPath, "*.unity");
+        //string[] sceneFiles = Directory.GetFiles(sceneFolderPath, "*.unity");
+        string[] sceneFiles = new string[sceneIndeces.Length];
+        for (int i = 0; i < sceneIndeces.Length; i++)
+        {
+
+            sceneFiles[i] = SceneUtility.GetScenePathByBuildIndex(sceneIndeces[i]);
+        }
 
         if (sceneFiles.Length > 0)
         {
