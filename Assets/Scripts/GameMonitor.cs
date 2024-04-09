@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -59,6 +60,7 @@ public class GameMonitor : NetworkBehaviour
                 else
                 {
                     Debug.Log("Called");
+                    Thread.Sleep(1000);
                     SceneManager.LoadSceneAsync(5);
                 }
             }
