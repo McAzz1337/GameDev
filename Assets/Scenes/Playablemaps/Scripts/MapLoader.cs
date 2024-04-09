@@ -18,9 +18,7 @@ public class MapLoader : NetworkBehaviour
         if (sceneFiles.Length > 0)
         {
             string randomScenePath = sceneFiles[Random.Range(0, sceneFiles.Length)];
-            // This doesnt work when Host is running in build
-            // Maps are not in "Assets/Scenes/Playablemaps" for the build
-            // Rather make a list of the maps indeces and randomly select an index
+
             NetworkManager.Singleton.SceneManager.LoadScene(Path.GetFileNameWithoutExtension(randomScenePath), LoadSceneMode.Single);
             //SceneManager.LoadScene(Path.GetFileNameWithoutExtension(randomScenePath));
         }
