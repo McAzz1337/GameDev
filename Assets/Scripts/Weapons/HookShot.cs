@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -10,6 +11,18 @@ public class HookShot : WeaponNetwork
     [SerializeField] private GameObject handle;
     [SerializeField] private GameObject hook;
     [SerializeField] private float force = 200;
+    private LineRenderer lineRenderer;
+
+    void Start()
+    {
+
+        lineRenderer = GetComponent<LineRenderer>();
+
+        Vector3[] positions = new Vector3[2];
+        positions[0] = transform.position;
+        positions[1] = hook.transform.position;
+        lineRenderer.SetPositions(positions);
+    }
 
     public override void shoot()
     {
@@ -41,6 +54,23 @@ public class HookShot : WeaponNetwork
         player.GetComponent<Rigidbody>().velocity = Vector3.zero;
     }
 
+    public void updateLineRenderer()
+    {
+
+        updateLineRendererClientRpc();
+    }
+
+    [ClientRpc]
+    private void updateLineRendererClientRpc()
+    {
+
+        Vector3[] positions = new Vector3[2];
+        positions[0] = transform.position;
+        positions[1] = hook.transform.position;
+        lineRenderer.SetPositions(positions);
+    }
+
+
     public override void drop()
     {
 
@@ -62,8 +92,18 @@ public class HookShot : WeaponNetwork
         gameObject.AddComponent<Rigidbody>();
 
         gameObject.AddComponent<Destructor>().setDuration(3.0f);
-        hook.AddComponent<Destructor>().setDuration(3.0f);
+
+        dropClientRpc();
     }
+
+    [ClientRpc]
+    private void dropClientRpc()
+    {
+
+        Destroy(lineRenderer);
+        Destroy(hook);
+    }
+
 
     public override bool isEmpty()
     {

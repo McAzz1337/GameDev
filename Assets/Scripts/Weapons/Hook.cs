@@ -7,10 +7,21 @@ using UnityEngine;
 public class Hook : Projectile
 {
 
+    private HookShot hookShot;
     public delegate void DropCallback();
     public DropCallback onHit;
 
+    private bool updateLineRenderer;
+
     [SerializeField] private float force = 1000;
+
+
+    void Start()
+    {
+
+        updateLineRenderer = false;
+        hookShot = GetComponentInParent<HookShot>();
+    }
 
     public void registerDropCallback(DropCallback callback)
     {
@@ -25,19 +36,14 @@ public class Hook : Projectile
         rb.AddForce(transform.up * force);
         rb.useGravity = false;
 
-
+        updateLineRenderer = true;
     }
+
 
     public void setLayer(ulong shooterID)
     {
 
         setLayerClientRpc(shooterID);
-
-        if (shooterID != NetworkManager.Singleton.LocalClientId)
-        {
-
-            gameObject.layer = LayerMask.NameToLayer("Damaging");
-        }
     }
 
     [ClientRpc]
@@ -49,10 +55,17 @@ public class Hook : Projectile
         gameObject.layer = LayerMask.NameToLayer("Damaging");
     }
 
+    void FixedUpdate()
+    {
+        if (!IsHost) return;
+        if (!updateLineRenderer) return;
+
+        hookShot.updateLineRenderer();
+    }
+
     void OnCollisionEnter(Collision collision)
     {
 
-        if (!IsHost) return;
 
         int layer = 1 << collision.gameObject.layer;
         Rigidbody rb = GetComponent<Rigidbody>();
@@ -74,7 +87,8 @@ public class Hook : Projectile
 
             player.transform.position = collision.transform.position;
 
-            onHit.Invoke();
+            updateLineRenderer = false;
+            onHitServerRpc();
         }
         else
         {
@@ -84,7 +98,16 @@ public class Hook : Projectile
             player.GetComponent<PlayerMovement>().enableLookRotation();
             player.GetComponent<PlayerInput>().enableBattleControls();
 
-            onHit.Invoke();
+            updateLineRenderer = false;
+            onHitServerRpc();
         }
+    }
+
+    [ServerRpc]
+    void onHitServerRpc()
+    {
+
+
+        onHit?.Invoke();
     }
 }
