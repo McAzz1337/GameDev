@@ -159,6 +159,7 @@ public class RoundManager : NetworkBehaviour
         {
 
             player.GetComponent<PlayerInput>().disableBattleControls();
+            player.GetComponent<WeaponHolder>().dropWeapon();
         }
         endGame();
         NetworkManager.Singleton.SceneManager.LoadScene("scoretable", LoadSceneMode.Single);
