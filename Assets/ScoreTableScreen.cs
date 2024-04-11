@@ -1,53 +1,117 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class ScoreTableScreen : NetworkBehaviour
 {
-    public TextMeshProUGUI scoreText;
-    public PointManager pointManager;
-
-    // Start is called before the first frame update
+    public TextMeshProUGUI[] scoreTexts;
+    private int spawnedClients = 0;
 
     private void Awake()
     {
-        pointManager = PointManager.Instance;
+
     }
 
     void Start()
     {
-        loadScoreList();
     }
 
-
-    public void RestartRound()
+    public override void OnNetworkSpawn()
     {
-        MapLoader.LoadRandomSceneFromFolder();
-        //SceneManager.LoadScene(ScoreManager.sceneIndex);
+
+        base.OnNetworkSpawn();
+
+        NetworkManager.SceneManager.OnSceneEvent += onSceneEvent;
     }
 
-
-    private void loadScoreList()
+    private void onSceneEvent(SceneEvent e)
     {
-        Debug.Log(pointManager.maxPlayers);
-        scoreText.text = "";
-        for (int i = 0; i < pointManager.maxPlayers; i++) {
-            String playerText = pointManager.getPointText(i);
 
-            if (playerText != null)
+        if (e.SceneEventType == SceneEventType.LoadEventCompleted)
+        {
+
+            if (IsHost)
             {
-                // Füge den Text des Spielers zum scoreText hinzu
-                scoreText.text += playerText + Environment.NewLine;
+
+                countSpawnedClients();
             }
             else
             {
-                // Wenn der Text null ist, füge eine Nachricht hinzu, dass der Spieler nicht existiert
-                scoreText.text += "Player " + (i + 1) + " Points: Player does not exist" + Environment.NewLine;
+
+                spawnClientServerRpc();
             }
+        }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void spawnClientServerRpc()
+    {
+
+        countSpawnedClients();
+    }
+
+    private void countSpawnedClients()
+    {
+
+        if (!IsHost) return;
+
+        spawnedClients++;
+
+        if (spawnedClients == GameManager.instance.getPlayerCount())
+        {
+
+            loadScoreList();
+        }
+
+    }
+
+    public void startNextRound()
+    {
+
+        MapLoader.LoadRandomSceneFromFolder();
+    }
+
+    private void loadScoreList()
+    {
+
+        int[] connectedPlayerIDs = new int[GameManager.MAX_PLAYERS];
+        List<PlayerNetwork> players = GameManager.instance.getConnectedPlayers();
+        int index = 0;
+        foreach (PlayerNetwork player in players)
+        {
+
+            int clientID = (int)player.GetComponent<IDHolder>().getClientID();
+            if (GameManager.instance.isClientStillConnected(clientID))
+            {
+
+                connectedPlayerIDs[index] = clientID;
+            }
+        }
+
+        int[] scoreTable = PointManager.instance.getScoreTable();
+        loadScoreListClientRpc(scoreTable, connectedPlayerIDs);
+    }
+
+    [ClientRpc]
+    private void loadScoreListClientRpc(int[] scoreTable, int[] connectedPlayerIDs)
+    {
+
+
+        int textIndex = 0;
+        for (int i = 0; i < GameManager.MAX_PLAYERS; i++)
+        {
+
+            if (!connectedPlayerIDs.Contains(i)) scoreTexts[textIndex].text = "";
+
+            string text = "Player " + i + " :\t" + scoreTable[i];
+            scoreTexts[textIndex].text = text;
+            textIndex++;
         }
     }
 }
