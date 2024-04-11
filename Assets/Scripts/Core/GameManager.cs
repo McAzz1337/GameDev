@@ -109,7 +109,7 @@ public class GameManager : NetworkBehaviour
 
         if (playerDataNetworkList.Count > 0 && ready.Value.allReady(connectedPlayers.Count))
         {
-            PointManager.Instance.maxPlayers = GameManager.MAX_PLAYERS;
+            //PointManager.Instance.maxPlayers = GameManager.MAX_PLAYERS;
             Debug.Log("Everybody is ready");
             MapLoader.LoadRandomSceneFromFolder();
             //MapLoader.loadMap("005");
@@ -149,6 +149,8 @@ public class GameManager : NetworkBehaviour
         ready.Value.readyPlayer((int)clientID);
         OnReadyChanged?.Invoke(this, EventArgs.Empty);
     }
+
+
 
     public bool IsPlayerIndexConnected(int playerIndex)
     {
@@ -201,5 +203,6 @@ public class GameManager : NetworkBehaviour
 
         return false;
     }
+
 
 }
