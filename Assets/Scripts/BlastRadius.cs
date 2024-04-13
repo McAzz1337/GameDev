@@ -7,9 +7,11 @@ public class BlastRadius : NetworkBehaviour
 {
     [SerializeField] private float radius;
     [SerializeField] private GameObject explosionPrefab;
+    [SerializeField] private AudioClip explostionClip;
 
     void Start()
     {
+
 
         if (!IsHost) return;
 
@@ -17,6 +19,13 @@ public class BlastRadius : NetworkBehaviour
 
         GameObject g = Instantiate(explosionPrefab, transform.position, transform.rotation);
         g.GetComponent<NetworkObject>().Spawn(true);
+    }
+
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+
+        AudioManager.instance.playClip(explostionClip);
     }
 
     void Update()
