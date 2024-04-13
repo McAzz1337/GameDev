@@ -15,6 +15,19 @@ public class WeaponHolder : NetworkBehaviour
                                 NetworkVariableReadPermission.Everyone,
                                 NetworkVariableWritePermission.Server);
 
+    private bool locked = false;
+
+    public void enableWeaponPickup()
+    {
+
+        locked = false;
+    }
+    public void disableWeaponPickup()
+    {
+
+        locked = true;
+    }
+
     public void pickupWeapon(WeaponNetwork weapon)
     {
 
@@ -62,6 +75,6 @@ public class WeaponHolder : NetworkBehaviour
     public bool canPickupWeapon()
     {
 
-        return weapon == null;
+        return !locked && weapon == null;
     }
 }
