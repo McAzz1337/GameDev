@@ -98,7 +98,7 @@ public class RoundManager : NetworkBehaviour
 
     public void ackgnowledgeDeath(ulong shooterID = ulong.MaxValue)
     {
-        Debug.Log("Shooter id" + shooterID);
+
         deadPlayers++;
         if (playersAlive() <= 1)
         {
@@ -127,6 +127,7 @@ public class RoundManager : NetworkBehaviour
 
             player.GetComponent<PlayerInput>().enableBattleControls();
             player.enableRenderer();
+            player.GetComponent<WeaponHolder>().enableWeaponPickup();
 
             Health h = player.GetComponent<Health>();
             h.resetHealth();
@@ -159,7 +160,9 @@ public class RoundManager : NetworkBehaviour
         {
 
             player.GetComponent<PlayerInput>().disableBattleControls();
-            player.GetComponent<WeaponHolder>().dropWeapon();
+            WeaponHolder weaponHolder = player.GetComponent<WeaponHolder>();
+            weaponHolder.dropWeapon();
+            weaponHolder.disableWeaponPickup();
         }
 
         GameMonitor.instance.roundConcluded();
