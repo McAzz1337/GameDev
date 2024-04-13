@@ -118,6 +118,8 @@ public class RoundManager : NetworkBehaviour
 
         if (!IsHost) return;
 
+        AudioManager.instance.playIntro();
+
         List<PlayerNetwork> players = GameManager.instance.getConnectedPlayers();
 
         while (UnityEngine.Object.ReferenceEquals(PointManager.instance, null)) { }
