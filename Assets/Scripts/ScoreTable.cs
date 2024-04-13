@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
+[System.Serializable]
 public struct ScoreTable : INetworkSerializable
 {
 
-    private int[] scores;
+    [SerializeField] private int[] scores;
 
     public ScoreTable(int playerCount)
     {
