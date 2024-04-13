@@ -50,9 +50,9 @@ public class Missle : Projectile
     {
 
         GameObject g = Instantiate(blastRadiusPrefab, transform.position, transform.rotation);
+        g.GetComponent<IDHolder>().setClientID(GetComponent<IDHolder>().getClientID());
         g.layer = LayerMask.NameToLayer("Damaging");
         g.GetComponent<NetworkObject>().Spawn(true);
-        g.GetComponent<IDHolder>().setClientID(GetComponent<IDHolder>().getClientID());
 
         Destroy(gameObject);
 
