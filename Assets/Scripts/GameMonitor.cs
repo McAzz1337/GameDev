@@ -41,7 +41,6 @@ public class GameMonitor : NetworkBehaviour
         }
         else
         {
-            Debug.Log("Called");
             Thread.Sleep(1000);
             NetworkManager.Singleton.SceneManager.LoadScene("scoretable", LoadSceneMode.Single);
         }
@@ -50,7 +49,7 @@ public class GameMonitor : NetworkBehaviour
     private void loadWinningScene(int winningPlayerIndex)
     {
         PlayerPrefs.SetInt("WinningPlayer", winningPlayerIndex);
-        SceneManager.LoadScene("WinningScene");
+        NetworkManager.Singleton.SceneManager.LoadScene("WinningScene", LoadSceneMode.Single);
     }
 
     private int getWinningPlayer()
@@ -65,7 +64,7 @@ public class GameMonitor : NetworkBehaviour
 
             ulong clientID = player.GetComponent<IDHolder>().getClientID();
             int score = PointManager.instance.getPoints((int)clientID);
-            if (score > winningConditionScore && score > highestScore)
+            if (score >= winningConditionScore && score > highestScore)
             {
 
                 playerWithHighestScore = (int)clientID;
