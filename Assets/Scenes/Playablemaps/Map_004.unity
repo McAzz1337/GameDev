@@ -1044,7 +1044,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6008180397658258127, guid: d71b1d01efa2e4e46a48b2dc604c8c2d, type: 3}
       propertyPath: m_Name
-      value: PointManager (1)
+      value: PointManager
       objectReference: {fileID: 0}
     - target: {fileID: 6719766280518994379, guid: d71b1d01efa2e4e46a48b2dc604c8c2d, type: 3}
       propertyPath: GlobalObjectIdHash
@@ -3145,7 +3145,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1dbcfeb06ab578f4786d81f388702fb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointManager: {fileID: 0}
   winningConditionScore: 10
   deadPlayers: 0
 --- !u!4 &1854915078
