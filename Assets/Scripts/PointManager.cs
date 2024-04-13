@@ -13,16 +13,18 @@ public class PointManager : NetworkBehaviour
     // Class to Save Points of one Player.
     public int maxPlayers = 4;
 
+    [SerializeField]
     private NetworkVariable<ScoreTable> scoreTable =
         new NetworkVariable<ScoreTable>(
             new ScoreTable(GameManager.MAX_PLAYERS),
             NetworkVariableReadPermission.Everyone,
             NetworkVariableWritePermission.Server);
 
+    private bool subscribedToCallbacks = false;
+
     void Awake()
     {
 
-        Debug.Log("instance is null: " + UnityEngine.Object.ReferenceEquals(instance, null));
         maxPlayers = GameManager.MAX_PLAYERS;
         if (UnityEngine.Object.ReferenceEquals(instance, null))
         {
@@ -47,17 +49,23 @@ public class PointManager : NetworkBehaviour
 
         Debug.Log("OnNetworkSpawn");
         if (!IsHost) return;
+        if (subscribedToCallbacks) return;
 
         List<PlayerNetwork> players = GameManager.instance.getConnectedPlayers();
-        Debug.Log("Players: " + players.Count);
         foreach (PlayerNetwork p in players)
         {
 
             Health health = p.GetComponent<Health>();
             health.registerOnDeathCallback(AddOnePoint);
-            Debug.Log("Subscribed to health of: " + p.GetComponent<IDHolder>().getClientID());
         }
 
+        subscribedToCallbacks = true;
+    }
+
+    void OnDestroy()
+    {
+
+        Debug.Log("Destroyed");
     }
 
     public void Initialize()
@@ -92,14 +100,14 @@ public class PointManager : NetworkBehaviour
         if (GameManager.instance.isClientStillConnected(playerIndex))
         {
 
-            scoreTable.Value.addPoints(playerIndex, amount);
+            scoreTable?.Value.addPoints(playerIndex, amount);
         }
     }
 
     public void ReducePoints(int playerIndex, int amount)
     {
 
-        if (GameManager.instance.IsPlayerIndexConnected(playerIndex))
+        if (GameManager.instance.isClientStillConnected(playerIndex))
         {
 
             scoreTable.Value.reducePoints(playerIndex, amount);
@@ -109,7 +117,7 @@ public class PointManager : NetworkBehaviour
     public void SetPoints(int playerIndex, int amount)
     {
 
-        if (GameManager.instance.IsPlayerIndexConnected(playerIndex))
+        if (GameManager.instance.isClientStillConnected(playerIndex))
         {
 
             scoreTable.Value.setPoints(playerIndex, amount);
@@ -119,7 +127,7 @@ public class PointManager : NetworkBehaviour
     public int getPoints(int playerIndex)
     {
 
-        if (GameManager.instance.IsPlayerIndexConnected(playerIndex))
+        if (GameManager.instance.isClientStillConnected(playerIndex))
         {
 
             return scoreTable.Value.getPointsOfPlayer(playerIndex);
