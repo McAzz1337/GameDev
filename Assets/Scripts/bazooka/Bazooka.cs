@@ -59,5 +59,14 @@ public class Bazooka : WeaponNetwork
         g.GetComponent<IDHolder>().setClientID(clientID);
     }
 
+    [ClientRpc]
+    public void shootClientRpc()
+    {
+
+        if (stats.shootSFX == null) return;
+
+        AudioManager.instance.playClip(stats.shootSFX);
+    }
+
 
 }
