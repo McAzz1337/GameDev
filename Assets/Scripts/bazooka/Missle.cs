@@ -10,6 +10,7 @@ public class Missle : Projectile
 
     [SerializeField] private GameObject blastRadiusPrefab;
     [SerializeField] private float force;
+
     void Start()
     {
 
@@ -55,7 +56,6 @@ public class Missle : Projectile
         g.GetComponent<NetworkObject>().Spawn(true);
 
         Destroy(gameObject);
-
     }
 
 
