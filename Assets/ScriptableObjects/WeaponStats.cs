@@ -10,4 +10,8 @@ public class WeaponStats : ScriptableObject
     public int ammo;
     public GameObject muzzleFlashPrefab;
     public GameObject projectilePrefab;
+
+    public int cooldownTime;
+
+    public AudioClip shootSFX;
 }
