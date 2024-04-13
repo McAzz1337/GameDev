@@ -91,6 +91,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 5
   explosionPrefab: {fileID: 1121192042590650, guid: 1edf73f9aa55d604ba61dbe1fe3faff8, type: 3}
+  explostionClip: {fileID: 8300000, guid: d6eb8d94e7af6af47a08618087ce1159, type: 3}
 --- !u!114 &-2806549822718968520
 MonoBehaviour:
   m_ObjectHideFlags: 0
