@@ -113,12 +113,33 @@ public class RoundManager : NetworkBehaviour
         return GameManager.instance.getPlayerCount() - deadPlayers;
     }
 
+    private void forFirstRound()
+    {
+
+        AudioManager.instance.playIntro();
+
+        List<PlayerNetwork> players = GameManager.instance.getConnectedPlayers();
+        foreach (PlayerNetwork player in players)
+        {
+
+            GameObject g = (GameObject)Instantiate(Resources.Load("WeaponsNetwork/BaseballBat"));
+            g.GetComponent<NetworkObject>().Spawn(true);
+            player.GetComponent<WeaponHolder>().pickupWeapon(g.GetComponent<Bat>());
+            g.GetComponent<Bat>().onPickup(player.gameObject);
+        }
+    }
+
     void startRound()
     {
 
         if (!IsHost) return;
 
-        AudioManager.instance.playIntro();
+        if (GameManager.instance.isFirstRound())
+        {
+
+            forFirstRound();
+            GameManager.instance.setFirstRound(false);
+        }
 
         List<PlayerNetwork> players = GameManager.instance.getConnectedPlayers();
 

@@ -6,6 +6,7 @@ using UnityEngine;
 public class WeaponHolder : NetworkBehaviour
 {
 
+    [SerializeField] private WeaponNetwork bat;
     [SerializeField] private Transform weaponTransform;
     [SerializeField] private WeaponNetwork weapon;
     [SerializeField]
@@ -17,6 +18,11 @@ public class WeaponHolder : NetworkBehaviour
 
     private bool locked = false;
 
+    void Awake()
+    {
+
+        weapon = bat;
+    }
     public void enableWeaponPickup()
     {
 
@@ -39,14 +45,23 @@ public class WeaponHolder : NetworkBehaviour
 
         ulong clientID = GetComponent<IDHolder>().getClientID();
         weapon.GetComponent<IDHolder>().setClientID(clientID);
+
+        if (weapon.TryGetComponent<Bat>(out Bat b))
+        {
+
+            bat = b;
+        }
+        else
+        {
+
+            bat.GetComponentInChildren<MeshRenderer>().enabled = false;
+        }
     }
 
 
     public void shoot()
     {
 
-
-        if (weapon == null) return;
 
         weapon.shoot();
 
@@ -58,7 +73,8 @@ public class WeaponHolder : NetworkBehaviour
         else if (weapon as MolotovCocktailMock != null)
         {
 
-            weapon = null;
+            weapon = bat;
+            bat.GetComponentInChildren<MeshRenderer>().enabled = true;
         }
     }
 
@@ -68,13 +84,14 @@ public class WeaponHolder : NetworkBehaviour
 
 
         weapon?.drop();
-        weapon = null;
+        bat.GetComponentInChildren<MeshRenderer>().enabled = true;
+        weapon = bat;
     }
 
 
     public bool canPickupWeapon()
     {
 
-        return !locked && weapon == null;
+        return !locked && weapon.getIdentifier() == EWeapon.BAT;
     }
 }

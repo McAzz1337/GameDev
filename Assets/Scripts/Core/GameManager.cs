@@ -11,6 +11,7 @@ public class GameManager : NetworkBehaviour
 {
 
     public static GameManager instance;
+    private bool firstRound;
     [SerializeField] private List<PlayerNetwork> connectedPlayers;
     private NetworkList<PlayerData> playerDataNetworkList;
 
@@ -111,6 +112,7 @@ public class GameManager : NetworkBehaviour
         {
             //PointManager.Instance.maxPlayers = GameManager.MAX_PLAYERS;
             Debug.Log("Everybody is ready");
+            firstRound = true;
             MapLoader.LoadRandomSceneFromFolder();
             //MapLoader.loadMap("005");
             //NetworkManager.Singleton.SceneManager.LoadScene("Map_001", LoadSceneMode.Single);
@@ -204,5 +206,15 @@ public class GameManager : NetworkBehaviour
         return false;
     }
 
+    public bool isFirstRound()
+    {
 
+        return firstRound;
+    }
+
+    public void setFirstRound(bool b)
+    {
+
+        firstRound = b;
+    }
 }

@@ -8,5 +8,6 @@ public enum EWeapon
     MOLOTOV,
     HOOK_SHOT,
     LANDMINE,
+    BAT,
     NONE
 }

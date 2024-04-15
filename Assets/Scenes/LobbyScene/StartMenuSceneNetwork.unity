@@ -1550,7 +1550,7 @@ MonoBehaviour:
   NetworkConfig:
     ProtocolVersion: 0
     NetworkTransport: {fileID: 909325522}
-    PlayerPrefab: {fileID: 4570379688078303068, guid: 3bf69cee938034f4491e7d1515020a6d, type: 3}
+    PlayerPrefab: {fileID: 5044204579084373463, guid: 3bf69cee938034f4491e7d1515020a6d, type: 3}
     Prefabs:
       NetworkPrefabsLists:
       - {fileID: 11400000, guid: 7051e07d94e38aa42a82306dca565bf0, type: 2}
@@ -2556,7 +2556,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1862449044022817793, guid: 75fcc928eb56be94aa5b82715ffb7157, type: 3}
       propertyPath: delay
-      value: 0.8
+      value: 0.925
       objectReference: {fileID: 0}
     - target: {fileID: 1862449044022817793, guid: 75fcc928eb56be94aa5b82715ffb7157, type: 3}
       propertyPath: intro
