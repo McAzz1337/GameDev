@@ -9,6 +9,8 @@ public class Health : NetworkBehaviour
 
     public static int MAX_HP = 1;
 
+    [SerializeField] private AudioClip deathClip;
+
     [SerializeField]
     private NetworkVariable<int> hp =
         new NetworkVariable<int>(1,
@@ -157,6 +159,8 @@ public class Health : NetworkBehaviour
         if (isDead())
         {
 
+            onDeathClientRpc();
+
             if (shooterID <= ulong.MaxValue)
             {
 
@@ -185,7 +189,15 @@ public class Health : NetworkBehaviour
 
             Transform cam = Camera.main.transform;
             player.transform.position = cam.position + new Vector3(0.0f, 0.0f, cam.forward.z * -10f);
+
         }
+    }
+
+    [ClientRpc]
+    private void onDeathClientRpc()
+    {
+
+        AudioManager.instance.playClip(deathClip);
     }
 
     public bool isDead()

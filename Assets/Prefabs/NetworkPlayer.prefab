@@ -487,6 +487,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f20e88ccc9d392f41967b7fb8574b093, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deathClip: {fileID: 8300000, guid: 6dfd6874f404a254f84fe8b1fead74d2, type: 3}
   hp:
     m_InternalValue: 1
 --- !u!114 &2842896686537126647
@@ -503,6 +504,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxMoveVelocity: 10
   moveForce: 30
+  pushed: 0
   lookEnabled:
     m_InternalValue: 1
 --- !u!114 &2175685277535942964
