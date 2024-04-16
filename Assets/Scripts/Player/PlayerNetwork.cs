@@ -41,6 +41,12 @@ public class PlayerNetwork : NetworkBehaviour
             localPlayer = this;
             GetComponent<IDHolder>().setClientID(NetworkManager.Singleton.LocalClientId);
         }
+        else
+        {
+
+            MeshRenderer mr = GetComponent<MeshRenderer>();
+            mr.materials[1].SetColor("_color", Color.red);
+        }
 
         isHost = IsHost;
         isOwner = IsOwner;

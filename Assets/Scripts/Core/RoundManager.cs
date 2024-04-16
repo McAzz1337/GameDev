@@ -10,7 +10,6 @@ public class RoundManager : NetworkBehaviour
 {
 
     public static RoundManager instance = null;
-    public PointManager pointManager;
     [SerializeField] public int winningConditionScore = 10;
 
     private List<GameObject> toActivate = new List<GameObject>();
@@ -22,7 +21,6 @@ public class RoundManager : NetworkBehaviour
     {
 
         instance = this;
-        pointManager = PointManager.Instance;
     }
 
 
@@ -122,6 +120,8 @@ public class RoundManager : NetworkBehaviour
 
         List<PlayerNetwork> players = GameManager.instance.getConnectedPlayers();
 
+        while (UnityEngine.Object.ReferenceEquals(PointManager.instance, null)) { }
+
         foreach (PlayerNetwork player in players)
         {
 
@@ -159,9 +159,11 @@ public class RoundManager : NetworkBehaviour
         {
 
             player.GetComponent<PlayerInput>().disableBattleControls();
+            player.GetComponent<WeaponHolder>().dropWeapon();
         }
+
+        GameMonitor.instance.roundConcluded();
         endGame();
-        NetworkManager.Singleton.SceneManager.LoadScene("scoretable", LoadSceneMode.Single);
 
         //SceneManager.LoadSceneAsync(5);
 
@@ -169,15 +171,6 @@ public class RoundManager : NetworkBehaviour
 
     public void endGame()
     {
-        for (int i = 0; i < GameManager.MAX_PLAYERS; i++)
-        {
-            if (pointManager.getPoints(i) >= winningConditionScore)
-            {
-                PlayerPrefs.SetInt("WinningPlayer", i);
-                NetworkManager.Singleton.SceneManager.LoadScene("WinningScene", LoadSceneMode.Single);
-
-            }
-        }
 
     }
 

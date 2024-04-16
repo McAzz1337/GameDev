@@ -10,140 +10,69 @@ using UnityEngine.SocialPlatforms.Impl;
 // Change to NetworkBehaviour
 public class GameMonitor : NetworkBehaviour
 {
+    public static GameMonitor instance = null;
     [SerializeField] public int winningConditionScore = 10;
-    private bool isPlaying = true;
     public static int sceneIndex;
-    public PointManager pointManager;
     public GameManager gameManager;
-    // private List<PlayerScore> scorelist = new List<PlayerScore>();
 
     private void Awake()
     {
-        //loadScoreList();
-        gameManager = GameManager.instance;
-        PointManager.Instance.maxPlayers = GameManager.MAX_PLAYERS;
-        pointManager = PointManager.Instance;
 
+        instance = this;
+        gameManager = GameManager.instance;
     }
 
     public void Start()
     {
-        isPlaying = true;
-        sceneIndex = SceneManager.GetActiveScene().buildIndex;
-        //loadScoreList();
-        Debug.Log("Amount Players: " + pointManager.maxPlayers);
 
-        // get players of GameManager and subscribe to DeathCallback
+        sceneIndex = SceneManager.GetActiveScene().buildIndex;
+        DontDestroyOnLoad(gameObject);
     }
 
-    // replace with the function called as DeathCallback
 
-    public void Update()
+    public void roundConcluded()
     {
 
-        //return;
-        if (!IsHost) return;
-
-        if (isPlaying)
+        int winningPlayer = getWinningPlayer();
+        if (winningPlayer != -1)
         {
-            if (isRoundConcluded())
-            {
-                isPlaying = false;
-                //scoringByLastSurvivor();
-                getCurrentScores();
-                int winningPlayer = getWinningPlayer();
-                if (winningPlayer != -1)
-                {
-                    Debug.Log("Winner: Player" + winningPlayer);
-                    loadWinningScene(winningPlayer);
-                }
-                else
-                {
-                    Debug.Log("Called");
-                    Thread.Sleep(1000);
-                    SceneManager.LoadSceneAsync(5);
-                }
-            }
+            Debug.Log("Winner: Player" + winningPlayer);
+            loadWinningScene(winningPlayer);
+        }
+        else
+        {
+            Debug.Log("Called");
+            Thread.Sleep(1000);
+            NetworkManager.Singleton.SceneManager.LoadScene("scoretable", LoadSceneMode.Single);
         }
     }
 
-    /* private void loadScoreList()
-     {
-         this.scorelist = new List<PlayerScore>();
-         // Gehe durch jedes Kind des GameObjects
-         if (transform.childCount > 0)
-         {
-             for (int i = 0; i < transform.childCount; i++)
-             {
-                 // Hole das Transform des aktuellen Kindes
-                 GameObject child = transform.GetChild(i).gameObject;
-
-                 PlayerScore p = new PlayerScore(child);
-                 this.scorelist.Add(p);
-                 Debug.Log("score: " + p.getScore());
-             }
-         }
-         else
-         {
-             Debug.LogWarning("No TargetObject Available");
-         }
-     }*/
     private void loadWinningScene(int winningPlayerIndex)
     {
         PlayerPrefs.SetInt("WinningPlayer", winningPlayerIndex);
         SceneManager.LoadScene("WinningScene");
     }
 
-    private bool isRoundConcluded()
-    {
-        return gameManager.getPlayerCount() <= 1;
-        /*int remainingPlayers = this.scorelist.Count;
-        foreach (PlayerScore p in scorelist)
-        {
-            TargetEventChecker checker = p.getPlayer().GetComponent<TargetEventChecker>();
-            if (checker.getIsDeath())
-            {
-                remainingPlayers--;
-            }
-        }
-        Debug.Log("Amount Players: " + remainingPlayers);
-
-        return remainingPlayers <= 1;*/
-    }
-
-
-    /*private void scoringByLastSurvivor()
-    {
-        for (int i = 0; i < GameManager.MAX_PLAYERS; i++)
-        {
-            TargetEventChecker checker = this.scorelist[i].getTargetEventChecker();
-            if (checker.getIsDeath() == false)
-            {
-                pointManager.AddPoints(i, 1);
-            }
-
-        }
-    }*/
-
     private int getWinningPlayer()
     {
-        for (int i = 0; i < GameManager.MAX_PLAYERS; i++)
+
+        int playerWithHighestScore = -1;
+        int highestScore = 0;
+
+        List<PlayerNetwork> players = GameManager.instance.getConnectedPlayers();
+        foreach (PlayerNetwork player in players)
         {
-            if (pointManager.getPoints(i) == winningConditionScore)
+
+            ulong clientID = player.GetComponent<IDHolder>().getClientID();
+            int score = PointManager.instance.getPoints((int)clientID);
+            if (score > winningConditionScore && score > highestScore)
             {
-                return i;
+
+                playerWithHighestScore = (int)clientID;
+                highestScore = score;
             }
         }
-        return -1;
 
-    }
-
-    public void getCurrentScores()
-    {
-        for (int i = 0; i < GameManager.MAX_PLAYERS; i++)
-        {
-            Debug.Log("Player " + i + " : " + pointManager.getPoints(i));
-
-        }
+        return playerWithHighestScore;
     }
 }
