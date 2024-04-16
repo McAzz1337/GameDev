@@ -14,6 +14,7 @@ public class Bat : WeaponNetwork
     private GameObject transformHolder;
     [SerializeField] private Transform[] transforms;
     private float duration;
+    [SerializeField] private float force;
 
     private Transform start;
     private Transform target;
@@ -136,17 +137,20 @@ public class Bat : WeaponNetwork
     {
 
         if (!IsHost) return;
+        if (swinging == 0) return;
 
         if ((1 << collider.gameObject.layer) == LayerMask.GetMask("Player"))
         {
 
-            Rigidbody rb = collider.attachedRigidbody;
-            Vector3 force = transform.forward;
-            force.x = 1000 * force.x * Mathf.Cos(Mathf.PI * 0.25f);
-            force.z = 1000 * force.z * Mathf.Sin(Mathf.PI * 0.25f);
-            force.y = 200 * Mathf.PI * 0.25f;
-            rb.AddForce(force, ForceMode.Impulse);
+            collider.gameObject.GetComponent<PlayerMovement>().setPushed(true);
 
+            Rigidbody rb = collider.attachedRigidbody;
+            rb.velocity = Vector3.zero;
+            Vector3 dir = transformHolder.transform.forward;
+            dir.x = force * dir.x * Mathf.Cos(Mathf.PI * 0.25f);
+            dir.z = force * dir.z * Mathf.Sin(Mathf.PI * 0.25f);
+            dir.y = force * 0.5f * Mathf.PI * 0.25f;
+            rb.AddForce(dir, ForceMode.Impulse);
         }
 
     }
