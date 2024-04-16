@@ -42,7 +42,7 @@ public class WeaponHolder : NetworkBehaviour
 
             dropWeapon();
         }
-        else if (weapon as MolotovCocktailMock != null)
+        else if (weapon as MolotovCocktailMock != null || weapon as Landmine != null)
         {
 
             weapon = null;
