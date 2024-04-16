@@ -41,7 +41,6 @@ public class GameMonitor : NetworkBehaviour
         }
         else
         {
-            Thread.Sleep(1000);
             NetworkManager.Singleton.SceneManager.LoadScene("scoretable", LoadSceneMode.Single);
         }
     }
