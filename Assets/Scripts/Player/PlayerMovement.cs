@@ -11,6 +11,9 @@ public class PlayerMovement : NetworkBehaviour
     [SerializeField] private float maxMoveVelocity = 10.0f;
     [SerializeField] private float moveForce = 30.0f;
 
+    [SerializeField] private bool pushed;
+
+
     [SerializeField]
     NetworkVariable<bool> lookEnabled =
                     new NetworkVariable<bool>(
@@ -115,6 +118,7 @@ public class PlayerMovement : NetworkBehaviour
     private void move()
     {
 
+        if (pushed) return;
 
         Vector2 moveInput = playerInput.getMoveInput();
         if (moveInput.x == 0.0f)
@@ -139,5 +143,24 @@ public class PlayerMovement : NetworkBehaviour
         rb.AddForce(moveVec);
     }
 
+    void OnCollisionEnter(Collision collision)
+    {
+
+        if (!pushed) return;
+
+
+        if ((1 << collision.gameObject.layer) == LayerMask.GetMask("Ground"))
+        {
+
+            pushed = false;
+        }
+
+    }
+
+    public void setPushed(bool b)
+    {
+
+        pushed = b;
+    }
 
 }
