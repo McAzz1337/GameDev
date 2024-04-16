@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5689,7 +5689,7 @@ GameObject:
   - component: {fileID: 366905595}
   - component: {fileID: 366905594}
   - component: {fileID: 366905593}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9086,6 +9086,10 @@ PrefabInstance:
     - target: {fileID: 5709352525323970862, guid: e090821b19aff874fa7b2427e6b45738, type: 3}
       propertyPath: m_Name
       value: Wall (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5709352525323970862, guid: e090821b19aff874fa7b2427e6b45738, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7101373109389640465, guid: e090821b19aff874fa7b2427e6b45738, type: 3}
       propertyPath: m_Mesh
@@ -26781,7 +26785,7 @@ GameObject:
   - component: {fileID: 1310561534}
   - component: {fileID: 1310561533}
   - component: {fileID: 1310561532}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31282,7 +31286,7 @@ GameObject:
   - component: {fileID: 1598741601}
   - component: {fileID: 1598741600}
   - component: {fileID: 1598741599}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34250,7 +34254,7 @@ GameObject:
   - component: {fileID: 1780170975}
   - component: {fileID: 1780170974}
   - component: {fileID: 1780170973}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36390,7 +36394,7 @@ GameObject:
   - component: {fileID: 1964980997}
   - component: {fileID: 1964980996}
   - component: {fileID: 1964980995}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39425,7 +39429,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1dbcfeb06ab578f4786d81f388702fb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointManager: {fileID: 0}
   winningConditionScore: 10
   deadPlayers: 0
 --- !u!4 &2114117314
