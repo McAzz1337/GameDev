@@ -105,6 +105,7 @@ MonoBehaviour:
   ammo:
     m_InternalValue: 1
   transforms: []
+  force: 10
 --- !u!114 &5011611017980305261
 MonoBehaviour:
   m_ObjectHideFlags: 0
