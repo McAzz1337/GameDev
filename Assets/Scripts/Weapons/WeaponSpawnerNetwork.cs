@@ -20,7 +20,7 @@ public class WeaponSpawnerNetwork : NetworkBehaviour
     {
 
 
-        //onlySpawnThisWeaponOverride = (GameObject)Resources.Load("WeaponsNetwork/landmine");
+        //onlySpawnThisWeaponOverride = (GameObject)Resources.Load("WeaponsNetwork/Landmine");
 
     }
 

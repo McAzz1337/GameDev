@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -589,6 +589,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6496777577507517124, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
+      propertyPath: weaponPrefabs.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6496777577507517124, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
+      propertyPath: weaponPrefabs.Array.data[3]
+      value: 
+      objectReference: {fileID: 4446650149125629996, guid: 14e8b00de6d45b140b9fd06a2372b45b, type: 3}
     - target: {fileID: 6560506146630303930, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 2789775913
@@ -743,6 +751,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6496777577507517124, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
+      propertyPath: weaponPrefabs.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6496777577507517124, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
+      propertyPath: weaponPrefabs.Array.data[3]
+      value: 
+      objectReference: {fileID: 4446650149125629996, guid: 14e8b00de6d45b140b9fd06a2372b45b, type: 3}
     - target: {fileID: 6560506146630303930, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 1607309176
@@ -809,6 +825,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6496777577507517124, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
+      propertyPath: weaponPrefabs.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6496777577507517124, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
+      propertyPath: weaponPrefabs.Array.data[3]
+      value: 
+      objectReference: {fileID: 4446650149125629996, guid: 14e8b00de6d45b140b9fd06a2372b45b, type: 3}
     - target: {fileID: 6560506146630303930, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 2282488798
@@ -980,6 +1004,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6496777577507517124, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
+      propertyPath: weaponPrefabs.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6496777577507517124, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
+      propertyPath: weaponPrefabs.Array.data[3]
+      value: 
+      objectReference: {fileID: 4446650149125629996, guid: 14e8b00de6d45b140b9fd06a2372b45b, type: 3}
     - target: {fileID: 6560506146630303930, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 2210328960
@@ -1337,6 +1369,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6496777577507517124, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
+      propertyPath: weaponPrefabs.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6496777577507517124, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
+      propertyPath: weaponPrefabs.Array.data[3]
+      value: 
+      objectReference: {fileID: 4446650149125629996, guid: 14e8b00de6d45b140b9fd06a2372b45b, type: 3}
     - target: {fileID: 6560506146630303930, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 285038873
@@ -1403,6 +1443,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6496777577507517124, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
+      propertyPath: weaponPrefabs.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6496777577507517124, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
+      propertyPath: weaponPrefabs.Array.data[3]
+      value: 
+      objectReference: {fileID: 4446650149125629996, guid: 14e8b00de6d45b140b9fd06a2372b45b, type: 3}
     - target: {fileID: 6560506146630303930, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 2030019696
@@ -2220,6 +2268,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6496777577507517124, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
+      propertyPath: weaponPrefabs.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6496777577507517124, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
+      propertyPath: weaponPrefabs.Array.data[3]
+      value: 
+      objectReference: {fileID: 4446650149125629996, guid: 14e8b00de6d45b140b9fd06a2372b45b, type: 3}
     - target: {fileID: 6560506146630303930, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 2865490653
@@ -3020,6 +3076,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6496777577507517124, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
+      propertyPath: weaponPrefabs.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6496777577507517124, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
+      propertyPath: weaponPrefabs.Array.data[3]
+      value: 
+      objectReference: {fileID: 4446650149125629996, guid: 14e8b00de6d45b140b9fd06a2372b45b, type: 3}
     - target: {fileID: 6560506146630303930, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 185553126
@@ -3154,6 +3218,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6496777577507517124, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
+      propertyPath: weaponPrefabs.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6496777577507517124, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
+      propertyPath: weaponPrefabs.Array.data[3]
+      value: 
+      objectReference: {fileID: 4446650149125629996, guid: 14e8b00de6d45b140b9fd06a2372b45b, type: 3}
     - target: {fileID: 6560506146630303930, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 3366972236
@@ -3679,6 +3751,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6496777577507517124, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
+      propertyPath: weaponPrefabs.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6496777577507517124, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
+      propertyPath: weaponPrefabs.Array.data[3]
+      value: 
+      objectReference: {fileID: 4446650149125629996, guid: 14e8b00de6d45b140b9fd06a2372b45b, type: 3}
     - target: {fileID: 6560506146630303930, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 4175412811
@@ -3811,6 +3891,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6496777577507517124, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
+      propertyPath: weaponPrefabs.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6496777577507517124, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
+      propertyPath: weaponPrefabs.Array.data[3]
+      value: 
+      objectReference: {fileID: 4446650149125629996, guid: 14e8b00de6d45b140b9fd06a2372b45b, type: 3}
     - target: {fileID: 6560506146630303930, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 3092546084
@@ -3877,6 +3965,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6496777577507517124, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
+      propertyPath: weaponPrefabs.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6496777577507517124, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
+      propertyPath: weaponPrefabs.Array.data[3]
+      value: 
+      objectReference: {fileID: 4446650149125629996, guid: 14e8b00de6d45b140b9fd06a2372b45b, type: 3}
     - target: {fileID: 6560506146630303930, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 1338673384
