@@ -50,7 +50,7 @@ MonoBehaviour:
   - {fileID: 1984652972206848967, guid: cecf6f83d623a68459e99afdfd4cb878, type: 3}
   - {fileID: 4581869436542759413, guid: 6a2880c4bc27c5249a27dab323645458, type: 3}
   - {fileID: 8928604923895097525, guid: b2e3309a9b0bcce40aa24287e4ce1423, type: 3}
-  - {fileID: 4446650149125629996, guid: 14e8b00de6d45b140b9fd06a2372b45b, type: 3}
+  - {fileID: 9109196795784550414, guid: 14e8b00de6d45b140b9fd06a2372b45b, type: 3}
   delay: 5
   spawnedWeapon: {fileID: 0}
 --- !u!114 &6560506146630303930
