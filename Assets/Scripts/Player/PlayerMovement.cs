@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerMovement : NetworkBehaviour
 {
@@ -75,10 +76,9 @@ public class PlayerMovement : NetworkBehaviour
 
     private void setLookRotation()
     {
-
         if (!lookEnabled.Value) return;
         Ray ray = Camera.main.ScreenPointToRay(
-                     new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0.0f));
+                     new Vector3(playerInput.getRotationInput().x, playerInput.getRotationInput().y, 0.0f));
 
         RaycastHit hit;
 
