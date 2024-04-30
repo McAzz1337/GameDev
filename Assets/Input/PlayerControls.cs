@@ -62,6 +62,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""LookRotation"",
+                    ""type"": ""Value"",
+                    ""id"": ""8380b6df-f71c-4943-a430-35dbeea234b6"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -174,6 +183,28 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""Use"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""13a12367-f3f6-4af2-975b-7c37aa0e3aa7"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LookRotation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b40f5c07-4104-4bc7-9bfb-f0aa5c2449de"",
+                    ""path"": ""<Gamepad>/rightStick"",
+                    ""interactions"": """",
+                    ""processors"": ""StickDeadzone"",
+                    ""groups"": """",
+                    ""action"": ""LookRotation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -186,6 +217,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_BattleControls_Shoot = m_BattleControls.FindAction("Shoot", throwIfNotFound: true);
         m_BattleControls_Throw = m_BattleControls.FindAction("Throw", throwIfNotFound: true);
         m_BattleControls_Use = m_BattleControls.FindAction("Use", throwIfNotFound: true);
+        m_BattleControls_LookRotation = m_BattleControls.FindAction("LookRotation", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -251,6 +283,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_BattleControls_Shoot;
     private readonly InputAction m_BattleControls_Throw;
     private readonly InputAction m_BattleControls_Use;
+    private readonly InputAction m_BattleControls_LookRotation;
     public struct BattleControlsActions
     {
         private @PlayerControls m_Wrapper;
@@ -259,6 +292,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @Shoot => m_Wrapper.m_BattleControls_Shoot;
         public InputAction @Throw => m_Wrapper.m_BattleControls_Throw;
         public InputAction @Use => m_Wrapper.m_BattleControls_Use;
+        public InputAction @LookRotation => m_Wrapper.m_BattleControls_LookRotation;
         public InputActionMap Get() { return m_Wrapper.m_BattleControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -280,6 +314,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Use.started += instance.OnUse;
             @Use.performed += instance.OnUse;
             @Use.canceled += instance.OnUse;
+            @LookRotation.started += instance.OnLookRotation;
+            @LookRotation.performed += instance.OnLookRotation;
+            @LookRotation.canceled += instance.OnLookRotation;
         }
 
         private void UnregisterCallbacks(IBattleControlsActions instance)
@@ -296,6 +333,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Use.started -= instance.OnUse;
             @Use.performed -= instance.OnUse;
             @Use.canceled -= instance.OnUse;
+            @LookRotation.started -= instance.OnLookRotation;
+            @LookRotation.performed -= instance.OnLookRotation;
+            @LookRotation.canceled -= instance.OnLookRotation;
         }
 
         public void RemoveCallbacks(IBattleControlsActions instance)
@@ -319,5 +359,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnShoot(InputAction.CallbackContext context);
         void OnThrow(InputAction.CallbackContext context);
         void OnUse(InputAction.CallbackContext context);
+        void OnLookRotation(InputAction.CallbackContext context);
     }
 }
