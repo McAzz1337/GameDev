@@ -60,6 +60,7 @@ public class LobbyManager : MonoBehaviour
     {
 
         Debug.Log("init");
+        //if (!create) return;
         await UnityServices.InitializeAsync();
 
         AuthenticationService.Instance.SignedIn += onSignIn;
@@ -115,17 +116,18 @@ public class LobbyManager : MonoBehaviour
             Debug.Log("createLobby: " + e);
         }
 
-        listLobbies();
+        listLobbies(true);
     }
 
-    public async void listLobbies()
+    public async void listLobbies(bool host)
     {
 
+        string client = host ? "host" : "client";
         try
         {
             QueryResponse response = await Lobbies.Instance.QueryLobbiesAsync();
 
-            Debug.Log("Lobbies found:" + response.Results.Count);
+            Debug.Log(client + "Lobbies found:" + response.Results.Count);
             foreach (Lobby l in response.Results)
             {
 
@@ -143,7 +145,7 @@ public class LobbyManager : MonoBehaviour
     public async void joinLobby()
     {
 
-        listLobbies();
+        //listLobbies(false);
         try
         {
             QueryResponse response = await Lobbies.Instance.QueryLobbiesAsync();
