@@ -59,6 +59,13 @@ public class GameMonitor : NetworkBehaviour
         int highestScore = 0;
 
         List<PlayerNetwork> players = GameManager.instance.getConnectedPlayers();
+
+        if (players.Count == 1)
+        {
+
+            return (int)players[0].GetComponent<IDHolder>().getClientID();
+        }
+
         foreach (PlayerNetwork player in players)
         {
 

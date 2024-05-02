@@ -40,12 +40,14 @@ public class PlayerMovement : NetworkBehaviour
     public void disableLookRotation()
     {
 
-        enableLookRotationClientRpc();
+        disableLookRotationClientRpc();
     }
 
     [ClientRpc]
     public void disableLookRotationClientRpc()
     {
+
+        if (!IsOwner) return;
 
         lookEnabled.Value = false;
     }

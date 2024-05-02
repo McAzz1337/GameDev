@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 public class MapLoader : NetworkBehaviour
 {
     public static string sceneFolderPath = "Assets/Scenes/Playablemaps";
-    private static int[] sceneIndeces = { 6, 7, 8, 9 };
+    private static int[] sceneIndeces = { 7, 8, 9, 10 };
 
     public static void LoadRandomSceneFromFolder()
     {
