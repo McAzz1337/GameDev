@@ -149,6 +149,7 @@ public class RoundManager : NetworkBehaviour
         {
 
             player.GetComponent<PlayerInput>().enableBattleControls();
+            player.GetComponent<PlayerMovement>().enableLookRotation();
             player.enableRenderer();
             player.GetComponent<WeaponHolder>().enableWeaponPickup();
 
@@ -183,6 +184,7 @@ public class RoundManager : NetworkBehaviour
         {
 
             player.GetComponent<PlayerInput>().disableBattleControls();
+            player.GetComponent<PlayerMovement>().disableLookRotation();
             WeaponHolder weaponHolder = player.GetComponent<WeaponHolder>();
             weaponHolder.dropWeapon();
             weaponHolder.disableWeaponPickup();

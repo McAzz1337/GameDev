@@ -42,6 +42,11 @@ public class AudioManager : NetworkBehaviour
     {
         base.OnNetworkDespawn();
 
+    }
+
+    void Start()
+    {
+
         DontDestroyOnLoad(gameObject);
     }
 

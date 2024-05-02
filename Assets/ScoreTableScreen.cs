@@ -90,7 +90,7 @@ public class ScoreTableScreen : NetworkBehaviour
             if (GameManager.instance.isClientStillConnected(clientID))
             {
 
-                connectedPlayerIDs[index] = clientID;
+                connectedPlayerIDs[index++] = clientID;
             }
         }
 

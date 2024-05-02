@@ -31,4 +31,10 @@ public class SpawnPoint : NetworkBehaviour
 
         return occupied.Value;
     }
+
+    public void setOccupied(bool b)
+    {
+
+        occupied.Value = b;
+    }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
+using Unity.Services.Lobbies.Models;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -15,6 +16,7 @@ public class GameManager : NetworkBehaviour
     [SerializeField] private List<PlayerNetwork> connectedPlayers;
     private NetworkList<PlayerData> playerDataNetworkList;
 
+    private bool gameStarted = false;
     public static int MAX_PLAYERS = 4;
 
     public event EventHandler OnPlayerDataNetworkListChanged;
@@ -80,6 +82,11 @@ public class GameManager : NetworkBehaviour
                     .PlayerObject.GetComponent<PlayerNetwork>();
 
         connectedPlayers.Add(player);
+
+        if (clientID != 0)
+        {
+            LobbySpawnManager.instance?.spawnPlayer(player);
+        }
     }
 
     public void clientDisconnected(ulong clientID)
@@ -87,6 +94,7 @@ public class GameManager : NetworkBehaviour
 
         if (!IsHost) return;
 
+        LobbySpawnManager.instance?.playerLeft(clientID);
         foreach (PlayerNetwork player in connectedPlayers)
         {
 
@@ -108,14 +116,17 @@ public class GameManager : NetworkBehaviour
     {
 
 
-        if (playerDataNetworkList.Count > 0 && ready.Value.allReady(connectedPlayers.Count))
+        if (!gameStarted && playerDataNetworkList.Count > 0 && ready.Value.allReady(connectedPlayers.Count))
         {
             //PointManager.Instance.maxPlayers = GameManager.MAX_PLAYERS;
             Debug.Log("Everybody is ready");
             firstRound = true;
+            Destroy(LobbyManager.instance.gameObject);
+            LobbySpawnManager.instance.GetComponent<NetworkObject>().Despawn();
             MapLoader.LoadRandomSceneFromFolder();
             //MapLoader.loadMap("005");
             //NetworkManager.Singleton.SceneManager.LoadScene("Map_001", LoadSceneMode.Single);
+            gameStarted = true;
         }
     }
 
@@ -141,6 +152,8 @@ public class GameManager : NetworkBehaviour
     {
         ready.Value.readyPlayer((int)clientID);
         readyPlayerClientRpc(clientID);
+
+        LobbySpawnManager.instance?.readyPlayer(clientID);
 
         allPlayersReadyCheck();
     }

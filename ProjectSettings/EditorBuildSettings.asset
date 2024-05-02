@@ -29,9 +29,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/scoretable.unity
     guid: 6731de79b567da04293fdd9b96535ce1
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/LobbyScene/LobbyScene.unity
-    guid: acc2c53ee2af04e43b1f674a50bf9a54
+    guid: cd436a220f66fd74f9f0a7462b650074
   - enabled: 0
     path: Assets/Scenes/Playablemaps/Map_001.unity
     guid: 5f3b34231ee64614ca1bfd1b0e7c189c
