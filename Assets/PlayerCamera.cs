@@ -11,20 +11,22 @@ public class PlayerCamera : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        cameraHolder.SetActive(IsOwner);
+        if (!IsOwner) return;
+        
         base.OnNetworkSpawn();
     }
 
     private void Update()
     {
-        if (SceneManager.GetActiveScene().name == "Map_001" ||
-            SceneManager.GetActiveScene().name == "Map_002" ||
-            SceneManager.GetActiveScene().name == "Map_003" ||
-            SceneManager.GetActiveScene().name == "Map_004" ||
-            SceneManager.GetActiveScene().name == "Map_005")
-        {
-            cameraHolder.transform.position = transform.position + offset;
-            cameraHolder.transform.rotation = Quaternion.Euler(42, 0, 0);
-        }
+        if (!IsGameScene()) return;
+        cameraHolder.SetActive(IsOwner);
+        cameraHolder.transform.position = transform.position + offset;
+        cameraHolder.transform.rotation = Quaternion.Euler(90, 0, 0);
+    }
+
+    private static bool IsGameScene()
+    {
+        string sceneName = SceneManager.GetActiveScene().name;
+        return sceneName is "Map_001" or "Map_002" or "Map_003" or "Map_004" or "Map_005";
     }
 }

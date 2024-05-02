@@ -263,7 +263,7 @@ GameObject:
   - component: {fileID: 7958062117905486374}
   m_Layer: 0
   m_Name: Camera
-  m_TagString: Untagged
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -645,7 +645,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraHolder: {fileID: 5122046597271157996}
-  offset: {x: 0, y: 11.99, z: -13.69}
+  offset: {x: 0, y: 12.3, z: 0}
 --- !u!1 &5122046597271157996
 GameObject:
   m_ObjectHideFlags: 0

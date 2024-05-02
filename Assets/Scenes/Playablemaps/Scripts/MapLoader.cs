@@ -24,7 +24,8 @@ public class MapLoader : NetworkBehaviour
 
         if (sceneFiles.Length > 0)
         {
-            string randomScenePath = sceneFiles[Random.Range(0, sceneFiles.Length)];
+            string randomScenePath = "Map_002";
+            //string randomScenePath = sceneFiles[Random.Range(0, sceneFiles.Length)];
 
             NetworkManager.Singleton.SceneManager.LoadScene(Path.GetFileNameWithoutExtension(randomScenePath), LoadSceneMode.Single);
             //SceneManager.LoadScene(Path.GetFileNameWithoutExtension(randomScenePath));
