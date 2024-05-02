@@ -121,16 +121,23 @@ public class GameManager : NetworkBehaviour
             //PointManager.Instance.maxPlayers = GameManager.MAX_PLAYERS;
             Debug.Log("Everybody is ready");
             firstRound = true;
-            Destroy(LobbyManager.instance.gameObject);
             LobbySpawnManager.instance.GetComponent<NetworkObject>().Despawn();
             MapLoader.LoadRandomSceneFromFolder();
             //MapLoader.loadMap("005");
             //NetworkManager.Singleton.SceneManager.LoadScene("Map_001", LoadSceneMode.Single);
             gameStarted = true;
+            cleanUpClientRpc();
         }
     }
 
 
+    [ClientRpc]
+    private void cleanUpClientRpc()
+    {
+
+        Destroy(LobbyManager.instance.gameObject);
+        Destroy(LobbyInfo.instance.gameObject);
+    }
 
 
 
