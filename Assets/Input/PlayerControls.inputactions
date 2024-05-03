@@ -49,6 +49,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "LookRotationController",
+                    "type": "Value",
+                    "id": "acc1a482-cfa0-4984-8545-12821d675f6f",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -132,7 +141,7 @@
                 {
                     "name": "",
                     "id": "2ce36956-effe-4067-a75f-94178ccf84a6",
-                    "path": "<Gamepad>/buttonSouth",
+                    "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -175,12 +184,12 @@
                 },
                 {
                     "name": "",
-                    "id": "b40f5c07-4104-4bc7-9bfb-f0aa5c2449de",
+                    "id": "39c9b6ba-695c-4d2d-a266-3b43ebb72d0d",
                     "path": "<Gamepad>/rightStick",
                     "interactions": "",
                     "processors": "StickDeadzone",
                     "groups": "",
-                    "action": "LookRotation",
+                    "action": "LookRotationController",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

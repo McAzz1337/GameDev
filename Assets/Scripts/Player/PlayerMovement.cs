@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEngine.Rendering.DebugUI.Table;
 
 public class PlayerMovement : NetworkBehaviour
 {
@@ -77,26 +79,36 @@ public class PlayerMovement : NetworkBehaviour
     private void setLookRotation()
     {
         if (!lookEnabled.Value) return;
-        Ray ray = Camera.main.ScreenPointToRay(
-                     new Vector3(playerInput.getRotationInput().x, playerInput.getRotationInput().y, 0.0f));
-
-        RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit, 100.0f, LayerMask.GetMask("Ground")) ||
-            Physics.Raycast(ray, out hit, 100.0f, LayerMask.GetMask("Wall")))
+        if (Gamepad.all.Count > 0)
         {
-
-            float t = (transform.position.y - ray.origin.y) / ray.direction.y;
-
-            Vector3 position = ray.origin + t * ray.direction;
-
-            Quaternion rot = Quaternion.LookRotation(position - transform.position, Vector3.up);
-            rot.x = 0.0f;
-            rot.z = 0.0f;
-
-            setLookRotationServerRpc(rot);
+            Debug.LogWarning("x" + playerInput.getRotationInputController().x);
+            Debug.LogWarning("y" + playerInput.getRotationInputController().y);
+            Quaternion rot = Quaternion.Euler(0f, playerInput.getRotationInputController().x * 180f, 0f);
+            transform.rotation = rot;
         }
+        else
+        {
+            Ray ray = Camera.main.ScreenPointToRay(
+                new Vector3(playerInput.getRotationInput().x, playerInput.getRotationInput().y, 0.0f));
 
+            RaycastHit hit;
+
+            if (Physics.Raycast(ray, out hit, 100.0f, LayerMask.GetMask("Ground")) ||
+                Physics.Raycast(ray, out hit, 100.0f, LayerMask.GetMask("Wall")))
+            {
+
+                float t = (transform.position.y - ray.origin.y) / ray.direction.y;
+
+                Vector3 position = ray.origin + t * ray.direction;
+
+                Quaternion rot = Quaternion.LookRotation(position - transform.position, Vector3.up);
+                rot.x = 0.0f;
+                rot.z = 0.0f;
+
+                setLookRotationServerRpc(rot);
+            }
+
+        }
 
     }
 

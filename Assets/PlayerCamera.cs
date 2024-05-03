@@ -8,6 +8,7 @@ public class PlayerCamera : NetworkBehaviour
 {
     public GameObject cameraHolder;
     public Vector3 offset;
+    public Vector3 rotation;
 
     public override void OnNetworkSpawn()
     {
@@ -21,7 +22,7 @@ public class PlayerCamera : NetworkBehaviour
         if (!IsGameScene()) return;
         cameraHolder.SetActive(IsOwner);
         cameraHolder.transform.position = transform.position + offset;
-        cameraHolder.transform.rotation = Quaternion.Euler(90, 0, 0);
+        cameraHolder.transform.rotation = Quaternion.Euler(rotation);
     }
 
     private static bool IsGameScene()
