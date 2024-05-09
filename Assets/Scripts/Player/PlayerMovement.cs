@@ -84,7 +84,7 @@ public class PlayerMovement : NetworkBehaviour
             Debug.LogWarning("x" + playerInput.getRotationInputController().x);
             Debug.LogWarning("y" + playerInput.getRotationInputController().y);
             Quaternion rot = Quaternion.Euler(0f, playerInput.getRotationInputController().x * 180f, 0f);
-            transform.rotation = rot;
+            setLookRotationServerRpc(rot);
         }
         else
         {
