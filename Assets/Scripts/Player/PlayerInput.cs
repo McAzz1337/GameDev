@@ -4,6 +4,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+// Authors: Marc Federspiel
 public class PlayerInput : NetworkBehaviour
 {
 

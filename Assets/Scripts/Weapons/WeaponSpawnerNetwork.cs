@@ -6,6 +6,7 @@ using UnityEngine;
 
 using Random = System.Random;
 
+// Authors: Marc Fedespiel
 public class WeaponSpawnerNetwork : NetworkBehaviour
 {
 

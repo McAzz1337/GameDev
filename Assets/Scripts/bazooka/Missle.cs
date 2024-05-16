@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
+// Authors: Marc Federspiel
 public class Missle : Projectile
 {
 

@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using static Health;
 using System.Collections.Generic;
 
+// Authors: Marc Fedespiel
 public class PointManager : NetworkBehaviour
 {
     public static PointManager instance = null;

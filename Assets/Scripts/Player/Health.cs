@@ -4,6 +4,7 @@ using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
 
+// Authors: Marc Federspiel
 public class Health : NetworkBehaviour
 {
 

@@ -8,6 +8,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements.Experimental;
 
+// Authors: Marc Federspiel
+
 public class GameManager : NetworkBehaviour
 {
 

@@ -7,6 +7,7 @@ using TMPro;
 using UnityEngine.SceneManagement;
 
 
+// Authors: Marc Federspiel
 public class NetworkManagerTemp : MonoBehaviour
 {
 

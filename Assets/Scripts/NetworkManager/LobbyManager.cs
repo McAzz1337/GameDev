@@ -12,6 +12,7 @@ using Unity.Services.Relay;
 using Unity.Services.Relay.Models;
 using UnityEngine;
 
+// Authors: Marc Federspiel
 public class LobbyManager : MonoBehaviour
 {
 

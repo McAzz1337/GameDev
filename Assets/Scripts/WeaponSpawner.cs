@@ -6,6 +6,7 @@ using Unity.Netcode;
 using Random = System.Random;
 using System;
 
+// Authors: Marc Fedespiel
 public class WeaponSpawner : NetworkBehaviour
 {
 

@@ -5,6 +5,7 @@ using Unity.Netcode;
 using UnityEngine.InputSystem;
 using Unity.VisualScripting;
 
+// Authors: Marc Federspiel
 public class PlayerNetwork : NetworkBehaviour
 {
 

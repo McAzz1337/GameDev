@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.SocialPlatforms.Impl;
 
-// Change to NetworkBehaviour
+// Authors: Marc Fedespiel
 public class GameMonitor : NetworkBehaviour
 {
     public static GameMonitor instance = null;

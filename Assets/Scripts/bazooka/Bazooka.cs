@@ -4,6 +4,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Rendering;
 
+// Authors: Marc Federspiel
 public class Bazooka : WeaponNetwork
 {
 

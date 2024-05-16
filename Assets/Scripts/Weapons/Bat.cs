@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
+// Authors: Marc Fedespiel
 public class Bat : WeaponNetwork
 {
 

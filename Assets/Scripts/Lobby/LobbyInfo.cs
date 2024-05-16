@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
+// Authors: Marc Federspiel
 public class LobbyInfo : MonoBehaviour
 {
 

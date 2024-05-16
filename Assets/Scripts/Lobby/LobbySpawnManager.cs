@@ -4,6 +4,7 @@ using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 
+// Authors: Marc Federspiel
 public class LobbySpawnManager : NetworkBehaviour
 {
 

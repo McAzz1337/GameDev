@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Authors: Marc Fedespiel
 public abstract class Weapon : MonoBehaviour
 {
 

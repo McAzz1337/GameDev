@@ -7,6 +7,7 @@ using UnityEngine;
 
 using Random = System.Random;
 
+// Authors: Marc Federspiel
 public class OscelatingMovement : NetworkBehaviour
 {
 

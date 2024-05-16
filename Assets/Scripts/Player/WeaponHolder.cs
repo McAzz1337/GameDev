@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
+// Authors: Marc Fedespiel
 public class WeaponHolder : NetworkBehaviour
 {
 

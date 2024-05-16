@@ -4,6 +4,7 @@ using System.Xml.Serialization;
 using Unity.Netcode;
 using UnityEngine;
 
+// Authors: Marc Fedespiel
 public class HookShot : WeaponNetwork
 {
 

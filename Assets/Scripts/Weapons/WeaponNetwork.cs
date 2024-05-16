@@ -4,6 +4,7 @@ using UnityEngine;
 using Unity.Netcode;
 using System.Diagnostics;
 
+// Authors: Marc Fedespiel
 public abstract class WeaponNetwork : NetworkBehaviour
 {
 
