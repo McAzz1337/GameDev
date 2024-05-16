@@ -56,7 +56,7 @@ public class LobbyManager : MonoBehaviour
         }
     }
 
-    public async void init(bool create)
+    public async void init(ulong clientID)
     {
 
         Debug.Log("init");
@@ -67,15 +67,15 @@ public class LobbyManager : MonoBehaviour
 
         await AuthenticationService.Instance.SignInAnonymouslyAsync();
 
-        if (create)
+        if (clientID == 0)
         {
 
-            createLobby();
+            createLobby(0);
         }
         else
         {
 
-            joinLobby();
+            joinLobby(clientID);
         }
     }
 
@@ -90,7 +90,7 @@ public class LobbyManager : MonoBehaviour
         LobbyInfo.instance.setInfo("Logged in: " + AuthenticationService.Instance.PlayerId);
     }
 
-    public async void createLobby()
+    public async void createLobby(ulong clientID)
     {
 
         try
@@ -116,22 +116,21 @@ public class LobbyManager : MonoBehaviour
             Debug.Log("createLobby: " + e);
         }
 
-        listLobbies(true);
+        listLobbies(clientID);
     }
 
-    public async void listLobbies(bool host)
+    public async void listLobbies(ulong clientID)
     {
 
-        string client = host ? "host" : "client";
         try
         {
             QueryResponse response = await Lobbies.Instance.QueryLobbiesAsync();
 
-            Debug.Log(client + "Lobbies found:" + response.Results.Count);
+            Debug.Log(clientID + " Lobbies found:" + response.Results.Count);
             foreach (Lobby l in response.Results)
             {
 
-                Debug.Log(l.Name + ": " + l.MaxPlayers);
+                Debug.Log(clientID + " " + l.Name + ": " + l.MaxPlayers);
             }
         }
         catch (LobbyServiceException e)
@@ -142,10 +141,10 @@ public class LobbyManager : MonoBehaviour
     }
 
 
-    public async void joinLobby()
+    public async void joinLobby(ulong clientID)
     {
 
-        //listLobbies(false);
+        listLobbies(clientID);
         try
         {
             QueryResponse response = await Lobbies.Instance.QueryLobbiesAsync();

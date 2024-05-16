@@ -26,7 +26,7 @@ public class NetworkManagerTemp : MonoBehaviour
     public void onStartHost()
     {
         switchToReadyUp();
-        LobbyManager.instance.init(true);
+        LobbyManager.instance.init(NetworkManager.Singleton.LocalClientId);
         NetworkManager.Singleton.StartHost();
         NetworkManager.Singleton.SceneManager.LoadScene("CharacterScene", LoadSceneMode.Single);
     }
@@ -36,7 +36,8 @@ public class NetworkManagerTemp : MonoBehaviour
         if (clientBtn == null) return;
 
         switchToReadyUp();
-        LobbyManager.instance.init(false);
+        LobbyManager.instance.init(NetworkManager.Singleton.LocalClientId);
+
         NetworkManager.Singleton.StartClient();
     }
 
