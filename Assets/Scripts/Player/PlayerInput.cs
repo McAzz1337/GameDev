@@ -20,6 +20,16 @@ public class PlayerInput : NetworkBehaviour
         NetworkVariableReadPermission.Everyone,
         NetworkVariableWritePermission.Owner);
 
+    private NetworkVariable<Vector2> rotationInput =
+        new NetworkVariable<Vector2>(Vector2.zero,
+            NetworkVariableReadPermission.Everyone,
+            NetworkVariableWritePermission.Owner);
+
+    private NetworkVariable<Vector2> rotationControllerInput =
+        new NetworkVariable<Vector2>(Vector2.zero,
+            NetworkVariableReadPermission.Everyone,
+            NetworkVariableWritePermission.Owner);
+
 
     PlayerControls controls;
 
@@ -39,6 +49,8 @@ public class PlayerInput : NetworkBehaviour
         controls.BattleControls.Shoot.performed += onShootPerformed;
         controls.BattleControls.Throw.performed += onThrowPerformed;
         controls.BattleControls.Use.performed += usePerformed;
+        controls.BattleControls.LookRotation.performed += onLookRotationPerformed;
+        controls.BattleControls.LookRotationController.performed += onLookRotationControllerPerformed;
         controls.Enable();
 
         controls.BattleControls.Disable();
@@ -52,6 +64,8 @@ public class PlayerInput : NetworkBehaviour
         controls.BattleControls.Shoot.performed -= onShootPerformed;
         controls.BattleControls.Throw.performed -= onThrowPerformed;
         controls.BattleControls.Use.performed -= usePerformed;
+        controls.BattleControls.LookRotation.performed -= onLookRotationPerformed;
+        controls.BattleControls.LookRotationController.performed -= onLookRotationControllerPerformed;
         controls.Disable();
     }
 
@@ -95,6 +109,20 @@ public class PlayerInput : NetworkBehaviour
         if (!IsOwner) return;
 
         moveInput.Value = c.ReadValue<Vector2>();
+    }
+
+    public void onLookRotationPerformed(InputAction.CallbackContext c)
+    {
+        if (!IsOwner) return;
+
+        rotationInput.Value = c.ReadValue<Vector2>();
+    }
+
+    public void onLookRotationControllerPerformed(InputAction.CallbackContext c)
+    {
+        if (!IsOwner) return;
+
+        rotationControllerInput.Value = c.ReadValue<Vector2>();
     }
 
     public void onShootPerformed(InputAction.CallbackContext c)
@@ -149,5 +177,15 @@ public class PlayerInput : NetworkBehaviour
     {
 
         return moveInput.Value;
+    }
+
+    public Vector2 getRotationInput()
+    {
+        return rotationInput.Value;
+    }
+
+    public Vector2 getRotationInputController()
+    {
+        return rotationControllerInput.Value;
     }
 }
