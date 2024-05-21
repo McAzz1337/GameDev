@@ -31,56 +31,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3301495512486569906}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &546033774328492971
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1583095023808351577}
-  - component: {fileID: 4896782294008005683}
-  m_Layer: 0
-  m_Name: MolotovTransform
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1583095023808351577
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 546033774328492971}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.7399998, y: 0.089999914, z: 0.13}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 3301495512486569906}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4896782294008005683
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 546033774328492971}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4aea4e75b73c91a43b49078a1917a8d7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  muzzle: {fileID: 0}
-  stats: {fileID: 0}
-  identifier: 0
-  ammo:
-    m_InternalValue: 1
-  fireEffect: {fileID: 1956197547661106, guid: f293a2dcc753a4a489fefe7f8f312d69, type: 3}
 --- !u!1 &803874196532673819
 GameObject:
   m_ObjectHideFlags: 0
@@ -386,7 +336,6 @@ Transform:
   m_Children:
   - {fileID: 3917682976389594761}
   - {fileID: 794779659286708311}
-  - {fileID: 1583095023808351577}
   - {fileID: 8746969525053234675}
   - {fileID: 2912033410637808262}
   m_Father: {fileID: 0}

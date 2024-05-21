@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Authors: Thomas Kirchhofer
 public class LobbyCharacter : MonoBehaviour
 {
     [SerializeField] private int playerIndex;

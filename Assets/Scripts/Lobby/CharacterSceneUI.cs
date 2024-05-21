@@ -4,6 +4,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
+// Authors: Thomas Kirchhofer
 public class CharacterSceneUI : MonoBehaviour
 {
     [SerializeField] private Button readyButton;

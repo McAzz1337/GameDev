@@ -4,6 +4,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+// Authors: Thomas Kirchhofer
 public class PlayerCamera : NetworkBehaviour
 {
     public GameObject cameraHolder;

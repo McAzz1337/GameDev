@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using static UnityEngine.Rendering.DebugUI.Table;
 
-// Authors: Marc Federspiel
+// Authors: Marc Federspiel, Thomas Kirchhofer
 public class PlayerMovement : NetworkBehaviour
 {
 
@@ -84,8 +84,6 @@ public class PlayerMovement : NetworkBehaviour
         if (!lookEnabled.Value) return;
         if (Gamepad.all.Count > 0)
         {
-            Debug.LogWarning("x" + playerInput.getRotationInputController().x);
-            Debug.LogWarning("y" + playerInput.getRotationInputController().y);
             Quaternion rot = Quaternion.Euler(0f, playerInput.getRotationInputController().x * 180f, 0f);
             setLookRotationServerRpc(rot);
         }
