@@ -22,7 +22,7 @@ public class LobbySpawnManager : NetworkBehaviour
     {
         base.OnNetworkSpawn();
 
-        for (ulong i = 0; i < (ulong)GameManager.MAX_PLAYERS; i++)
+        for (ulong i = 0; i < (ulong)GameManager.MaxPlayers; i++)
         {
 
             spawners[i].GetComponentInChildren<MeshRenderer>().enabled = false;

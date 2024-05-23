@@ -80,7 +80,7 @@ public class ScoreTableScreen : NetworkBehaviour
     private void loadScoreList()
     {
 
-        int[] connectedPlayerIDs = new int[GameManager.MAX_PLAYERS];
+        int[] connectedPlayerIDs = new int[GameManager.MaxPlayers];
         List<PlayerNetwork> players = GameManager.instance.getConnectedPlayers();
         int index = 0;
         foreach (PlayerNetwork player in players)
@@ -104,7 +104,7 @@ public class ScoreTableScreen : NetworkBehaviour
 
 
         int textIndex = 0;
-        for (int i = 0; i < GameManager.MAX_PLAYERS; i++)
+        for (int i = 0; i < GameManager.MaxPlayers; i++)
         {
 
             if (!connectedPlayerIDs.Contains(i)) scoreTexts[textIndex].text = "";

@@ -7,14 +7,14 @@ using TMPro;
 public class LobbyInfo : MonoBehaviour
 {
 
-    public static LobbyInfo instance = null;
-    [SerializeField] private TextMeshProUGUI lobbyID;
-    [SerializeField] private TextMeshProUGUI info;
+    public static LobbyInfo Instance = null;
+    [SerializeField] private TextMeshProUGUI _lobbyInfo;
+    [SerializeField] private TextMeshProUGUI _lobbyAdditionalInfo;
 
     void Awake()
     {
 
-        instance = this;
+        Instance = this;
     }
     void Start()
     {
@@ -23,7 +23,7 @@ public class LobbyInfo : MonoBehaviour
 
     }
 
-    public void setText(string text)
+    public void SetLobbyInfo(string text)
     {
 
         if (text == null)
@@ -32,12 +32,12 @@ public class LobbyInfo : MonoBehaviour
             text = "none";
         }
 
-        lobbyID.text = "Lobby: " + text;
+        _lobbyInfo.text = "Lobby: " + text;
     }
 
-    public void setInfo(string text)
+    public void SetAdditionalInfo(string text)
     {
 
-        info.text = text;
+        _lobbyAdditionalInfo.text = text;
     }
 }

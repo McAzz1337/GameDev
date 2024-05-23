@@ -17,7 +17,7 @@ public class PointManager : NetworkBehaviour
     [SerializeField]
     private NetworkVariable<ScoreTable> scoreTable =
         new NetworkVariable<ScoreTable>(
-            new ScoreTable(GameManager.MAX_PLAYERS),
+            new ScoreTable(GameManager.MaxPlayers),
             NetworkVariableReadPermission.Everyone,
             NetworkVariableWritePermission.Server);
 
@@ -26,7 +26,7 @@ public class PointManager : NetworkBehaviour
     void Awake()
     {
 
-        maxPlayers = GameManager.MAX_PLAYERS;
+        maxPlayers = GameManager.MaxPlayers;
         if (UnityEngine.Object.ReferenceEquals(instance, null))
         {
             instance = this;

@@ -19,7 +19,7 @@ public class GameManager : NetworkBehaviour
     private NetworkList<PlayerData> playerDataNetworkList;
 
     private bool gameStarted = false;
-    public static int MAX_PLAYERS = 4;
+    public static int MaxPlayers = 4;
 
     public event EventHandler OnPlayerDataNetworkListChanged;
     public event EventHandler OnReadyChanged;
@@ -28,7 +28,7 @@ public class GameManager : NetworkBehaviour
     [SerializeField]
     private NetworkVariable<ReadyState> ready =
                             new NetworkVariable<ReadyState>(
-                                new ReadyState(MAX_PLAYERS),
+                                new ReadyState(MaxPlayers),
                                 NetworkVariableReadPermission.Owner,
                                 NetworkVariableWritePermission.Server
                             );
@@ -125,8 +125,6 @@ public class GameManager : NetworkBehaviour
             firstRound = true;
             LobbySpawnManager.instance.GetComponent<NetworkObject>().Despawn();
             MapLoader.LoadRandomSceneFromFolder();
-            //MapLoader.loadMap("005");
-            //NetworkManager.Singleton.SceneManager.LoadScene("Map_001", LoadSceneMode.Single);
             gameStarted = true;
             cleanUpClientRpc();
         }
@@ -137,8 +135,8 @@ public class GameManager : NetworkBehaviour
     private void cleanUpClientRpc()
     {
 
-        Destroy(LobbyManager.instance.gameObject);
-        Destroy(LobbyInfo.instance.gameObject);
+        Destroy(LobbyManager.Instance.gameObject);
+        Destroy(LobbyInfo.Instance.gameObject);
     }
 
 
