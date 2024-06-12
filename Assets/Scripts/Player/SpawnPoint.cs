@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
+// Authors: Marc Fedespiel
 public class SpawnPoint : NetworkBehaviour
 {
 
@@ -30,5 +31,11 @@ public class SpawnPoint : NetworkBehaviour
     {
 
         return occupied.Value;
+    }
+
+    public void setOccupied(bool b)
+    {
+
+        occupied.Value = b;
     }
 }

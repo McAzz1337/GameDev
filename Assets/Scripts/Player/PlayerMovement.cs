@@ -1,8 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using static UnityEngine.Rendering.DebugUI.Table;
 
+// Authors: Marc Federspiel, Thomas Kirchhofer
 public class PlayerMovement : NetworkBehaviour
 {
 
@@ -10,6 +14,9 @@ public class PlayerMovement : NetworkBehaviour
     private PlayerInput playerInput;
     [SerializeField] private float maxMoveVelocity = 10.0f;
     [SerializeField] private float moveForce = 30.0f;
+
+    [SerializeField] private bool pushed;
+
 
     [SerializeField]
     NetworkVariable<bool> lookEnabled =
@@ -37,12 +44,14 @@ public class PlayerMovement : NetworkBehaviour
     public void disableLookRotation()
     {
 
-        enableLookRotationClientRpc();
+        disableLookRotationClientRpc();
     }
 
     [ClientRpc]
     public void disableLookRotationClientRpc()
     {
+
+        if (!IsOwner) return;
 
         lookEnabled.Value = false;
     }
@@ -72,28 +81,35 @@ public class PlayerMovement : NetworkBehaviour
 
     private void setLookRotation()
     {
-
         if (!lookEnabled.Value) return;
-        Ray ray = Camera.main.ScreenPointToRay(
-                     new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0.0f));
-
-        RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit, 100.0f, LayerMask.GetMask("Ground")) ||
-            Physics.Raycast(ray, out hit, 100.0f, LayerMask.GetMask("Wall")))
+        if (Gamepad.all.Count > 0)
         {
-
-            float t = (transform.position.y - ray.origin.y) / ray.direction.y;
-
-            Vector3 position = ray.origin + t * ray.direction;
-
-            Quaternion rot = Quaternion.LookRotation(position - transform.position, Vector3.up);
-            rot.x = 0.0f;
-            rot.z = 0.0f;
-
+            Quaternion rot = Quaternion.Euler(0f, playerInput.getRotationInputController().x * 180f, 0f);
             setLookRotationServerRpc(rot);
         }
+        else
+        {
+            Ray ray = Camera.main.ScreenPointToRay(
+                new Vector3(playerInput.getRotationInput().x, playerInput.getRotationInput().y, 0.0f));
 
+            RaycastHit hit;
+
+            if (Physics.Raycast(ray, out hit, 100.0f, LayerMask.GetMask("Ground")) ||
+                Physics.Raycast(ray, out hit, 100.0f, LayerMask.GetMask("Wall")))
+            {
+
+                float t = (transform.position.y - ray.origin.y) / ray.direction.y;
+
+                Vector3 position = ray.origin + t * ray.direction;
+
+                Quaternion rot = Quaternion.LookRotation(position - transform.position, Vector3.up);
+                rot.x = 0.0f;
+                rot.z = 0.0f;
+
+                setLookRotationServerRpc(rot);
+            }
+
+        }
 
     }
 
@@ -115,6 +131,7 @@ public class PlayerMovement : NetworkBehaviour
     private void move()
     {
 
+        if (pushed) return;
 
         Vector2 moveInput = playerInput.getMoveInput();
         if (moveInput.x == 0.0f)
@@ -139,5 +156,24 @@ public class PlayerMovement : NetworkBehaviour
         rb.AddForce(moveVec);
     }
 
+    void OnCollisionEnter(Collision collision)
+    {
+
+        if (!pushed) return;
+
+
+        if ((1 << collision.gameObject.layer) == LayerMask.GetMask("Ground"))
+        {
+
+            pushed = false;
+        }
+
+    }
+
+    public void setPushed(bool b)
+    {
+
+        pushed = b;
+    }
 
 }

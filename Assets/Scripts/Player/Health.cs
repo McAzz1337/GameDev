@@ -4,10 +4,13 @@ using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
 
+// Authors: Marc Federspiel
 public class Health : NetworkBehaviour
 {
 
     public static int MAX_HP = 1;
+
+    [SerializeField] private AudioClip deathClip;
 
     [SerializeField]
     private NetworkVariable<int> hp =
@@ -15,7 +18,8 @@ public class Health : NetworkBehaviour
             NetworkVariableReadPermission.Everyone,
             NetworkVariableWritePermission.Server);
 
-    // make DeathCallback take id of shooting player
+    private List<GameObject> toIgnore;
+
     public delegate void DeathCallback(ulong clientID);
     public delegate void SuicideCallback();
 
@@ -25,8 +29,6 @@ public class Health : NetworkBehaviour
     public void registerOnDeathCallback(DeathCallback callback)
     {
         onDeath += callback;
-        PointManager.Instance.AddOnePoint((int)NetworkManager.Singleton.LocalClientId); // after kills system
-
     }
 
     public void unregisterOnDeathCallback(DeathCallback callback)
@@ -50,7 +52,11 @@ public class Health : NetworkBehaviour
     }
 
 
+    void Awake()
+    {
 
+        toIgnore = new List<GameObject>();
+    }
 
 
 
@@ -59,33 +65,47 @@ public class Health : NetworkBehaviour
     void OnCollisionEnter(Collision collision)
     {
 
-        ulong clientID = long.MaxValue;
+        if (toIgnore.Contains(collision.gameObject)) return;
+
+        ulong shooterID = long.MaxValue;
         if (collision.gameObject.TryGetComponent<IDHolder>(out IDHolder i))
         {
 
-            clientID = i.getClientID();
+            shooterID = i.getClientID();
         }
 
-        collisionCheck(1 << collision.gameObject.layer, clientID);
+        if (collisionCheck(1 << collision.gameObject.layer, shooterID))
+        {
+
+            toIgnore.Add(collision.gameObject);
+        }
     }
 
     void OnCollisionStay(Collision collision)
     {
 
-        ulong clientID = long.MaxValue;
+        if (toIgnore.Contains(collision.gameObject)) return;
+
+        ulong shooterID = long.MaxValue;
         if (collision.gameObject.TryGetComponent<IDHolder>(out IDHolder i))
         {
 
-            clientID = i.getClientID();
+            shooterID = i.getClientID();
         }
 
-        collisionCheck(1 << collision.gameObject.layer, clientID);
+        if (collisionCheck(1 << collision.gameObject.layer, shooterID))
+        {
+
+            toIgnore.Add(collision.gameObject);
+        }
     }
 
 
     void OnTriggerEnter(Collider collider)
     {
 
+        if (toIgnore.Contains(collider.gameObject)) return;
+
         ulong shooterID = long.MaxValue;
         if (collider.gameObject.TryGetComponent<IDHolder>(out IDHolder i))
         {
@@ -93,13 +113,19 @@ public class Health : NetworkBehaviour
             shooterID = i.getClientID();
         }
 
-        collisionCheck(1 << collider.gameObject.layer, shooterID);
+        if (collisionCheck(1 << collider.gameObject.layer, shooterID))
+        {
+
+            toIgnore.Add(collider.gameObject);
+        }
     }
 
 
     void OnTriggerStay(Collider collider)
     {
 
+        if (toIgnore.Contains(collider.gameObject)) return;
+
         ulong shooterID = long.MaxValue;
         if (collider.gameObject.TryGetComponent<IDHolder>(out IDHolder i))
         {
@@ -107,17 +133,22 @@ public class Health : NetworkBehaviour
             shooterID = i.getClientID();
         }
 
-        collisionCheck(1 << collider.gameObject.layer, shooterID);
+        if (collisionCheck(1 << collider.gameObject.layer, shooterID))
+        {
+
+            toIgnore.Add(collider.gameObject);
+        }
     }
 
-    private void collisionCheck(int layer, ulong shooterID)
+    private bool collisionCheck(int layer, ulong shooterID)
     {
 
         bool takesDamage = IsOwner && !isDead() && (layer == LayerMask.GetMask("Damaging"));
 
-        if (!takesDamage) return;
+        if (!takesDamage) return false;
 
         takeDamageServerRpc(shooterID, NetworkManager.Singleton.LocalClientId);
+        return true;
     }
 
     [ServerRpc]
@@ -128,6 +159,8 @@ public class Health : NetworkBehaviour
 
         if (isDead())
         {
+
+            onDeathClientRpc();
 
             if (shooterID <= ulong.MaxValue)
             {
@@ -157,7 +190,15 @@ public class Health : NetworkBehaviour
 
             Transform cam = Camera.main.transform;
             player.transform.position = cam.position + new Vector3(0.0f, 0.0f, cam.forward.z * -10f);
+
         }
+    }
+
+    [ClientRpc]
+    private void onDeathClientRpc()
+    {
+
+        AudioManager.instance.playClip(deathClip);
     }
 
     public bool isDead()
@@ -170,6 +211,7 @@ public class Health : NetworkBehaviour
     {
 
         hp.Value = MAX_HP;
+        toIgnore = new List<GameObject>();
     }
 
 }

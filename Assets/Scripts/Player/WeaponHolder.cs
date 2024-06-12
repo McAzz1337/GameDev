@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
+// Authors: Marc Fedespiel
 public class WeaponHolder : NetworkBehaviour
 {
 
+    [SerializeField] private WeaponNetwork bat;
     [SerializeField] private Transform weaponTransform;
     [SerializeField] private WeaponNetwork weapon;
     [SerializeField]
@@ -14,6 +16,24 @@ public class WeaponHolder : NetworkBehaviour
                                 EWeapon.NONE,
                                 NetworkVariableReadPermission.Everyone,
                                 NetworkVariableWritePermission.Server);
+
+    private bool locked = false;
+
+    void Awake()
+    {
+
+        weapon = bat;
+    }
+    public void enableWeaponPickup()
+    {
+
+        locked = false;
+    }
+    public void disableWeaponPickup()
+    {
+
+        locked = true;
+    }
 
     public void pickupWeapon(WeaponNetwork weapon)
     {
@@ -26,14 +46,23 @@ public class WeaponHolder : NetworkBehaviour
 
         ulong clientID = GetComponent<IDHolder>().getClientID();
         weapon.GetComponent<IDHolder>().setClientID(clientID);
+
+        if (weapon.TryGetComponent<Bat>(out Bat b))
+        {
+
+            bat = b;
+        }
+        else
+        {
+
+            bat.GetComponentInChildren<MeshRenderer>().enabled = false;
+        }
     }
 
 
     public void shoot()
     {
 
-
-        if (weapon == null) return;
 
         weapon.shoot();
 
@@ -42,10 +71,11 @@ public class WeaponHolder : NetworkBehaviour
 
             dropWeapon();
         }
-        else if (weapon as MolotovCocktailMock != null)
+        else if (weapon as MolotovCocktailMock != null || weapon as Landmine != null)
         {
 
-            weapon = null;
+            weapon = bat;
+            bat.GetComponentInChildren<MeshRenderer>().enabled = true;
         }
     }
 
@@ -53,14 +83,16 @@ public class WeaponHolder : NetworkBehaviour
     public void dropWeapon()
     {
 
-        weapon.drop();
-        weapon = null;
+
+        weapon?.drop();
+        bat.GetComponentInChildren<MeshRenderer>().enabled = true;
+        weapon = bat;
     }
 
 
     public bool canPickupWeapon()
     {
 
-        return weapon == null;
+        return !locked && weapon.getIdentifier() == EWeapon.BAT;
     }
 }

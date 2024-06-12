@@ -4,6 +4,7 @@ using UnityEngine;
 using Unity.Netcode;
 using System.Diagnostics;
 
+// Authors: Marc Fedespiel
 public abstract class WeaponNetwork : NetworkBehaviour
 {
 
@@ -56,7 +57,7 @@ public abstract class WeaponNetwork : NetworkBehaviour
     }
 
     [ServerRpc]
-    public void dropServerRpc()
+    public virtual void dropServerRpc()
     {
 
         transform.SetParent(null);
@@ -66,7 +67,7 @@ public abstract class WeaponNetwork : NetworkBehaviour
     }
 
 
-    public bool isEmpty()
+    public virtual bool isEmpty()
     {
 
         return ammo.Value <= 0;

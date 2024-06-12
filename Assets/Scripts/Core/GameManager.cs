@@ -2,19 +2,24 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
+using Unity.Services.Lobbies.Models;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements.Experimental;
 
+// Authors: Marc Federspiel
+
 public class GameManager : NetworkBehaviour
 {
 
     public static GameManager instance;
+    private bool firstRound;
     [SerializeField] private List<PlayerNetwork> connectedPlayers;
     private NetworkList<PlayerData> playerDataNetworkList;
 
-    public static int MAX_PLAYERS = 4;
+    private bool gameStarted = false;
+    public static int MaxPlayers = 4;
 
     public event EventHandler OnPlayerDataNetworkListChanged;
     public event EventHandler OnReadyChanged;
@@ -23,7 +28,7 @@ public class GameManager : NetworkBehaviour
     [SerializeField]
     private NetworkVariable<ReadyState> ready =
                             new NetworkVariable<ReadyState>(
-                                new ReadyState(MAX_PLAYERS),
+                                new ReadyState(MaxPlayers),
                                 NetworkVariableReadPermission.Owner,
                                 NetworkVariableWritePermission.Server
                             );
@@ -79,6 +84,11 @@ public class GameManager : NetworkBehaviour
                     .PlayerObject.GetComponent<PlayerNetwork>();
 
         connectedPlayers.Add(player);
+
+        if (clientID != 0)
+        {
+            LobbySpawnManager.instance?.spawnPlayer(player);
+        }
     }
 
     public void clientDisconnected(ulong clientID)
@@ -86,6 +96,7 @@ public class GameManager : NetworkBehaviour
 
         if (!IsHost) return;
 
+        LobbySpawnManager.instance?.playerLeft(clientID);
         foreach (PlayerNetwork player in connectedPlayers)
         {
 
@@ -107,14 +118,26 @@ public class GameManager : NetworkBehaviour
     {
 
 
-        if (playerDataNetworkList.Count > 0 && ready.Value.allReady(connectedPlayers.Count))
+        if (!gameStarted && playerDataNetworkList.Count > 0 && ready.Value.allReady(connectedPlayers.Count))
         {
+            //PointManager.Instance.maxPlayers = GameManager.MAX_PLAYERS;
             Debug.Log("Everybody is ready");
-            NetworkManager.Singleton.SceneManager.LoadScene("Map_004", LoadSceneMode.Single);
+            firstRound = true;
+            LobbySpawnManager.instance.GetComponent<NetworkObject>().Despawn();
+            MapLoader.LoadRandomSceneFromFolder();
+            gameStarted = true;
+            cleanUpClientRpc();
         }
     }
 
 
+    [ClientRpc]
+    private void cleanUpClientRpc()
+    {
+
+        Destroy(LobbyManager.Instance.gameObject);
+        Destroy(LobbyInfo.Instance.gameObject);
+    }
 
 
 
@@ -137,6 +160,8 @@ public class GameManager : NetworkBehaviour
         ready.Value.readyPlayer((int)clientID);
         readyPlayerClientRpc(clientID);
 
+        LobbySpawnManager.instance?.readyPlayer(clientID);
+
         allPlayersReadyCheck();
     }
 
@@ -146,6 +171,8 @@ public class GameManager : NetworkBehaviour
         ready.Value.readyPlayer((int)clientID);
         OnReadyChanged?.Invoke(this, EventArgs.Empty);
     }
+
+
 
     public bool IsPlayerIndexConnected(int playerIndex)
     {
@@ -169,6 +196,21 @@ public class GameManager : NetworkBehaviour
         return connectedPlayers;
     }
 
+    public PlayerNetwork getPlayerWithID(ulong clientID)
+    {
+
+        foreach (PlayerNetwork player in getConnectedPlayers())
+        {
+            if (player.GetComponent<IDHolder>().getClientID() == clientID)
+            {
+
+                return player;
+            }
+        }
+
+        return null;
+    }
+
     public bool isClientStillConnected(int index)
     {
 
@@ -184,4 +226,15 @@ public class GameManager : NetworkBehaviour
         return false;
     }
 
+    public bool isFirstRound()
+    {
+
+        return firstRound;
+    }
+
+    public void setFirstRound(bool b)
+    {
+
+        firstRound = b;
+    }
 }

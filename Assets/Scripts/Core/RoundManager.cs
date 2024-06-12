@@ -1,13 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using Unity.Netcode;
 using Unity.Services.Lobbies;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class RoundManager : NetworkBehaviour
 {
 
     public static RoundManager instance = null;
+    [SerializeField] public int winningConditionScore = 10;
 
     private List<GameObject> toActivate = new List<GameObject>();
 
@@ -29,6 +32,10 @@ public class RoundManager : NetworkBehaviour
         NetworkManager.SceneManager.OnSceneEvent += onSceneEvent;
 
         base.OnNetworkSpawn();
+
+        if (!IsHost) return;
+
+        NetworkManager.Singleton.OnClientDisconnectCallback += acknowledgeDisconnect;
 
     }
 
@@ -79,6 +86,16 @@ public class RoundManager : NetworkBehaviour
         ackgnowledgeDeath();
     }
 
+    public void acknowledgeDisconnect(ulong clientID)
+    {
+
+        if (playersAlive() <= 1)
+        {
+
+            endRound();
+        }
+    }
+
     public void ackgnowledgeDeath(ulong shooterID = ulong.MaxValue)
     {
 
@@ -96,18 +113,45 @@ public class RoundManager : NetworkBehaviour
         return GameManager.instance.getPlayerCount() - deadPlayers;
     }
 
+    private void forFirstRound()
+    {
+
+        AudioManager.instance.playIntro();
+
+        List<PlayerNetwork> players = GameManager.instance.getConnectedPlayers();
+        foreach (PlayerNetwork player in players)
+        {
+
+            GameObject g = (GameObject)Instantiate(Resources.Load("WeaponsNetwork/BaseballBat"));
+            g.GetComponent<NetworkObject>().Spawn(true);
+            player.GetComponent<WeaponHolder>().pickupWeapon(g.GetComponent<Bat>());
+            g.GetComponent<Bat>().onPickup(player.gameObject);
+        }
+    }
+
     void startRound()
     {
 
         if (!IsHost) return;
 
+        if (GameManager.instance.isFirstRound())
+        {
+
+            forFirstRound();
+            GameManager.instance.setFirstRound(false);
+        }
+
         List<PlayerNetwork> players = GameManager.instance.getConnectedPlayers();
+
+        while (UnityEngine.Object.ReferenceEquals(PointManager.instance, null)) { }
 
         foreach (PlayerNetwork player in players)
         {
 
             player.GetComponent<PlayerInput>().enableBattleControls();
+            player.GetComponent<PlayerMovement>().enableLookRotation();
             player.enableRenderer();
+            player.GetComponent<WeaponHolder>().enableWeaponPickup();
 
             Health h = player.GetComponent<Health>();
             h.resetHealth();
@@ -140,7 +184,21 @@ public class RoundManager : NetworkBehaviour
         {
 
             player.GetComponent<PlayerInput>().disableBattleControls();
+            player.GetComponent<PlayerMovement>().disableLookRotation();
+            WeaponHolder weaponHolder = player.GetComponent<WeaponHolder>();
+            weaponHolder.dropWeapon();
+            weaponHolder.disableWeaponPickup();
         }
+
+        GameMonitor.instance.roundConcluded();
+        endGame();
+
+        //SceneManager.LoadSceneAsync(5);
+
+    }
+
+    public void endGame()
+    {
 
     }
 

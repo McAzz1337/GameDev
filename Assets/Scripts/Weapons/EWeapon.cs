@@ -6,5 +6,8 @@ public enum EWeapon
 {
     BAZOOKA,
     MOLOTOV,
+    HOOK_SHOT,
+    LANDMINE,
+    BAT,
     NONE
 }

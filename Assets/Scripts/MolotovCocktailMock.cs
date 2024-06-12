@@ -1,24 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using Unity.Netcode;
-using Unity.Netcode.Components;
-using UnityEditor;
 using UnityEngine;
 
 public class MolotovCocktailMock : WeaponNetwork
 {
     [SerializeField] private GameObject fireEffect;
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 
     public override void shoot()
     {
@@ -68,7 +53,12 @@ public class MolotovCocktailMock : WeaponNetwork
         g.GetComponent<IDHolder>().setClientID(GetComponent<IDHolder>().getClientID());
         g.GetComponent<NetworkObject>().Spawn(true);
 
-        GetComponent<NetworkObject>().Despawn();
+        if (TryGetComponent<NetworkObject>(out NetworkObject n))
+        {
+
+            n.Despawn();
+        }
+
         Destroy(gameObject);
     }
 

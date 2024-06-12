@@ -1,14 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 
 using Random = System.Random;
 
+// Authors: Marc Fedespiel
 public class WeaponSpawnerNetwork : NetworkBehaviour
 {
 
     [SerializeField] private GameObject[] weaponPrefabs;
+    private GameObject onlySpawnThisWeaponOverride;
     [SerializeField] private float delay;
     [SerializeField] private WeaponNetwork spawnedWeapon;
 
@@ -18,7 +21,7 @@ public class WeaponSpawnerNetwork : NetworkBehaviour
     {
 
 
-
+        //onlySpawnThisWeaponOverride = (GameObject)Resources.Load("WeaponsNetwork/Landmine");
 
     }
 
@@ -121,13 +124,28 @@ public class WeaponSpawnerNetwork : NetworkBehaviour
 
         int index = random.Next() % weaponPrefabs.Length;
 
+        GameObject g;
+        if (onlySpawnThisWeaponOverride != null)
+        {
 
-        GameObject g = Instantiate(weaponPrefabs[index]);
+            g = Instantiate(onlySpawnThisWeaponOverride);
+        }
+        else
+        {
+
+            g = Instantiate(weaponPrefabs[index]);
+        }
         g.GetComponent<NetworkObject>().Spawn(true);
         spawnedWeapon = g.GetComponent<WeaponNetwork>();
         g.transform.position = transform.position;
 
         g.GetComponent<CapsuleCollider>().enabled = false;
+        CapsuleCollider[] colliders = g.GetComponentsInChildren<CapsuleCollider>();
+        foreach (CapsuleCollider collider in colliders)
+        {
+
+            collider.enabled = false;
+        }
 
         MeshCollider mc = g.GetComponentInChildren<MeshCollider>();
         if (mc != null)

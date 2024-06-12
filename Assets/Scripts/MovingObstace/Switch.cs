@@ -6,6 +6,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+// Authors: Marc Federspiel
 public class Switch : NetworkBehaviour
 {
 

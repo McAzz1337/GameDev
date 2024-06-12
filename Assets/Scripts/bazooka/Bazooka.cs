@@ -4,6 +4,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Rendering;
 
+// Authors: Marc Federspiel
 public class Bazooka : WeaponNetwork
 {
 
@@ -57,6 +58,15 @@ public class Bazooka : WeaponNetwork
         ammo.Value--;
         g.GetComponent<NetworkObject>().Spawn(true);
         g.GetComponent<IDHolder>().setClientID(clientID);
+    }
+
+    [ClientRpc]
+    public void shootClientRpc()
+    {
+
+        if (stats.shootSFX == null) return;
+
+        AudioManager.instance.playClip(stats.shootSFX);
     }
 
 

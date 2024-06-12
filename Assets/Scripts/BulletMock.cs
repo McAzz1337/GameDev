@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 
+// Authors: Marc Fedespiel
 public class BulletMock : MonoBehaviour
 {
 

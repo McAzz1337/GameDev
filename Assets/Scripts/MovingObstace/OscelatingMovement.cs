@@ -7,6 +7,7 @@ using UnityEngine;
 
 using Random = System.Random;
 
+// Authors: Marc Federspiel
 public class OscelatingMovement : NetworkBehaviour
 {
 
@@ -15,6 +16,7 @@ public class OscelatingMovement : NetworkBehaviour
     [SerializeField] private BoxCollider killZoneTop;
     [SerializeField] private BoxCollider killZoneBottom;
     private BoxCollider boxCollider;
+    private float thersholdToSquash;
     private float startTime;
     private Transform target;
     private Transform start;
@@ -25,13 +27,16 @@ public class OscelatingMovement : NetworkBehaviour
 
     Random random;
 
-    // Start is called before the first frame update
-    void Start()
+
+    public override void OnNetworkSpawn()
     {
+        base.OnNetworkDespawn();
 
         boxCollider = GetComponent<BoxCollider>();
+        thersholdToSquash = PlayerNetwork.localPlayer.GetComponent<CapsuleCollider>().radius;
         moving = false;
         disableKillZones();
+        random = new Random();
 
         if (!IsHost) return;
 
@@ -40,6 +45,15 @@ public class OscelatingMovement : NetworkBehaviour
         int r = random.Next();
         start = (r & 0b1) == 1 ? transformA : transformB;
         target = (r & 0b1) == 1 ? transformB : transformA;
+        calculatePosition();
+
+    }
+
+    void Start()
+    {
+
+
+
     }
 
     void Update()
@@ -47,12 +61,8 @@ public class OscelatingMovement : NetworkBehaviour
 
         if (!IsHost || !moving) return;
 
-        float t = (Time.time - startTime) / travelDuration;
-
-        float z = Mathf.SmoothStep(start.position.z, target.position.z, t);
-        transform.position = new Vector3(transform.position.x, transform.position.y, z);
-
-        if (Mathf.Abs(transform.position.z - target.position.z) < boxCollider.size.z + 1.0f)
+        float t = calculatePosition();
+        if (Mathf.Abs(transform.position.z - target.position.z) < boxCollider.size.z - thersholdToSquash)
         {
 
             if (target.position.z > transform.position.z)
@@ -78,6 +88,17 @@ public class OscelatingMovement : NetworkBehaviour
         }
     }
 
+    private float calculatePosition()
+    {
+
+        float t = (Time.time - startTime) / travelDuration;
+
+        float z = Mathf.SmoothStep(start.position.z, target.position.z, t);
+        transform.position = new Vector3(transform.position.x, transform.position.y, z);
+
+        return t;
+    }
+
     public void activate()
     {
 
@@ -93,6 +114,7 @@ public class OscelatingMovement : NetworkBehaviour
 
         elapsed = Time.time - startTime;
         moving = false;
+        disableKillZones();
     }
 
     public void disableKillZones()

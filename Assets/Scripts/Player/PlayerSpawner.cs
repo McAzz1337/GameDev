@@ -6,6 +6,7 @@ using UnityEngine;
 
 using Random = System.Random;
 
+// Authors: Marc Federspiel
 public class PlayerSpawner : NetworkBehaviour
 {
 
@@ -27,18 +28,12 @@ public class PlayerSpawner : NetworkBehaviour
 
         if (!IsHost) return;
 
-        if (spawnedPlayers >= GameManager.MAX_PLAYERS)
-        {
-
-            throw new System.Exception("Connected more Player than SpawnPoints in level");
-        }
-
         int r;
         bool accepted = false;
         do
         {
 
-            r = random.Next() % GameManager.MAX_PLAYERS;
+            r = random.Next() % GameManager.MaxPlayers;
             accepted = spawnPoints[r].acceptPlayer(player);
         } while (!accepted);
 

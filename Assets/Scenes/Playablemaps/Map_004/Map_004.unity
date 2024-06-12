@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -589,6 +589,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6496777577507517124, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
+      propertyPath: weaponPrefabs.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6496777577507517124, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
+      propertyPath: weaponPrefabs.Array.data[3]
+      value: 
+      objectReference: {fileID: 4446650149125629996, guid: 14e8b00de6d45b140b9fd06a2372b45b, type: 3}
     - target: {fileID: 6560506146630303930, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 2789775913
@@ -743,6 +751,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6496777577507517124, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
+      propertyPath: weaponPrefabs.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6496777577507517124, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
+      propertyPath: weaponPrefabs.Array.data[3]
+      value: 
+      objectReference: {fileID: 4446650149125629996, guid: 14e8b00de6d45b140b9fd06a2372b45b, type: 3}
     - target: {fileID: 6560506146630303930, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 1607309176
@@ -809,6 +825,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6496777577507517124, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
+      propertyPath: weaponPrefabs.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6496777577507517124, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
+      propertyPath: weaponPrefabs.Array.data[3]
+      value: 
+      objectReference: {fileID: 4446650149125629996, guid: 14e8b00de6d45b140b9fd06a2372b45b, type: 3}
     - target: {fileID: 6560506146630303930, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 2282488798
@@ -980,6 +1004,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6496777577507517124, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
+      propertyPath: weaponPrefabs.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6496777577507517124, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
+      propertyPath: weaponPrefabs.Array.data[3]
+      value: 
+      objectReference: {fileID: 4446650149125629996, guid: 14e8b00de6d45b140b9fd06a2372b45b, type: 3}
     - target: {fileID: 6560506146630303930, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 2210328960
@@ -1337,6 +1369,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6496777577507517124, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
+      propertyPath: weaponPrefabs.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6496777577507517124, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
+      propertyPath: weaponPrefabs.Array.data[3]
+      value: 
+      objectReference: {fileID: 4446650149125629996, guid: 14e8b00de6d45b140b9fd06a2372b45b, type: 3}
     - target: {fileID: 6560506146630303930, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 285038873
@@ -1403,6 +1443,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6496777577507517124, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
+      propertyPath: weaponPrefabs.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6496777577507517124, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
+      propertyPath: weaponPrefabs.Array.data[3]
+      value: 
+      objectReference: {fileID: 4446650149125629996, guid: 14e8b00de6d45b140b9fd06a2372b45b, type: 3}
     - target: {fileID: 6560506146630303930, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 2030019696
@@ -2220,6 +2268,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6496777577507517124, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
+      propertyPath: weaponPrefabs.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6496777577507517124, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
+      propertyPath: weaponPrefabs.Array.data[3]
+      value: 
+      objectReference: {fileID: 4446650149125629996, guid: 14e8b00de6d45b140b9fd06a2372b45b, type: 3}
     - target: {fileID: 6560506146630303930, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 2865490653
@@ -2490,7 +2546,7 @@ GameObject:
   - component: {fileID: 1641846966}
   - component: {fileID: 1641846965}
   - component: {fileID: 1641846964}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2618,12 +2674,12 @@ MonoBehaviour:
   SyncPositionX: 1
   SyncPositionY: 1
   SyncPositionZ: 1
-  SyncRotAngleX: 1
-  SyncRotAngleY: 1
-  SyncRotAngleZ: 1
-  SyncScaleX: 1
-  SyncScaleY: 1
-  SyncScaleZ: 1
+  SyncRotAngleX: 0
+  SyncRotAngleY: 0
+  SyncRotAngleZ: 0
+  SyncScaleX: 0
+  SyncScaleY: 0
+  SyncScaleZ: 0
   PositionThreshold: 0.001
   RotAngleThreshold: 0.01
   ScaleThreshold: 0.01
@@ -3020,6 +3076,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6496777577507517124, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
+      propertyPath: weaponPrefabs.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6496777577507517124, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
+      propertyPath: weaponPrefabs.Array.data[3]
+      value: 
+      objectReference: {fileID: 4446650149125629996, guid: 14e8b00de6d45b140b9fd06a2372b45b, type: 3}
     - target: {fileID: 6560506146630303930, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 185553126
@@ -3084,6 +3148,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1dbcfeb06ab578f4786d81f388702fb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pointManager: {fileID: 0}
+  winningConditionScore: 10
+  deadPlayers: 0
 --- !u!4 &1854915078
 Transform:
   m_ObjectHideFlags: 0
@@ -3151,6 +3218,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6496777577507517124, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
+      propertyPath: weaponPrefabs.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6496777577507517124, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
+      propertyPath: weaponPrefabs.Array.data[3]
+      value: 
+      objectReference: {fileID: 4446650149125629996, guid: 14e8b00de6d45b140b9fd06a2372b45b, type: 3}
     - target: {fileID: 6560506146630303930, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 3366972236
@@ -3676,6 +3751,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6496777577507517124, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
+      propertyPath: weaponPrefabs.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6496777577507517124, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
+      propertyPath: weaponPrefabs.Array.data[3]
+      value: 
+      objectReference: {fileID: 4446650149125629996, guid: 14e8b00de6d45b140b9fd06a2372b45b, type: 3}
     - target: {fileID: 6560506146630303930, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 4175412811
@@ -3808,6 +3891,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6496777577507517124, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
+      propertyPath: weaponPrefabs.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6496777577507517124, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
+      propertyPath: weaponPrefabs.Array.data[3]
+      value: 
+      objectReference: {fileID: 4446650149125629996, guid: 14e8b00de6d45b140b9fd06a2372b45b, type: 3}
     - target: {fileID: 6560506146630303930, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 3092546084
@@ -3874,6 +3965,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6496777577507517124, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
+      propertyPath: weaponPrefabs.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6496777577507517124, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
+      propertyPath: weaponPrefabs.Array.data[3]
+      value: 
+      objectReference: {fileID: 4446650149125629996, guid: 14e8b00de6d45b140b9fd06a2372b45b, type: 3}
     - target: {fileID: 6560506146630303930, guid: fdb408a0bafe64a46b6dd27744bba0c5, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 1338673384
